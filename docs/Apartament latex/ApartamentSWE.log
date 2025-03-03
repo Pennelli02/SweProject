@@ -1,0 +1,410 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.10.24)  27 FEB 2025 18:27
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./ApartamentSWE.tex
+(ApartamentSWE.tex
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-09-10>
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count194
+\c@section=\count195
+\c@subsection=\count196
+\c@subsubsection=\count197
+\c@paragraph=\count198
+\c@subparagraph=\count199
+\c@figure=\count266
+\c@table=\count267
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen141
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2024/06/14 v2.6d Tabular extension package (FMi)
+\col@sep=\dimen142
+\ar@mcellbox=\box52
+\extrarowheight=\dimen143
+\NC@list=\toks17
+\extratabsurround=\skip51
+\backup@length=\skip52
+\ar@cellbox=\box53
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks18
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/05/23 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen144
+\Gin@req@width=\dimen145
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjustbox.sty
+Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+\XKV@toks=\toks19
+\XKV@tempa@toks=\toks20
+)
+\XKV@depth=\count268
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/collectbox\collectbox.s
+ty
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
+\collectedbox=\box54
+)
+\tc@llx=\dimen146
+\tc@lly=\dimen147
+\tc@urx=\dimen148
+\tc@ury=\dimen149
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen150
+\adjbox@Height=\dimen151
+\adjbox@Depth=\dimen152
+\adjbox@Totalheight=\dimen153
+\adjbox@pwidth=\dimen154
+\adjbox@pheight=\dimen155
+\adjbox@pdepth=\dimen156
+\adjbox@ptotalheight=\dimen157
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/ifoddpage\ifoddpage.sty
+Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
+\c@checkoddpage=\count269
+) (C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/varwidth\varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box55
+\sift@deathcycles=\count270
+\@vwid@loff=\dimen158
+\@vwid@roff=\dimen159
+))
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count271
+\l__pdf_internal_box=\box56
+) (ApartamentSWE.aux)
+\openout1 = `ApartamentSWE.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count272
+\scratchdimen=\dimen160
+\scratchbox=\box57
+\nofMPsegments=\count273
+\nofMParguments=\count274
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count275
+\MPscratchDim=\dimen161
+\MPnumerator=\count276
+\makeMPintoPDFobject=\count277
+\everyMPtoPDFconversion=\toks22
+)
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\lori0\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+
+[1
+
+{C:/Users/lori0/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+
+[2]
+Overfull \hbox (5.83334pt too wide) in paragraph at lines 29--29
+[]\OT1/cmr/bx/n/12 Ambiente di sviluppo, Strut-tura del pro-getto e pratiche
+ []
+
+<Sp/StrutturaProgetto.png, id=12, 682.80093pt x 316.18124pt>
+File: Sp/StrutturaProgetto.png Graphic file (type png)
+<use Sp/StrutturaProgetto.png>
+Package pdftex.def Info: Sp/StrutturaProgetto.png  used on input line 33.
+(pdftex.def)             Requested size: 341.39963pt x 158.09023pt.
+
+
+[3 <./Sp/StrutturaProgetto.png>]
+Overfull \hbox (13.75052pt too wide) in paragraph at lines 44--46
+\OT1/cmr/m/n/10 Infine per l'uso del soft-ware e l'interazione con il sis-tema 
+^^Re stata cre-ata un'interfaccia
+ []
+
+<usecases/UseCase1.png, id=19, 799.48688pt x 631.60968pt>
+File: usecases/UseCase1.png Graphic file (type png)
+<use usecases/UseCase1.png>
+Package pdftex.def Info: usecases/UseCase1.png  used on input line 62.
+(pdftex.def)             Requested size: 319.78908pt x 252.63939pt.
+<usecases/UseCase2.png, id=20, 712.16063pt x 417.05812pt>
+File: usecases/UseCase2.png Graphic file (type png)
+<use usecases/UseCase2.png>
+Package pdftex.def Info: usecases/UseCase2.png  used on input line 63.
+(pdftex.def)             Requested size: 284.8592pt x 166.82028pt.
+
+
+[4 <./usecases/UseCase1.png>]
+<templates/tabella1.png, id=25, 451.6875pt x 373.395pt>
+File: templates/tabella1.png Graphic file (type png)
+<use templates/tabella1.png>
+Package pdftex.def Info: templates/tabella1.png  used on input line 71.
+(pdftex.def)             Requested size: 271.01459pt x 224.03873pt.
+<templates/tabella2.png, id=26, 459.96844pt x 376.40625pt>
+File: templates/tabella2.png Graphic file (type png)
+<use templates/tabella2.png>
+Package pdftex.def Info: templates/tabella2.png  used on input line 75.
+(pdftex.def)             Requested size: 298.97594pt x 244.66115pt.
+
+
+[5 <./usecases/UseCase2.png> <./templates/tabella1.png>]
+<templates/tabella3.png, id=32, 529.98pt x 426.84468pt>
+File: templates/tabella3.png Graphic file (type png)
+<use templates/tabella3.png>
+Package pdftex.def Info: templates/tabella3.png  used on input line 79.
+(pdftex.def)             Requested size: 317.99043pt x 256.10878pt.
+<templates/tabella4.png, id=33, 524.71031pt x 400.49625pt>
+File: templates/tabella4.png Graphic file (type png)
+<use templates/tabella4.png>
+Package pdftex.def Info: templates/tabella4.png  used on input line 83.
+(pdftex.def)             Requested size: 314.8286pt x 240.29959pt.
+
+
+[6 <./templates/tabella2.png> <./templates/tabella3.png>]
+<templates/tabella5.png, id=39, 402.75468pt x 340.27126pt>
+File: templates/tabella5.png Graphic file (type png)
+<use templates/tabella5.png>
+Package pdftex.def Info: templates/tabella5.png  used on input line 87.
+(pdftex.def)             Requested size: 281.92635pt x 238.18825pt.
+<templates/tabella6.png, id=40, 599.99156pt x 432.86719pt>
+File: templates/tabella6.png Graphic file (type png)
+<use templates/tabella6.png>
+Package pdftex.def Info: templates/tabella6.png  used on input line 91.
+(pdftex.def)             Requested size: 299.99504pt x 216.43306pt.
+
+
+[7 <./templates/tabella4.png> <./templates/tabella5.png>]
+<Mockup/MockupAdminLogin.png, id=47, 539.616pt x 314.3745pt>
+File: Mockup/MockupAdminLogin.png Graphic file (type png)
+<use Mockup/MockupAdminLogin.png>
+Package pdftex.def Info: Mockup/MockupAdminLogin.png  used on input line 101.
+(pdftex.def)             Requested size: 323.7721pt x 188.62614pt.
+<Mockup/mockupBooking.png, id=48, 678.73575pt x 459.51675pt>
+File: Mockup/mockupBooking.png Graphic file (type png)
+<use Mockup/mockupBooking.png>
+Package pdftex.def Info: Mockup/mockupBooking.png  used on input line 106.
+(pdftex.def)             Requested size: 339.36703pt x 229.75781pt.
+
+
+[8 <./templates/tabella6.png> <./Mockup/MockupAdminLogin.png>]
+<Mockup/MockupLogin.png, id=54, 663.6795pt x 374.5995pt>
+File: Mockup/MockupLogin.png Graphic file (type png)
+<use Mockup/MockupLogin.png>
+Package pdftex.def Info: Mockup/MockupLogin.png  used on input line 111.
+(pdftex.def)             Requested size: 331.83894pt x 187.29929pt.
+<Mockup/MockupProfile.png, id=55, 561.89925pt x 343.2825pt>
+File: Mockup/MockupProfile.png Graphic file (type png)
+<use Mockup/MockupProfile.png>
+Package pdftex.def Info: Mockup/MockupProfile.png  used on input line 115.
+(pdftex.def)             Requested size: 337.14215pt x 205.97107pt.
+
+
+[9 <./Mockup/mockupBooking.png> <./Mockup/MockupLogin.png>]
+<Mockup/MockupRegister.png, id=61, 537.80925pt x 322.806pt>
+File: Mockup/MockupRegister.png Graphic file (type png)
+<use Mockup/MockupRegister.png>
+Package pdftex.def Info: Mockup/MockupRegister.png  used on input line 119.
+(pdftex.def)             Requested size: 322.68803pt x 193.68509pt.
+<Mockup/MockupResearch.png, id=62, 599.23875pt x 470.9595pt>
+File: Mockup/MockupResearch.png Graphic file (type png)
+<use Mockup/MockupResearch.png>
+Package pdftex.def Info: Mockup/MockupResearch.png  used on input line 125.
+(pdftex.def)             Requested size: 359.54602pt x 282.57787pt.
+
+Overfull \hbox (14.54602pt too wide) in paragraph at lines 125--126
+ [][] 
+ []
+
+
+
+[10 <./Mockup/MockupProfile.png> <./Mockup/MockupRegister.png>]
+<Mockup/MockupResult.png, id=68, 520.94624pt x 402.303pt>
+File: Mockup/MockupResult.png Graphic file (type png)
+<use Mockup/MockupResult.png>
+Package pdftex.def Info: Mockup/MockupResult.png  used on input line 129.
+(pdftex.def)             Requested size: 312.57016pt x 241.38365pt.
+
+
+[11 <./Mockup/MockupResearch.png> <./Mockup/MockupResult.png>]
+Overfull \hbox (45.42506pt too wide) in paragraph at lines 138--139
+\OT1/cmr/m/n/10 che gestisce l'accesso, la reg-is-trazione e l'eliminazione deg
+li utenti (\OT1/cmr/bx/n/10 UserController\OT1/cmr/m/n/10 ),
+ []
+
+
+Overfull \hbox (1.74982pt too wide) in paragraph at lines 139--140
+\OT1/cmr/bx/n/10 ing\OT1/cmr/m/n/10 , \OT1/cmr/bx/n/10 Ac-com-mo-da-tion\OT1/cm
+r/m/n/10 , \OT1/cmr/bx/n/10 Search-Pa-ram-e-ters\OT1/cmr/m/n/10 , \OT1/cmr/bx/n
+/10 Re-viewMap-per\OT1/cmr/m/n/10 , \OT1/cmr/bx/n/10 Search-
+ []
+
+<uml/UML3.jpg, id=74, 2232.08907pt x 2090.56032pt>
+File: uml/UML3.jpg Graphic file (type jpg)
+<use uml/UML3.jpg>
+Package pdftex.def Info: uml/UML3.jpg  used on input line 143.
+(pdftex.def)             Requested size: 446.40991pt x 418.10466pt.
+
+Overfull \hbox (101.40991pt too wide) in paragraph at lines 143--144
+ [] 
+ []
+
+
+
+[12]
+
+[13 <./uml/UML3.jpg>]
+<ERImages/finalER.png, id=82, 619.56468pt x 313.9228pt>
+File: ERImages/finalER.png Graphic file (type png)
+<use ERImages/finalER.png>
+Package pdftex.def Info: ERImages/finalER.png  used on input line 182.
+(pdftex.def)             Requested size: 371.74167pt x 188.35512pt.
+
+Overfull \hbox (26.74167pt too wide) in paragraph at lines 182--183
+ [] 
+ []
+
+
+
+[14]
+<ERImages/finaleTablesER.png, id=86, 752.0597pt x 313.17pt>
+File: ERImages/finaleTablesER.png Graphic file (type png)
+<use ERImages/finaleTablesER.png>
+Package pdftex.def Info: ERImages/finaleTablesER.png  used on input line 186.
+(pdftex.def)             Requested size: 376.02893pt x 156.58461pt.
+
+Overfull \hbox (31.02893pt too wide) in paragraph at lines 186--187
+ [][] 
+ []
+
+<ERImages/RelationalModel.png, id=87, 389.65575pt x 133.6995pt>
+File: ERImages/RelationalModel.png Graphic file (type png)
+<use ERImages/RelationalModel.png>
+Package pdftex.def Info: ERImages/RelationalModel.png  used on input line 190.
+(pdftex.def)             Requested size: 389.65479pt x 133.69916pt.
+
+Overfull \hbox (44.65479pt too wide) in paragraph at lines 190--191
+ [][] 
+ []
+
+
+
+[15 <./ERImages/finalER.png> <./ERImages/finaleTablesER.png> <./ERImages/Relati
+onalModel.png>]
+Overfull \hbox (29.24951pt too wide) in paragraph at lines 211--212
+[]\OT1/cmr/m/n/10 E la classe che si oc-cupa di fornire i metodi che im-ple-men
+-tano la log-ica dell'applicazione.
+ []
+
+
+
+[16]
+Overfull \hbox (8.58392pt too wide) in paragraph at lines 243--244
+\OT1/cmr/m/n/10 Queste classi im-ple-men-tano il de-sign pat-tern Builder per l
+a creazione dei parametri
+ []
+
+
+
+[17]
+Overfull \hbox (33.22217pt too wide) in paragraph at lines 271--272
+\OT1/cmr/m/n/10 senta molti metodi, per-me-t-tendo di ag-giun-gere nuovi al-log
+gi (\OT1/cmr/bx/n/10 addAccommodation()\OT1/cmr/m/n/10 ),
+ []
+
+
+Overfull \hbox (58.7022pt too wide) in paragraph at lines 271--272
+\OT1/cmr/m/n/10 al-loggi che ven-gono ricer-cati tramite l'uso dei fil-tri (\OT
+1/cmr/bx/n/10 getAccommodationByParameters()\OT1/cmr/m/n/10 ).
+ []
+
+
+
+[18]
+
+[19] (ApartamentSWE.aux)
+ ***********
+LaTeX2e <2024-06-01> patch level 2
+L3 programming layer <2024-09-10>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 2694 strings out of 473899
+ 48852 string characters out of 5726499
+ 431918 words of memory out of 5000000
+ 25572 multiletter control sequences out of 15000+600000
+ 560870 words of font info for 45 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 58i,6n,65p,856b,244s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lori0\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1000.pk><C:/Users/lori0/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/lori0/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Users/lori0/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/lori0/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lori0/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on ApartamentSWE.pdf (19 pages, 3004183 bytes).
+PDF statistics:
+ 134 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+
