@@ -1,10 +1,11 @@
 \documentclass[10pt]{article}
-\usepackage[italian]{babel}
+\usepackage[english]{babel}
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{ragged2e}
-\usepackage[hidelinks]{hyperref} % Carica il pacchetto hyperref
+
+\setlocalecaption{english}{contents}{Index}
 
 \begin{document}
 
@@ -25,9 +26,6 @@
 \par\medskip
 \par\medskip
 {\Large \textbf{Ingegneria del software}}\\
-\par\medskip
-\textbf{\href{https://github.com/Pennelli02/SweProject}{\includegraphics[scale=0.05]{unifilogo/logogit}}}\\
-\textbf{Github Repository}\\
 \par\medskip
 \par\medskip
 \par\medskip
@@ -54,7 +52,7 @@ Leuter Lorenzo\\
 
 \subsection{Descrizione del progetto}
 
-L'obiettivo del progetto è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi (in questo progetto verranno trattati solo alcuni tipi: Appartamenti, Hotel, B\&B). Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegati successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza. \`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
+L'obiettivo del progetto è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi (in questo progetti verranno trattati alcuni tipi di alloggi: Appartamenti, Hotel, B\&B). Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
 
 \subsection{Ambiente di sviluppo, Struttura del progetto e pratiche usate}
 
@@ -86,16 +84,16 @@ Sono state utilizzate le seguenti piattaforme e software:
 \section{Progettazione}
 \subsection{Use Case Diagram}
 
-In questo progetto sono presenti 2 tipi di utenti: User e Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
+In questo progetto sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
 
 \begin{center}
 \includegraphics[scale=0.5]{usecases/UseCase1}
-\includegraphics[scale=0.6]{usecases/UseCase2}\\
+\includegraphics[scale=0.4]{usecases/UseCase2}\\
 Figura 2: Use Case Diagram dello User e dell'Admin
 \end{center}
 
 \subsection{Use Case Template}
-Sono di seguito riportati alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a mockup mostrati successivamente (sezione 2.3):
+Sono di seguito alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a mockup presenti successivamente (sezione 2.3):
 
 \begin{center}
 \includegraphics[scale=0.6]{templates/tabella1}
@@ -152,12 +150,12 @@ Figura 12: Mockup per mostrare il profilo di un utente - MK\#4
 Figura 13: Mockup per creare un account - MK\#5
 \par\medskip
 \par\medskip
-\includegraphics[scale=0.5]{Mockup/MockupResearch}
+\includegraphics[scale=0.6]{Mockup/MockupResearch}
 \par\medskip
 Figura 14: Mockup per effettuare la ricerca attraverso i filtri - MK\#6
 \par\medskip
 \includegraphics[scale=0.6]{Mockup/MockupResult}
-\par\smallskip
+\par\medskip
 Figura 15: Mockup che mostra i risualtati di una ricerca - MK\#7
 \par\medskip
 \end{center}
@@ -172,8 +170,7 @@ Come spiegato precedentemente, Il progetto è diviso in 3 package:
 \begin{center}
 \includegraphics[scale=0.2]{uml/UML3}
 \par\medskip
-Figura 16: Class Diagram
-\label{fig:uml}
+Figura 16: Mockup che mostra i risualtati di una ricerca - MK\#7
 \par\medskip
 \end{center}
 \subsection{Design Patterns}
@@ -191,7 +188,7 @@ Lo scopo del Mapper è di semplificare il codice e renderlo più modulare, separ
 Il Builder separa la costruzione del suo oggetto dalla sua rappresentazione, rendendo la creazione della classe più flessibile, leggibile e facile da mantenere. Nel nostro progetto viene usato per creare la classe parametri di ricerca essendo che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente.
 
 \subsubsection{DAO}
-\label{sezione 2.5.4.}
+
 Il DAO (Data Access Object) è un design pattern che si occupa di separare le classi che si interfacciano al database dall'applicazione. Questo viene fatto
 per poter meglio implementare il principio di singola responsabilità e aumenta
 la mantenibilità del codice.
@@ -203,7 +200,7 @@ Alla fine sono state definite le seguenti tabelle (Figura 19):
 \begin{itemize}
 \item \textbf{User}: rappresenta l'entità \textbf{User}.
 \item \textbf{Booking}: rappresenta l'entità \textbf{Booking}.
-\item \textbf{Accommodation}: rappresenta l'entità \textbf{Accommodation}.
+\item \textbf{Acccommodation}: rappresenta l'entità \textbf{Accommodation}.
 \item \textbf{Review}: rappresenta la relazione \textbf{Review} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
 \item \textbf{Favourites}: rappresenta la relazione \textbf{Like} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
 \end{itemize}
@@ -217,9 +214,9 @@ Figura 17: ER Diagram
 \includegraphics[scale=0.5]{ERImages/finaleTablesER}
 \par\medskip
 Figura 18: Tables of the database
-\par\smallskip
+\par\medskip
 \includegraphics[scale=1]{ERImages/RelationalModel}
-\par\smallskip
+\par\medskip
 Figura 19: Relation Model
 \par\medskip
 \end{center}
@@ -231,7 +228,7 @@ Figura 19: Relation Model
 
 \subsubsection{UserController}
 
-\`E la classe che si occupa di implementare le funzionalità di un utente generico per l'accesso all'applicazione: login, registrazione, cancellare la registrazione (unregister) e recuperare la password.
+\`E la classe che si occupa di implementare le funzionalità di un utente generico per l'accesso all'applicazione. Infatti presenta i metodi di login, di registrazione, cancellare l'utente in uso e un eventuale recupera password.
 
 \subsubsection{ProfileController}
 
@@ -251,15 +248,15 @@ Figura 19: Relation Model
 
 \subsubsection{RegisterUser}
 
-Contiene le informazioni relative all'utente registrato. Gli attributi della classe sono: id (utilizzato come identificativo), username, email (unica all'interno dell'applicazione), password, nome, cognome, punti fedeltà (che si aggiornano ad ogni acquisto), località preferita che indica un genere di esperienza, la lista delle prenotazioni effettuate e la lista dei suoi alloggi preferiti. 
+Contiene le informazioni relative all'utente registrato. Gli attributi della classe sono: id (utilizzato come identificativo), username, email (unica all'interno dell'applicazione), password, nome, cognome, punti fedeltà (che si aggiornano ad ogni acquisto e raggiunta una certa soglia, permette di avere degli sconti), località preferita che indica un genere di esperienza che preferisce, la lista delle prenotazioni effettuate e la lista dei suoi alloggi preferiti. 
 
 \subsubsection{Booking}
 
-\`E la classe che rappresenta l'entità prenotazione, con tutte le informazioni relative ad essa. Possiede l'id identificativo, l'acquirente, il servizio, per quante persone è la prenotazione e il prezzo.
+\`E la classe che rappresenta l'entità prenotazione, con tutte le informazioni relative ad essa. Possiede un id identificativo, l'acquirente, il servizio, per quante persone è la prenotazione e il prezzo.
 
 \subsubsection{Accommodation}
 
-\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori perché dipendono dai servizi che offre l'alloggio. Ha come attributi un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, la data e l'orario di check-in, la data e l'orario di check-out, la descrizione di cosa offre e diversi parametri aggiuntivi che non sono obbligatori (vedi \hyperref[fig:uml]{Figura 16}).
+\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma possono essere nulli perché dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il check-in, il check-out, la descrizione di cosa offre, e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti).
 
 \subsubsection{Review}
 
@@ -271,11 +268,11 @@ Contiene le informazioni relative all'utente registrato. Gli attributi della cla
 
 \subsubsection{SearchParametersBuilder e SearchParameters}
 
-Queste classi implementano il design pattern Builder per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters} (devono possedere gli stessi attributi). Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation} (vedi \hyperref[fig:uml]{Figura 16}).
+Queste classi implementano il design pattern Builder per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters} (devono possedere gli stessi attributi). Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation} (si possono visualizzare nell'UML visto precedentemente).
 
 \subsection{DAO}
 
-\`E il package che implementa l'omonimo design pattern descritto nella \hyperref[sezione 2.5.4.]{sezione 2.5.4.} Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse.
+\`E il package che implementa l'omonimo design pattern descritto nella sezione 2.5.4. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse.
 
 \subsubsection{DatabaseConnection}
 
@@ -283,7 +280,7 @@ Queste classi implementano il design pattern Builder per la creazione dei parame
 
 \subsubsection{UserDAO}
 
-\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilità di aggiungere nuovi utenti e di rimuovere quelli già presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilità di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}) oppure tramite lo username (\textbf{getUserByUsername()}) o anche in altri modi. Infine, la classe presenta i metodi che permettono di aggiornare i dati personali di un utente.
+\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilità di aggiungere nuovi utenti e di rimuovere quelli già presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilità di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}) oppure tramite lo username (\textbf{getUserByUsername()}) o anche in altri modi.Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente.
 
 \subsubsection{BookingDAO}
 
@@ -299,10 +296,7 @@ Queste classi implementano il design pattern Builder per la creazione dei parame
 
 \subsubsection{AccommodationDAO}
 
-\`E la classe che si occupa della gestione dei dati degli alloggi. Questa classe presenta molti metodi, permette di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri
-(\textbf{getAccommodationByPa-}
-\newline
-\textbf{rameters()}). Infine sono presenti i metodi che permettono di aggiornare i dati di un alloggio. 
+\`E la classe che si occupa della gestione dei dati degli alloggi. questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i metodi che permettono di aggiornare i dati di un alloggio. 
 
 
 \end{document}
