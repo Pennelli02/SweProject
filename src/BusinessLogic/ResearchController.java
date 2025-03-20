@@ -9,7 +9,29 @@ public class ResearchController {
 
     }
 
-    public void seeProfile
+    public void seeProfile(){
+
+    }
+
+    public void deleteReview(){
+
+    }
+
+    public void unsaveAccomodation(){
+
+    }
+
+    public void deleteBooking(){
+
+    }
+
+    public void exit(){
+
+    }
+
+    public void viewMyReviews(){
+        
+    }
 
     public RegisterUser getUser(){
         return user;
