@@ -5,9 +5,9 @@ public class Review {
     private RegisterUser author;
     private Accommodation reviewedItem;
     private String reviewText;
-    private RatingStars vote;
+    private AccommodationRating vote;
 
-    public Review(int reviewID, RegisterUser author, Accommodation reviewedItem, String reviewText, RatingStars vote) {
+    public Review(int reviewID, RegisterUser author, Accommodation reviewedItem, String reviewText, AccommodationRating vote) {
         ReviewID = reviewID;
         this.author = author;
         this.reviewedItem = reviewedItem;
@@ -49,11 +49,11 @@ public class Review {
         this.reviewText = reviewText;
     }
 
-    public RatingStars getVote() {
+    public AccommodationRating getVote() {
         return vote;
     }
 
-    public void setVote(RatingStars vote) {
+    public void setVote(AccommodationRating vote) {
         this.vote = vote;
     }
 }

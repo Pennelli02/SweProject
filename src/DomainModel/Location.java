@@ -1,6 +1,6 @@
 package DomainModel;
 
-public enum Locations {
+public enum Location {
     Sea,
     Mountain,
     ArtCity,

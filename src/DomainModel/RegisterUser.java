@@ -10,18 +10,18 @@ public class RegisterUser {
     private int fidelityPoints;
     private String name;
     private String surname;
-    private Locations favouriteLocations;
+    private Location favouriteLocation;
     private ArrayList<Booking> myBookings;
     private ArrayList<Accommodation> myPreferences;
 
-    public RegisterUser(int id, String username, String password, String email, int fidelityPoints, String name, Locations favouriteLocations, String surname, ArrayList<Booking> myBookings, ArrayList<Accommodation> myPreferences) {
+    public RegisterUser(int id, String username, String password, String email, int fidelityPoints, String name, Location favouriteLocation, String surname, ArrayList<Booking> myBookings, ArrayList<Accommodation> myPreferences) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.fidelityPoints = fidelityPoints;
         this.name = name;
-        this.favouriteLocations = favouriteLocations;
+        this.favouriteLocation = favouriteLocation;
         this.surname = surname;
         this.myBookings = myBookings;
         this.myPreferences = myPreferences;
@@ -83,12 +83,12 @@ public class RegisterUser {
         this.surname = surname;
     }
 
-    public Locations getFavouriteLocations() {
-        return favouriteLocations;
+    public Location getFavouriteLocations() {
+        return favouriteLocation;
     }
 
-    public void setFavouriteLocations(Locations favouriteLocations) {
-        this.favouriteLocations = favouriteLocations;
+    public void setFavouriteLocations(Location favouriteLocation) {
+        this.favouriteLocation = favouriteLocation;
     }
 
     public ArrayList<Booking> getMyBookings() {

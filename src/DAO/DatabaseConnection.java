@@ -1,4 +1,62 @@
 package DAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class DatabaseConnection {
+    // Istanza singleton
+    private static DatabaseConnection instance;
+
+    // Connessione al database
+    private Connection connection;
+
+    // Parametri di connessione (da personalizzare)
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/nome_database";
+    private static final String DB_USER = "username";
+    private static final String DB_PASSWORD = "password";
+
+    // Costruttore privato per prevenire l'istanziazione diretta
+    private DatabaseConnection() {
+        try {
+            // Carica il driver JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Crea la connessione
+            this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            System.out.println("Connessione al database stabilita con successo!");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Driver JDBC non trovato!");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Errore durante la connessione al database!");
+            e.printStackTrace();
+        }
+    }
+
+    // Metodo per ottenere l'istanza singleton
+    public static synchronized DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+
+    // Metodo per ottenere la connessione al database
+    public Connection getConnection() {
+        return connection;
+    }
+
+    // Metodo per chiudere la connessione
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Connessione al database chiusa con successo!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Errore durante la chiusura della connessione!");
+            e.printStackTrace();
+        }
+    }
 }

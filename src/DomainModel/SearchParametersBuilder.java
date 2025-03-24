@@ -1,8 +1,5 @@
 package DomainModel;
 
-import DAO.DatabaseConnection;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public final class SearchParametersBuilder {
@@ -11,11 +8,11 @@ public final class SearchParametersBuilder {
     private Date dateOfCheckOut;
     private int howMuchRooms;
     private int howMuchPeople;
-    private Types category;
+    private AccommodationType category;
     private boolean allCategories;
     private float maxPrice;
-    private RatingStars minRatingStars;
-    private RatingStars specificRatingStars;
+    private AccommodationRating minAccommodationRating;
+    private AccommodationRating specificAccommodationRating;
     private boolean isRefundable;
     private boolean haveFreeWifi;
     private boolean canISmoke;
@@ -47,7 +44,7 @@ public final class SearchParametersBuilder {
         return this;
     }
 
-    public SearchParametersBuilder setCategory(Types category) {
+    public SearchParametersBuilder setCategory(AccommodationType category) {
         this.category = category;
         return this;
     }
@@ -62,13 +59,13 @@ public final class SearchParametersBuilder {
         return this;
     }
 
-    public SearchParametersBuilder setMinRatingStars(RatingStars minRatingStars) {
-        this.minRatingStars = minRatingStars;
+    public SearchParametersBuilder setMinRatingStars(AccommodationRating minAccommodationRating) {
+        this.minAccommodationRating = minAccommodationRating;
         return this;
     }
 
-    public SearchParametersBuilder setSpecificRatingStars(RatingStars specificRatingStars) {
-        this.specificRatingStars = specificRatingStars;
+    public SearchParametersBuilder setSpecificRatingStars(AccommodationRating specificAccommodationRating) {
+        this.specificAccommodationRating = specificAccommodationRating;
         return this;
     }
 
@@ -141,7 +138,7 @@ public final class SearchParametersBuilder {
                 throw new IllegalArgumentException("Invalid check-in or check-out dates.");
             }
         }
-        return new SearchParameters(place,  dateOfCheckIn,  dateOfCheckOut,  howMuchRooms,  howMuchPeople, category,  allCategories,  maxPrice,  minRatingStars,  specificRatingStars,  isRefundable,  haveFreeWifi,  canISmoke,  haveParking,  haveCoffeeMachine,  haveRoomService,  haveCleaningService,  haveSpa,  goodForKids,  canHaveAnimal);
+        return new SearchParameters(place,  dateOfCheckIn,  dateOfCheckOut,  howMuchRooms,  howMuchPeople, category,  allCategories,  maxPrice, minAccommodationRating, specificAccommodationRating,  isRefundable,  haveFreeWifi,  canISmoke,  haveParking,  haveCoffeeMachine,  haveRoomService,  haveCleaningService,  haveSpa,  goodForKids,  canHaveAnimal);
     }
 
 

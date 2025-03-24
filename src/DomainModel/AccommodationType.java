@@ -1,6 +1,6 @@
 package DomainModel;
 
-public enum Types {
+public enum AccommodationType {
     Hotel,
     BeB,
     Apartment

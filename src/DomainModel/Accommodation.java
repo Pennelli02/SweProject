@@ -8,12 +8,12 @@ public class Accommodation {
     private String address;
     private String place;
     private String disponibility;
-    private Types type;
-    private float price;
-    private Date checkin;
-    private Date checkout;
+    private AccommodationType type;
+    private float ratePrice;
+    private Date availableFrom;
+    private Date availableEnd;
     private String description;
-    private RatingStars rating;
+    private AccommodationRating rating;
     private boolean refundable;
     private boolean freewifi;
     private boolean haveSmokingArea;

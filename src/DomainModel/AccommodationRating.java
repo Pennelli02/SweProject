@@ -1,6 +1,6 @@
 package DomainModel;
 
-public enum  RatingStars {
+public enum AccommodationRating {
     oneStar,
     twoStar,
     threeStar,
