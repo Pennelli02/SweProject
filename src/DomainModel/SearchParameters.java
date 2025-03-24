@@ -22,6 +22,7 @@ public class SearchParameters {
     private boolean haveCleaningService;
     private boolean haveSpa;
     private boolean goodForKids;
+    private boolean canHaveAnimal;
 
     public SearchParameters(String place, Date dateOfCheckIn, Date dateOfCheckOut, int howMuchRooms, int howMuchPeople, AccommodationType category, boolean allCategories, float maxPrice, AccommodationRating minAccommodationRating, AccommodationRating specificAccommodationRating, boolean isRefundable, boolean haveFreeWifi, boolean canISmoke, boolean haveParking, boolean haveCoffeeMachine, boolean haveRoomService, boolean haveCleaningService, boolean haveSpa, boolean goodForKids, boolean canHaveAnimal) {
         this.place = place;
@@ -46,7 +47,7 @@ public class SearchParameters {
         this.canHaveAnimal = canHaveAnimal;
     }
 
-    private boolean canHaveAnimal;
+
 
 
 }
