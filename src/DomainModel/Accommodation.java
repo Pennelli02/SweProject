@@ -24,7 +24,7 @@ public class Accommodation {
     private boolean haveSpa;
     private boolean goodForKids;
     private boolean numberOfRoom;
-
+    private boolean welcomeAnimal;
 
 
 }
