@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{ragged2e}
+\usepackage{float}
 
 \setlocalecaption{english}{contents}{Index}
 
@@ -25,8 +26,14 @@
 \par\medskip
 \par\medskip
 \par\medskip
-{\Large \textbf{Ingegneria del software}}\\
+{\Large \textbf{Apartament: Applicazione per la prenotazione di alloggi}}\\
 \par\medskip
+\par\medskip
+\par\medskip
+\hrule width 12cm height 1pt \par
+\par\medskip
+\par\medskip
+\textbf{Link Github: https://github.com/Pennelli02/SweProject}
 \par\medskip
 \par\medskip
 \hrule width 12cm height 1pt \par
@@ -52,18 +59,18 @@ Leuter Lorenzo\\
 
 \subsection{Descrizione del progetto}
 
-L'obiettivo del progetto è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi (in questo progetti verranno trattati alcuni tipi di alloggi: Appartamenti, Hotel, B\&B). Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
+L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati alcuni di questi. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
 
-\subsection{Ambiente di sviluppo, Struttura del progetto e pratiche usate}
+\subsection{Ambiente di sviluppo, Architettura del progetto e pratiche usate}
 
-Il progetto è stato sviluppato nel linguaggio Java e il database è stato implementato con PostrgreSQL. La connessione tra il progetto e il database è realizzata tramite JDBC. La struttura del progetto è rappresentata dalla figura sottostante: 
+L'applicazione è stata sviluppata nel linguaggio Java e il database è stato implementato con PostrgreSQL. La connessione tra il progetto e il database è realizzata tramite JDBC. L'architettura del progetto è rappresentata dalla figura sottostante: 
 \begin{center}
 \includegraphics[scale=0.5]{Sp/StrutturaProgetto}
 \par\medskip
-Figura 1: Diagramma della struttura del progetto
+Figura 1: Diagramma dell'architettura del progetto
 \par\medskip
 \end{center}
-La struttura del progetto è stata divisa in tre parti:
+L'architettura del progetto è articolata in tre componenti essenziali:
 \begin{itemize}
 	\item \textbf{Business Logic}: contiene le classi che implementano la logica di business nel sistema.
 	\item \textbf{Domain Model}: contiene le classi che rappresentano le entità del sistema.
@@ -74,7 +81,7 @@ Sono state utilizzate le seguenti piattaforme e software:
 \begin{itemize}
 \item \textbf{IntelliJ IDEA}: IDE per lo sviluppo in Java.
 \item \textbf{StarUML}: software per la creazione di diagrammi UML.
-\item \textbf{Draw.io}: software per la realizzazione di altri diagrammi (es: modello ER).
+\item \textbf{Draw.io}: software per la realizzazione di altri diagrammi, tra cui il modello ER.
 \item \textbf{PgAdmin}: software per la gestione del database PostgreSQL.
 \item \textbf{GitHub}: piattaforma contenente il codice sorgente.
 \item \textbf{Lunacy}: software per la realizzazione dei mockup.
@@ -84,7 +91,7 @@ Sono state utilizzate le seguenti piattaforme e software:
 \section{Progettazione}
 \subsection{Use Case Diagram}
 
-In questo progetto sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
+Sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
 
 \begin{center}
 \includegraphics[scale=0.5]{usecases/UseCase1}
@@ -96,72 +103,212 @@ Figura 2: Use Case Diagram dello User e dell'Admin
 Sono di seguito alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a mockup presenti successivamente (sezione 2.3):
 
 \begin{center}
-\includegraphics[scale=0.6]{templates/tabella1}
-\par\medskip
-Figura 3: Template che descrive il caso d'uso del login
-\par\medskip
-\includegraphics[scale=0.65]{templates/tabella2}
-\par\medskip
-Figura 4: Template che descrive il caso d'uso dello Start Research
-\par\medskip
-\includegraphics[scale=0.6]{templates/tabella3}
-\par\medskip
-Figura 5: Template che descrive il caso d'uso del Booking
-\par\medskip
-\includegraphics[scale=0.6]{templates/tabella4}
-\par\medskip
-Figura 6: Template che descrive il caso d'uso del Registration
-\par\medskip
-\includegraphics[scale=0.7]{templates/tabella5}
-\par\medskip
-Figura 7: Template che descrive il caso d'uso del Delete User
-\par\medskip
-\includegraphics[scale=0.5]{templates/tabella6}
-\par\medskip
-Figura 8: Template che descrive il caso d'uso dell'Add Accomodation
-\par\medskip
+\begin{table}[H]
+\vspace{-0.3cm}
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 1 & Login \\ \hline
+Descrizione & L'utente accede al sistema inserendo le sue credenziali. \\ \hline
+Livello & User Goal \\ \hline
+Attori & Utente, Admin \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'utente inserisce le sue credenziali (email e password) (MK\#1 e MK\#3).
+    \item L'utente preme il pulsante di Login.
+    \item Il sistema verifica le credenziali.
+    \item Il sistema autentica l'utente.
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[3a.] Se le credenziali sono errate, il sistema invia un messaggio di errore.
+    \item[3b.] Se si verifica un problema all'interno del database durante la ricerca dell'utente, il sistema invia un messaggio di errore.
+    \item[4a.] Se l'accesso viene effettuato dall'utente, sarà indirizzato alla sua pagina personale.
+\end{enumerate} \\ \hline
+Post-condizioni & L'utente è autenticato dal sistema e ha accesso alle sue funzionalità. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso del login}
+\end{table}
+\begin{table}[H]
+\vspace{-0.3cm}
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 2 & Start Search \\ \hline
+Descrizione & L'utente cerca l'alloggio di suo interesse. \\ \hline
+Livello & User Goal \\ \hline
+Attori & User \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'utente inserisce le informazioni per effettuare la sua ricerca (MK\#6).
+    \item L'utente preme il pulsante per effettuare la ricerca.
+    \item Il sistema usa le informazioni per ricercare gli alloggi.
+    \item Il sistema restituisce all'utente una lista di alloggi (MK\#7).
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[3a.] Se l'utente non inserisce alcune informazioni necessarie alla ricerca (es: il luogo dove vuole andare, la data di check-in, la data di check-out), il sistema restituisce un messaggio di errore.
+    \item[3b.] Se si verifica un problema all'interno del database durante la ricerca dell'alloggio, il sistema invia un messaggio di errore.
+\end{enumerate} \\ \hline
+Pre-condizioni & L'utente deve aver fatto il login. \\ \hline
+Post-condizioni & L'utente riceverà una lista di alloggi da consultare. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso dello Start Research}
+\end{table}
+\begin{table}[H]
+\vspace{-0.3cm}
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 3 & Booking \\ \hline
+Descrizione & L'utente prenota un alloggio. \\ \hline
+Livello & User Goal \\ \hline
+Attori & User \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'utente preme il pulsante per effettuare la prenotazione dell'alloggio (MK\#2).
+    \item Il sistema riceve la richiesta di prenotazione e verifica la disponibilità dell'alloggio.
+    \item Il sistema restituisce all'utente un messaggio di conferma.
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[2a.] Se la disponibilità è zero, il sistema restituisce un messaggio di errore.
+    \item[2b.] Se si verifica un problema durante il salvataggio della prenotazione nel database, il sistema invia un messaggio di errore.
+\end{enumerate} \\ \hline
+Pre-condizioni & L'utente deve aver fatto il login e deve aver effettuato la ricerca. \\ \hline
+Post-condizioni & La prenotazione effettuata verrà aggiunta a quelle già effettuate dell'utente. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso del Booking}
+\end{table}
+\begin{table}[H]
+\vspace{-0.3cm}
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 4 & Registration \\ \hline
+Descrizione & L’utente si registra all’interno del sistema. \\ \hline
+Livello & User Goal \\ \hline
+Attori & User \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'utente inserisce i parametri per registrarsi (MK\#5).
+    \item L'utente preme il pulsante per effettuare la registrazione.
+    \item Il sistema verifica le informazioni fornite.
+    \item Il sistema crea un nuovo account per l’utente.
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[3a.] Se l’utente inserisce dati non validi (es: l’email/username già usati), il sistema invia un messaggio di errore all’utente.
+    \item[3b.] Se si verifica un problema durante il salvataggio dell’utente nel database, il sistema invierà un messaggio di errore.
+\end{enumerate} \\ \hline
+Post-condizioni & L’utente è registrato all’interno del sistema e può accedere tramite le sue credenziali. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso del Registration}
+\end{table}
+\begin{table}[H]
+\vspace{-0.3cm}
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 5 & Delete User \\ \hline
+Descrizione & L'Admin elimina un utente dal database. \\ \hline
+Livello & User Goal \\ \hline
+Attori & Admin \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'admin inserisce i parametri che caratterizzano l'utente (es: username o email).
+    \item L'admin preme il pulsante per effettuare l'eliminazione dell'utente.
+    \item Il sistema verifica le informazioni fornite.
+    \item Il sistema elimina l'utente dal database.
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[3a.] Se l'admin inserisce dati non validi, il sistema invia un messaggio di errore.
+    \item[3b.] Se si verifica un problema durante l'eliminazione dell'utente dal database, il sistema invierà un messaggio di errore.
+\end{enumerate} \\ \hline
+Pre-condizioni & L'admin deve aver effettuato il login. \\ \hline
+Post-condizioni & L'utente è stato eliminato con successo e non può più accedere all'applicazione a meno che non venga effettuata una nuova registrazione. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso del Delete User}
+\end{table}
+\begin{table}[H]
+\centering
+\scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Use Case 6 & Add Accommodation \\ \hline
+Descrizione & L'admin aggiunge un nuovo alloggio al database. \\ \hline
+Livello & User Goal \\ \hline
+Attori & Admin \\ \hline
+Flusso Base & 
+\begin{enumerate}
+    \item L'admin inserisce i parametri che caratterizzano l'alloggio.
+    \item L'admin preme il pulsante per effettuare l'aggiunta dell'alloggio.
+    \item Il sistema verifica le informazioni fornite.
+    \item Il sistema registra l'alloggio appena inserito.
+\end{enumerate} \\ \hline
+Flusso Alternativo & 
+\begin{enumerate}
+    \item[3b.] Se si verifica un problema durante la registrazione dell'alloggio nel database, il sistema invia un messaggio di errore.
+\end{enumerate} \\ \hline
+Pre-condizioni & L'admin deve aver fatto il login. \\ \hline
+Post-condizioni & L'alloggio è stato registrato con successo e sarà disponibile per le successive ricerche degli utenti. \\ \hline
+\end{tabular}
+}
+\caption{Template che descrive il caso d'uso dell'Add Accomodation}
+\end{table}
 \end{center}
 
 
 \subsection{Mockups}
-Nella sezione in questione sono riportati alcuni mockup relativi ad una possibile interfaccia grafica per l'applicazione:
+Sono riportati alcuni mockup, realizzati con \textbf{Lunacy}, relativi ad una possibile interfaccia grafica per l'applicazione:
 \begin{center}
 \includegraphics[scale=0.6]{Mockup/MockupAdminLogin}
 \par\medskip
-Figura 9: Mockup per il login effettuato da un admin - MK\#1 
+Figura 4: Mockup per il login effettuato da un admin - MK\#1 
 \par\medskip
 \par\medskip
 \includegraphics[scale=0.5]{Mockup/mockupBooking}
 \par\medskip
 \par\medskip
-Figura 10: Mockup per mostrare in dettaglio un alloggio con la possibilità di prenotarlo - MK\#2
+Figura 5: Mockup per mostrare in dettaglio un alloggio con la possibilità di prenotarlo - MK\#2
 \par\medskip
 \includegraphics[scale=0.5]{Mockup/MockupLogin}
 \par\medskip
-Figura 11: Mockup per il login effettuato da un utente - MK\#3
+Figura 6: Mockup per il login effettuato da un utente - MK\#3
 \par\medskip
 \includegraphics[scale=0.6]{Mockup/MockupProfile}
 \par\medskip
-Figura 12: Mockup per mostrare il profilo di un utente - MK\#4
+Figura 7: Mockup per mostrare il profilo di un utente - MK\#4
 \par\medskip
 \includegraphics[scale=0.6]{Mockup/MockupRegister}
 \par\medskip
 \par\medskip
-Figura 13: Mockup per creare un account - MK\#5
+Figura 8: Mockup per creare un account - MK\#5
 \par\medskip
 \par\medskip
 \includegraphics[scale=0.6]{Mockup/MockupResearch}
 \par\medskip
-Figura 14: Mockup per effettuare la ricerca attraverso i filtri - MK\#6
+Figura 9: Mockup per effettuare la ricerca attraverso i filtri - MK\#6
 \par\medskip
 \includegraphics[scale=0.6]{Mockup/MockupResult}
 \par\medskip
-Figura 15: Mockup che mostra i risualtati di una ricerca - MK\#7
+Figura 10: Mockup che mostra i risualtati di una ricerca - MK\#7
 \par\medskip
 \end{center}
 
 \subsection{Class Diagram}
-Come spiegato precedentemente, Il progetto è diviso in 3 package:
+L'architettura è divisa in 3 package:
 \begin{itemize}
 \item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e l'eliminazione degli utenti (\textbf{UserController}), quello che gestisce il profilo dell'utente (\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
 \item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters}, \textbf{ReviewMapper}, \textbf{SearchParametersBuilder}.
@@ -170,22 +317,22 @@ Come spiegato precedentemente, Il progetto è diviso in 3 package:
 \begin{center}
 \includegraphics[scale=0.2]{uml/MainCompleto}
 \par\medskip
-Figura 16: UML delle classi
+Figura 11: UML delle classi
 \par\medskip
 \end{center}
-\subsection{Design Patterns}
-Nel progetto sono stati usati i seguenti design pattern:
+\subsection{Dettagli dell'applicazione}
+Nell'architettura sono stati usati diversi strumenti, tra cui alcuni design patterns:
 \subsubsection{Singleton}
 
-Lo scopo del Singleton è quello di creare una singola istanza di classe in tutto il sistema. Nel progetto è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
+Lo scopo del Singleton è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
 
 \subsubsection{Mapper}
 
-Lo scopo del Mapper è di semplificare il codice e renderlo più modulare, separando la logica di relazione degli oggetti dal resto dell'applicazione. Nel nostro progetto è stata implementata per creare la relazione tra utenti, recensioni e alloggi.
+Lo scopo del Mapper è quello di creare la relazione tra utenti, recensioni e alloggi.
 
-\subsubsection{Builder}
+\subsubsection{Builder Telescoping Constructor}
 
-Il Builder separa la costruzione del suo oggetto dalla sua rappresentazione, rendendo la creazione della classe più flessibile, leggibile e facile da mantenere. Nel nostro progetto viene usato per creare la classe parametri di ricerca essendo che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente.
+Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca essendo che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente.
 
 \subsubsection{DAO}
 
@@ -195,8 +342,8 @@ la mantenibilità del codice.
 
 \subsection{ER Diagram e Relational Model}
 
-Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 17), e il Relational Model derivato (Figura 18). Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
-Alla fine sono state definite le seguenti tabelle (Figura 19):
+Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 12), e il Relational Model derivato (Figura 13), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
+Alla fine sono state definite le seguenti tabelle (Figura 14):
 \begin{itemize}
 \item \textbf{User}: rappresenta l'entità \textbf{User}.
 \item \textbf{Booking}: rappresenta l'entità \textbf{Booking}.
@@ -204,20 +351,19 @@ Alla fine sono state definite le seguenti tabelle (Figura 19):
 \item \textbf{Review}: rappresenta la relazione \textbf{Review} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
 \item \textbf{Favourites}: rappresenta la relazione \textbf{Like} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
 \end{itemize}
-
 \begin{center}
 \par\medskip
-\includegraphics[scale=0.6]{ERImages/finalER}
+\includegraphics[scale=0.41]{ERImages/finalER}
 \par\medskip
-Figura 17: ER Diagram
+Figura 12: ER Diagram
 \par\medskip
 \includegraphics[scale=0.5]{ERImages/finaleTablesER}
 \par\medskip
-Figura 18: Tables of the database
+Figura 13: Tables of the database
 \par\medskip
 \includegraphics[scale=1]{ERImages/RelationalModel}
 \par\medskip
-Figura 19: Relation Model
+Figura 14: Relation Model
 \par\medskip
 \end{center}
 
@@ -268,7 +414,7 @@ Contiene le informazioni relative all'utente registrato. Gli attributi della cla
 
 \subsubsection{SearchParametersBuilder e SearchParameters}
 
-Queste classi implementano il design pattern Builder per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters} (devono possedere gli stessi attributi). Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation} (si possono visualizzare nell'UML visto precedentemente).
+Queste classi implementano il design pattern Builder per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
 
 \subsection{DAO}
 
@@ -284,7 +430,7 @@ Queste classi implementano il design pattern Builder per la creazione dei parame
 
 \subsubsection{BookingDAO}
 
-\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) o vederle tutte (quest'ultima utilizzata da un admin per effettuare dei controlli e modifiche se fosse necessario).
+\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) o vederle tutte. Quest'ultimo metodo viene utilizzato da un admin per effettuare dei controlli e modifiche se fosse necessario.
 
 \subsubsection{PreferenceDAO}
 
