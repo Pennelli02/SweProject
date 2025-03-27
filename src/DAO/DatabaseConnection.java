@@ -11,14 +11,15 @@ public class DatabaseConnection {
     // Connessione al database
     private Connection connection;
 
-    // Parametri di connessione (da personalizzare)
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/nome_database";
-    private static final String DB_USER = "username";
-    private static final String DB_PASSWORD = "password";
 
     // Costruttore privato per prevenire l'istanziazione diretta
     private DatabaseConnection() {
         try {
+            // Parametri di connessione (da personalizzare)
+            String DB_URL = "jdbc:mysql://localhost:3306/nome_database";
+            String DB_USER = "username";
+            String DB_PASSWORD = "password";
+
             // Carica il driver JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -47,16 +48,16 @@ public class DatabaseConnection {
         return connection;
     }
 
-    // Metodo per chiudere la connessione
-    public void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("Connessione al database chiusa con successo!");
-            }
-        } catch (SQLException e) {
-            System.err.println("Errore durante la chiusura della connessione!");
-            e.printStackTrace();
-        }
-    }
+   // Metodo per chiudere la connessione
+//    public void closeConnection() {
+//        try {
+//            if (connection != null && !connection.isClosed()) {
+//                connection.close();
+//                System.out.println("Connessione al database chiusa con successo!");
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("Errore durante la chiusura della connessione!");
+//            e.printStackTrace();
+//        }
+//    }
 }
