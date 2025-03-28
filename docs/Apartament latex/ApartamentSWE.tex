@@ -1,12 +1,14 @@
 \documentclass[10pt]{article}
-\usepackage[english]{babel}
+\usepackage[italian]{babel}
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{ragged2e}
 \usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
 
-\setlocalecaption{english}{contents}{Index}
+\setlocalecaption{italian}{contents}{Indice}
 
 \begin{document}
 
@@ -26,14 +28,14 @@
 \par\medskip
 \par\medskip
 \par\medskip
-{\Large \textbf{Apartament: Applicazione per la prenotazione di alloggi}}\\
+{\Huge \textbf{Apartament}}\\
 \par\medskip
 \par\medskip
 \par\medskip
 \hrule width 12cm height 1pt \par
 \par\medskip
 \par\medskip
-\textbf{Link Github: https://github.com/Pennelli02/SweProject}
+{\Large \textbf{Link Github: \href{https://github.com/Pennelli02/SweProject}{https://github.com/Pennelli02/SweProject}}}
 \par\medskip
 \par\medskip
 \hrule width 12cm height 1pt \par
@@ -59,18 +61,19 @@ Leuter Lorenzo\\
 
 \subsection{Descrizione del progetto}
 
-L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati alcuni di questi. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
+L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati B\&B, appartamenti e hotel. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
 
 \subsection{Ambiente di sviluppo, Architettura del progetto e pratiche usate}
 
 L'applicazione è stata sviluppata nel linguaggio Java e il database è stato implementato con PostrgreSQL. La connessione tra il progetto e il database è realizzata tramite JDBC. L'architettura del progetto è rappresentata dalla figura sottostante: 
 \begin{center}
-\includegraphics[scale=0.5]{Sp/StrutturaProgetto}
+\hspace*{-1cm}
+\includegraphics[scale=0.175]{Sp/Architettura}
 \par\medskip
 Figura 1: Diagramma dell'architettura del progetto
 \par\medskip
 \end{center}
-L'architettura del progetto è articolata in tre componenti essenziali:
+L'architettura del progetto è articolata in tre componenti:
 \begin{itemize}
 	\item \textbf{Business Logic}: contiene le classi che implementano la logica di business nel sistema.
 	\item \textbf{Domain Model}: contiene le classi che rappresentano le entità del sistema.
@@ -94,8 +97,8 @@ Sono state utilizzate le seguenti piattaforme e software:
 Sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
 
 \begin{center}
-\includegraphics[scale=0.5]{usecases/UseCase1}
-\includegraphics[scale=0.4]{usecases/UseCase2}\\
+\includegraphics[scale=0.411]{usecases/ClientUseCase}
+\includegraphics[scale=0.5]{usecases/AdminUseCase}\\
 Figura 2: Use Case Diagram dello User e dell'Admin
 \end{center}
 
@@ -111,11 +114,11 @@ Sono di seguito alcuni template dei casi d'uso. In alcuni di essi sono presenti 
 \hline
 Use Case 1 & Login \\ \hline
 Descrizione & L'utente accede al sistema inserendo le sue credenziali. \\ \hline
-Livello & User Goal \\ \hline
+Livello & Function \\ \hline
 Attori & Utente, Admin \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce le sue credenziali (email e password) (MK\#1 e MK\#3).
+    \item L'utente inserisce le sue credenziali (email e password) (\hyperref[mk1]{MK\#1} e \hyperref[mk3]{MK\#3}).
     \item L'utente preme il pulsante di Login.
     \item Il sistema verifica le credenziali.
     \item Il sistema autentica l'utente.
@@ -137,16 +140,16 @@ Post-condizioni & L'utente è autenticato dal sistema e ha accesso alle sue funz
 \scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
 \begin{tabular}{|l|p{9cm}|}
 \hline
-Use Case 2 & Start Search \\ \hline
+Use Case 2 & Search \\ \hline
 Descrizione & L'utente cerca l'alloggio di suo interesse. \\ \hline
 Livello & User Goal \\ \hline
 Attori & User \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce le informazioni per effettuare la sua ricerca (MK\#6).
+    \item L'utente inserisce le informazioni per effettuare la sua ricerca (\hyperref[mk6]{MK\#6}).
     \item L'utente preme il pulsante per effettuare la ricerca.
     \item Il sistema usa le informazioni per ricercare gli alloggi.
-    \item Il sistema restituisce all'utente una lista di alloggi (MK\#7).
+    \item Il sistema restituisce all'utente una lista di alloggi (\hyperref[mk7]{MK\#7}).
 \end{enumerate} \\ \hline
 Flusso Alternativo & 
 \begin{enumerate}
@@ -157,7 +160,7 @@ Pre-condizioni & L'utente deve aver fatto il login. \\ \hline
 Post-condizioni & L'utente riceverà una lista di alloggi da consultare. \\ \hline
 \end{tabular}
 }
-\caption{Template che descrive il caso d'uso dello Start Research}
+\caption{Template che descrive il caso d'uso dello Research}
 \end{table}
 \begin{table}[H]
 \vspace{-0.3cm}
@@ -165,13 +168,13 @@ Post-condizioni & L'utente riceverà una lista di alloggi da consultare. \\ \hli
 \scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
 \begin{tabular}{|l|p{9cm}|}
 \hline
-Use Case 3 & Booking \\ \hline
+Use Case 3 & Book \\ \hline
 Descrizione & L'utente prenota un alloggio. \\ \hline
 Livello & User Goal \\ \hline
 Attori & User \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente preme il pulsante per effettuare la prenotazione dell'alloggio (MK\#2).
+    \item L'utente preme il pulsante per effettuare la prenotazione dell'alloggio (\hyperref[mk2]{MK\#2}).
     \item Il sistema riceve la richiesta di prenotazione e verifica la disponibilità dell'alloggio.
     \item Il sistema restituisce all'utente un messaggio di conferma.
 \end{enumerate} \\ \hline
@@ -184,7 +187,7 @@ Pre-condizioni & L'utente deve aver fatto il login e deve aver effettuato la ric
 Post-condizioni & La prenotazione effettuata verrà aggiunta a quelle già effettuate dell'utente. \\ \hline
 \end{tabular}
 }
-\caption{Template che descrive il caso d'uso del Booking}
+\caption{Template che descrive il caso d'uso del Book}
 \end{table}
 \begin{table}[H]
 \vspace{-0.3cm}
@@ -198,7 +201,7 @@ Livello & User Goal \\ \hline
 Attori & User \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce i parametri per registrarsi (MK\#5).
+    \item L'utente inserisce i parametri per registrarsi (\hyperref[mk5]{MK\#5}).
     \item L'utente preme il pulsante per effettuare la registrazione.
     \item Il sistema verifica le informazioni fornite.
     \item Il sistema crea un nuovo account per l’utente.
@@ -273,37 +276,51 @@ Post-condizioni & L'alloggio è stato registrato con successo e sarà disponibil
 \subsection{Mockups}
 Sono riportati alcuni mockup, realizzati con \textbf{Lunacy}, relativi ad una possibile interfaccia grafica per l'applicazione:
 \begin{center}
+\phantomsection
 \includegraphics[scale=0.6]{Mockup/MockupAdminLogin}
+\label{mk1}
 \par\medskip
-Figura 4: Mockup per il login effettuato da un admin - MK\#1 
+Figura 3: Mockup per il login effettuato da un admin - MK\#1 
 \par\medskip
 \par\medskip
+\phantomsection
 \includegraphics[scale=0.5]{Mockup/mockupBooking}
+\label{mk2}
 \par\medskip
 \par\medskip
-Figura 5: Mockup per mostrare in dettaglio un alloggio con la possibilità di prenotarlo - MK\#2
+Figura 4: Mockup per mostrare in dettaglio un alloggio con la possibilità di prenotarlo - MK\#2
 \par\medskip
+\phantomsection
 \includegraphics[scale=0.5]{Mockup/MockupLogin}
+\label{mk3}
 \par\medskip
-Figura 6: Mockup per il login effettuato da un utente - MK\#3
+Figura 5: Mockup per il login effettuato da un utente - MK\#3
 \par\medskip
+\phantomsection
 \includegraphics[scale=0.6]{Mockup/MockupProfile}
+\label{mk4}
 \par\medskip
-Figura 7: Mockup per mostrare il profilo di un utente - MK\#4
+Figura 6: Mockup per mostrare il profilo di un utente - MK\#4
 \par\medskip
+\phantomsection
 \includegraphics[scale=0.6]{Mockup/MockupRegister}
+\label{mk5}
 \par\medskip
 \par\medskip
-Figura 8: Mockup per creare un account - MK\#5
+Figura 7: Mockup per creare un account - MK\#5
 \par\medskip
 \par\medskip
-\includegraphics[scale=0.6]{Mockup/MockupResearch}
+\phantomsection
+\includegraphics[scale=0.55]{Mockup/MockupResearch}
+\label{mk6}
 \par\medskip
-Figura 9: Mockup per effettuare la ricerca attraverso i filtri - MK\#6
+Figura 8: Mockup per effettuare la ricerca attraverso i filtri - MK\#6
 \par\medskip
+\phantomsection
 \includegraphics[scale=0.6]{Mockup/MockupResult}
+\label{mk7}
 \par\medskip
-Figura 10: Mockup che mostra i risualtati di una ricerca - MK\#7
+Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 \par\medskip
 \end{center}
 
@@ -311,28 +328,60 @@ Figura 10: Mockup che mostra i risualtati di una ricerca - MK\#7
 L'architettura è divisa in 3 package:
 \begin{itemize}
 \item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e l'eliminazione degli utenti (\textbf{UserController}), quello che gestisce il profilo dell'utente (\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
-\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters}, \textbf{ReviewMapper}, \textbf{SearchParametersBuilder}.
-\item \textbf{DAO}: è il package che si occupa di gestire la connessione con il database: \textbf{UserDAO}, \textbf{BookingDAO}, \textbf{PreferenceDAO}, \textbf{ReviewDAO}, \textbf{AccommodationDAO}, \textbf{DatabaseConnection}.
-\end{itemize}
+\vspace{-0.3cm}
+\par\medskip
+\hspace*{-0.75cm}
+\includegraphics[scale=0.6]{uml/BusinessLogic}
 \begin{center}
-\includegraphics[scale=0.2]{uml/MainCompleto}
-\par\medskip
-Figura 11: UML delle classi
-\par\medskip
+Figura 10: Class Diagram - Business Logic 
 \end{center}
-\subsection{Dettagli dell'applicazione}
-Nell'architettura sono stati usati diversi strumenti, tra cui alcuni design patterns:
+\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters},\textbf{SearchParametersBuilder}.
+\hspace*{-2cm}
+\includegraphics[scale=0.58]{uml/domainModel}
+\par\medskip
+\begin{center}
+Figura 11: Class Diagram - Domain Model 
+\end{center}
+\par\medskip
+\vspace{-0.3cm}
+\item \textbf{DAO}: è il package che si occupa di gestire la connessione con il database: \textbf{UserDAO}, \textbf{BookingDAO}, \textbf{PreferenceDAO}, \textbf{ReviewDAO}, \textbf{AccommodationDAO}, \textbf{DatabaseConnection}.
+\vspace{0.1cm}
+\par\medskip
+\hspace*{-0.5cm}
+\includegraphics[scale=0.58]{uml/DAO}
+\par\medskip
+\begin{center}
+Figura 12: Class Diagram - DAO
+\end{center}
+\par\medskip
+\end{itemize}
+\subsection{Dettagli di Progetto}
+Nell'architettura sono stati usati diversi design pattern:
 \subsubsection{Singleton}
 
 Lo scopo del Singleton è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
+\vspace{-0.3cm}
+\begin{center}
+\includegraphics[scale=0.45]{Snippets/Singleton}
+\par\medskip
+Snippet 1: Implementazione Singleton
+\par\medskip
+\end{center}
 
 \subsubsection{Mapper}
 
 Lo scopo del Mapper è quello di creare la relazione tra utenti, recensioni e alloggi.
 
+\begin{center}
+\includegraphics[scale=0.85]{Snippets/Mapper}
+\par\medskip
+Snippet 2: UML del Mapper
+\par\medskip
+\end{center}
+
 \subsubsection{Builder Telescoping Constructor}
 
-Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca essendo che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente.
+Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente. L'unico scopo della classe è quello creare un oggetto di tipo ParametriRicerca e ci riesce grazie ai metodi di setting, che ritornando la classe stessa, consentono di avere una chiara creazione dell'oggetto, attraverso un metodo statico e evitando l'overloading dei costruttori tradizionale (\textbf{build}).
 
 \subsubsection{DAO}
 
@@ -342,8 +391,8 @@ la mantenibilità del codice.
 
 \subsection{ER Diagram e Relational Model}
 
-Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 12), e il Relational Model derivato (Figura 13), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
-Alla fine sono state definite le seguenti tabelle (Figura 14):
+Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 13), e il Relational Model derivato (Figura 14), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
+Alla fine sono state definite le seguenti tabelle (Figura 15):
 \begin{itemize}
 \item \textbf{User}: rappresenta l'entità \textbf{User}.
 \item \textbf{Booking}: rappresenta l'entità \textbf{Booking}.
@@ -353,17 +402,18 @@ Alla fine sono state definite le seguenti tabelle (Figura 14):
 \end{itemize}
 \begin{center}
 \par\medskip
-\includegraphics[scale=0.41]{ERImages/finalER}
+\hspace*{-2cm}
+\includegraphics[scale=0.41]{ERImages/FinalER}
 \par\medskip
-Figura 12: ER Diagram
+Figura 13: ER Diagram
 \par\medskip
-\includegraphics[scale=0.5]{ERImages/finaleTablesER}
+\includegraphics[scale=0.5]{ERImages/schemaLogicoDBTabelle}
 \par\medskip
-Figura 13: Tables of the database
+Figura 14: Tables of the database
 \par\medskip
-\includegraphics[scale=1]{ERImages/RelationalModel}
+\includegraphics[scale=0.75]{ERImages/RelationalModel}
 \par\medskip
-Figura 14: Relation Model
+Figura 15: Relation Model
 \par\medskip
 \end{center}
 
@@ -398,23 +448,19 @@ Contiene le informazioni relative all'utente registrato. Gli attributi della cla
 
 \subsubsection{Booking}
 
-\`E la classe che rappresenta l'entità prenotazione, con tutte le informazioni relative ad essa. Possiede un id identificativo, l'acquirente, il servizio, per quante persone è la prenotazione e il prezzo.
+\`E la classe che rappresenta l'entità prenotazione, con tutte le informazioni relative ad essa. Possiede un id identificativo, l'acquirente, il servizio, per quante persone è la prenotazione, il prezzo, il check-in, il check-out e lo stato della prenotazione.
 
 \subsubsection{Accommodation}
 
-\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma possono essere nulli perché dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il check-in, il check-out, la descrizione di cosa offre, e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti).
+\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma possono essere nulli perché dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il periodo di disponibilità, la descrizione di cosa offre, e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti).
 
 \subsubsection{Review}
 
-\`E la classe che rappresenta l'entità recensione. I campi sono id, autore, alloggio recensito, commento e il voto.
-
-\subsubsection{ReviewMapper}
-
-\`E una classe creata per mappare i dati della recensione, cioè per relazionare un utente registrato e un alloggio.
+\`E la classe che rappresenta l'entità recensione. I campi sono id, autore, alloggio recensito, commento e il voto. Consente di stabilire una correlazione tra l'utente e l'alloggio in maniera discreta, senza che tale connessione sia direttamente percepita dagli interessati.
 
 \subsubsection{SearchParametersBuilder e SearchParameters}
 
-Queste classi implementano il design pattern Builder per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
+Queste classi implementano il design pattern Builder Telescopic Constructor per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
 
 \subsection{DAO}
 
