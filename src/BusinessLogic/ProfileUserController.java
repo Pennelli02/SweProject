@@ -50,6 +50,7 @@ public class ProfileUserController {
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
         bookingDAO.removeBooking(booking.getBookingID());
+        user.removeBooking(booking);
     }
     public void removeReview(Review review) throws SQLException, ClassNotFoundException {
         ReviewDAO reviewDAO=new ReviewDAO();
@@ -59,5 +60,6 @@ public class ProfileUserController {
     public void unSaveAccommodation(Accommodation accommodation) throws SQLException, ClassNotFoundException {
         PreferenceDAO preferenceDAO=new PreferenceDAO();
         preferenceDAO.unSave(user, accommodation.getId());
+        user.removePreference(accommodation);
     }
 }
