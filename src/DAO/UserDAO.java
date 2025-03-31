@@ -1,5 +1,6 @@
 package DAO;
 
+import DomainModel.Location;
 import DomainModel.RegisterUser;
 
 import java.sql.Connection;
@@ -20,6 +21,9 @@ public class UserDAO {
     //supponiamo che l'email sia unica
     public String getPassword(String email) throws SQLException, ClassNotFoundException {
         return null; // giusto per non avere errori
+    }
+    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
+        // da cntrollare che non ci siano email uguali magari una funzione del tipo checkEmail(email)
     }
 
 
