@@ -12,4 +12,7 @@ public class PreferenceDAO {
     }
     public void unSave(RegisterUser user, int AccommodationID) {
     }
+
+    public void save(int id, int accommodationID) {
+    }
 }

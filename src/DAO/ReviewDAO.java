@@ -78,4 +78,7 @@ public class ReviewDAO {
     public void removeReview(int reviewID) {
 
     }
+
+    public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
+    }
 }

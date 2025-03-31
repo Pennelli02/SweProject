@@ -24,6 +24,7 @@ public class ProfileUserController {
     }
     // forse è piu comodo fare l'update per ogni attributo
 
+    //logout
     public void exit(){
         user=null; // penso basti
     }
