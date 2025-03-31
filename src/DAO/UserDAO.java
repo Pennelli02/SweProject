@@ -23,8 +23,10 @@ public class UserDAO {
         return null; // giusto per non avere errori
     }
     public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
-        // da cntrollare che non ci siano email uguali magari una funzione del tipo checkEmail(email)
+        // da controllare che non ci siano email uguali magari una funzione del tipo checkEmail(email)
     }
-
+    public void removeUser(RegisterUser user) throws SQLException, ClassNotFoundException {
+        // ce la gestiamo qui magari si può usare direttamente l'email
+    }
 
 }

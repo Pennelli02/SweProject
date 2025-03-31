@@ -122,4 +122,16 @@ public class RegisterUser {
     public void removePreference(Accommodation accommodation) {
         myPreferences.remove(accommodation);
     }
+
+    public void showMyPersonalInfo(){
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+        System.out.println("Email: " + email);
+        System.out.println("Fidelity Points: " + fidelityPoints);
+        System.out.println("Name: " + name);
+        System.out.println("Surname: " + surname);
+        System.out.println("Favourite Location: " + favouriteLocation);
+//        System.out.println("My Bookings: " + myBookings);
+//        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
+    }
 }
