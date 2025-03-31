@@ -1,15 +1,21 @@
 package BusinessLogic;
-
+import java.util.ArrayList;
+import java.sql.SQLException;
+import DAO.UserDAO;
+import DomainModel.RegisterUser;
 public class UserController {
-    public void login(){
-
+    public UserController() {}
+    public RegisterUser login(String email, String password) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getUserByEmailPassword(email, password);
     }
 
     public void register(){
 
     }
 
-    public void getForgottenPassword(){
-
+    public String getForgottenPassword(String email) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        return userDAO.getPassword(email);
     }
 }

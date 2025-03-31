@@ -107,11 +107,19 @@ public class RegisterUser {
         this.myPreferences = myPreferences;
     }
 
-    public void addBooking(Booking booking) {}
+    public void addBooking(Booking booking) {
+        myBookings.add(booking);
+    }
 
-    public void removeBooking(Booking booking) {}
+    public void removeBooking(Booking booking) {
+        myBookings.remove(booking);
+    }
 
-    public void addPreference(Accommodation accommodation) {}
+    public void addPreference(Accommodation accommodation) {
+        myPreferences.add(accommodation);
+    }
 
-    public void removePreference(Accommodation accommodation) {}
+    public void removePreference(Accommodation accommodation) {
+        myPreferences.remove(accommodation);
+    }
 }
