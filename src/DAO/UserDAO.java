@@ -28,5 +28,8 @@ public class UserDAO {
     public void removeUser(RegisterUser user) throws SQLException, ClassNotFoundException {
         // ce la gestiamo qui magari si può usare direttamente l'email
     }
-
+// per controllare che non ci siano 2 email uguali
+    public boolean checkEmail(String email) throws SQLException, ClassNotFoundException {
+        return false;
+    }
 }

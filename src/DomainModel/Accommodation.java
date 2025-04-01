@@ -24,6 +24,7 @@ public class Accommodation {
     private boolean haveSpa;
     private boolean goodForKids;
     private boolean numberOfRoom;
+    private boolean welcomeAnimal;
 
     public int getId() {
         return id;
@@ -201,7 +202,7 @@ public class Accommodation {
         this.welcomeAnimal = welcomeAnimal;
     }
 
-    private boolean welcomeAnimal;
+
 
 
 }

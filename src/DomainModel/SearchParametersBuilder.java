@@ -141,5 +141,4 @@ public final class SearchParametersBuilder {
         return new SearchParameters(place,  dateOfCheckIn,  dateOfCheckOut,  howMuchRooms,  howMuchPeople, category,  allCategories,  maxPrice, minAccommodationRating, specificAccommodationRating,  isRefundable,  haveFreeWifi,  canISmoke,  haveParking,  haveCoffeeMachine,  haveRoomService,  haveCleaningService,  haveSpa,  goodForKids,  canHaveAnimal);
     }
 
-
 }
