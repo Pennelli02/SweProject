@@ -7,6 +7,7 @@ import DAO.ReviewDAO;
 import DomainModel.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ResearchController {
     private RegisterUser user;
@@ -21,9 +22,9 @@ public class ResearchController {
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
     // questa bisogna valutare non è giusta
-    public void booking(Accommodation accommodation) {
+    public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers) {
         BookingDAO bookingDAO = new BookingDAO();
-        Booking booking=bookingDAO.addBooking(user, accommodation);// oltre a restituire un valore lomettiamo direttamente nel db
+        Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers);// oltre a restituire un valore lo mettiamo direttamente nel db
         user.addBooking(booking);
     }
 
