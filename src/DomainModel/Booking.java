@@ -89,8 +89,4 @@ public class Booking {
     }
 
     public Booking() {}
-
-    public void  applyDiscount(){
-        // lo applichiamo qui? Cosa mi serve? punti fedeltà di registerUser
-    }
 }

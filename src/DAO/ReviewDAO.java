@@ -76,9 +76,33 @@ public class ReviewDAO {
     }
 
     public void removeReview(int reviewID) {
+        String sql = "DELETE FROM reviews WHERE id = ?";
 
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, reviewID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
+//        String sql = "INSERT INTO reviews (user_email, accommodation_id, content, rating) VALUES (?, ?, ?, ?)";
+//
+//        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+//            stmt.setString(1, user.getEmail());
+//            stmt.setInt(2, accommodation.getId());
+//            stmt.setString(3, content);
+//            stmt.setInt(4, rating);
+//            stmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
+    public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation) {
+        ArrayList<Review> reviews = new ArrayList<>();
+        return reviews;
+    }
+
+
 }

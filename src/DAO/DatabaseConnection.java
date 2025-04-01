@@ -16,12 +16,12 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             // Parametri di connessione (da personalizzare)
-            String DB_URL = "jdbc:mysql://localhost:3306/nome_database";
+            String DB_URL = "jdbc:postgresql://localhost:5432/nome_database";
             String DB_USER = "username";
             String DB_PASSWORD = "password";
 
             // Carica il driver JDBC
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
 
             // Crea la connessione
             this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);

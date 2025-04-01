@@ -21,7 +21,7 @@ public class ResearchController {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
-    // questa bisogna valutare non è giusta
+
     public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers) {
         BookingDAO bookingDAO = new BookingDAO();
         Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers);// oltre a restituire un valore lo mettiamo direttamente nel db

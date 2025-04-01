@@ -48,6 +48,83 @@ public class SearchParameters {
     }
 
 
+    public String getPlace() {
+        return place;
+    }
 
+    public Date getDateOfCheckIn() {
+        return dateOfCheckIn;
+    }
 
+    public Date getDateOfCheckOut() {
+        return dateOfCheckOut;
+    }
+
+    public int getHowMuchRooms() {
+        return howMuchRooms;
+    }
+
+    public int getHowMuchPeople() {
+        return howMuchPeople;
+    }
+
+    public AccommodationType getCategory() {
+        return category;
+    }
+
+    public boolean isAllCategories() {
+        return allCategories;
+    }
+
+    public float getMaxPrice() {
+        return maxPrice;
+    }
+
+    public AccommodationRating getMinAccommodationRating() {
+        return minAccommodationRating;
+    }
+
+    public AccommodationRating getSpecificAccommodationRating() {
+        return specificAccommodationRating;
+    }
+
+    public boolean isRefundable() {
+        return isRefundable;
+    }
+
+    public boolean isHaveFreeWifi() {
+        return haveFreeWifi;
+    }
+
+    public boolean isCanISmoke() {
+        return canISmoke;
+    }
+
+    public boolean isHaveParking() {
+        return haveParking;
+    }
+
+    public boolean isHaveCoffeeMachine() {
+        return haveCoffeeMachine;
+    }
+
+    public boolean isHaveRoomService() {
+        return haveRoomService;
+    }
+
+    public boolean isHaveCleaningService() {
+        return haveCleaningService;
+    }
+
+    public boolean isHaveSpa() {
+        return haveSpa;
+    }
+
+    public boolean isGoodForKids() {
+        return goodForKids;
+    }
+
+    public boolean isCanHaveAnimal() {
+        return canHaveAnimal;
+    }
 }
