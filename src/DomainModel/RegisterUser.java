@@ -27,6 +27,19 @@ public class RegisterUser {
         this.myPreferences = myPreferences;
     }
 
+    public RegisterUser(int id, String username, String password, String email, int fidelityPoints, String name, String surname, Location location) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fidelityPoints = fidelityPoints;
+        this.name = name;
+        this.surname = surname;
+        this.favouriteLocation = location;
+        myBookings = new ArrayList<>();
+        myPreferences = new ArrayList<>();
+    }
+
     public int getId() {
         return id;
     }

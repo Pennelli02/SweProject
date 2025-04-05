@@ -56,7 +56,7 @@ public class ProfileUserController {
 
     public void unRegister() throws SQLException, ClassNotFoundException {
         UserDAO userDAO=new UserDAO();
-        userDAO.removeUser(user);
+        userDAO.removeUser(user.getId());
         user=null;
     }
 

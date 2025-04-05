@@ -1,9 +1,10 @@
 package DAO;
 
-import DomainModel.Location;
-import DomainModel.RegisterUser;
+import DomainModel.*;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,6 +18,73 @@ public class UserDAO {
       }
     }
     public RegisterUser getUserByEmailPassword(String email, String password) throws SQLException, ClassNotFoundException {
+        try{
+            // Prima verifica se l'email esiste
+            String emailQuery = "SELECT * FROM users WHERE email = ?";
+            PreparedStatement emailPs = connection.prepareStatement(emailQuery);
+            emailPs.setString(1, email);
+            ResultSet emailRs = emailPs.executeQuery();
+            if(emailRs.next()){
+                //esiste l'email
+                String passwordQuery = "SELECT * FROM users WHERE email = ? AND password = ?";
+                PreparedStatement passwordPs = connection.prepareStatement(passwordQuery);
+                passwordPs.setString(1, email);
+                passwordPs.setString(2, password);
+                ResultSet passwordRs = passwordPs.executeQuery();
+                if(passwordRs.next()){
+                    //esiste l'utente
+                    // recuperiamo i dati
+                    int id = passwordRs.getInt("id");
+                    String name = passwordRs.getString("Name");
+                    String surname = passwordRs.getString("Surname");
+                    String username = passwordRs.getString("Username");
+                    int fidelityPoints = passwordRs.getInt("FidelityPoints");
+                    //String mail =passwordRs.getString("Email");
+                    //String pass = passwordRs.getString("Password");
+                    // gestione enumerazione
+                    String locationString = passwordRs.getString("Location");
+                    Location location;
+                    if (locationString == null) {
+                        location=Location.Nothing;
+                    }else {
+                        try {
+                            location = Location.valueOf(locationString);
+                        }catch (IllegalArgumentException e){
+                            location=Location.Nothing;
+                        }
+                    }
+                    RegisterUser user = new RegisterUser(id, username, password, email, fidelityPoints, name, surname, location);
+                    // gestire le mie prenotazioni
+                    BookingDAO bookingDAO = new BookingDAO();
+                    ArrayList<Booking> myBookings = new ArrayList<>();
+                    bookingDAO.getBookingsFromUser(user);
+
+                    // gestire i miei preferiti
+                    PreferenceDAO preferenceDAO = new PreferenceDAO();
+                    ArrayList<Accommodation> mySavings= new ArrayList<>();
+                    mySavings=preferenceDAO.getFavouritesByUser(id);
+                    user.setMyPreferences(mySavings);
+
+                    return user;
+
+                }else{
+                    System.out.println("Wrong password");
+                    // magari ci si mette qualcosa per indicare al main questa cosa valore boolen?
+                    return null;
+                }
+
+            }else {
+                System.out.println("No such user");
+                return null;
+            }
+        } catch (SQLException SQLe) {
+            while( SQLe != null) {
+                System.out.println(SQLe.getMessage());
+                System.out.print("EC: "+SQLe.getErrorCode());
+                System.out.println (" SS: "+SQLe.getSQLState());
+                SQLe = SQLe.getNextException();
+            }
+        }
         return null; // giusto per non avere errori
     }
 

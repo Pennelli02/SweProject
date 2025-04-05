@@ -7,7 +7,7 @@ public class Accommodation {
     private String name;
     private String address;
     private String place;
-    private String disponibility;
+    private int disponibility;
     private AccommodationType type;
     private float ratePrice;
     private Date availableFrom;
@@ -23,7 +23,7 @@ public class Accommodation {
     private boolean cleaningService;
     private boolean haveSpa;
     private boolean goodForKids;
-    private boolean numberOfRoom;
+    private int numberOfRoom;
     private boolean welcomeAnimal;
 
     public int getId() {
@@ -58,11 +58,11 @@ public class Accommodation {
         this.place = place;
     }
 
-    public String getDisponibility() {
+    public Integer getDisponibility() {
         return disponibility;
     }
 
-    public void setDisponibility(String disponibility) {
+    public void setDisponibility(Integer disponibility) {
         this.disponibility = disponibility;
     }
 
@@ -186,11 +186,11 @@ public class Accommodation {
         this.goodForKids = goodForKids;
     }
 
-    public boolean isNumberOfRoom() {
+    public int isNumberOfRoom() {
         return numberOfRoom;
     }
 
-    public void setNumberOfRoom(boolean numberOfRoom) {
+    public void setNumberOfRoom(int numberOfRoom) {
         this.numberOfRoom = numberOfRoom;
     }
 

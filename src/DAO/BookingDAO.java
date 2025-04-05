@@ -3,8 +3,12 @@ package DAO;
 import DomainModel.Accommodation;
 import DomainModel.Booking;
 import DomainModel.RegisterUser;
+import DomainModel.State;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class BookingDAO {
@@ -22,5 +26,32 @@ public class BookingDAO {
         int bookingID=1;// qui si inserisce id
     //  Booking booking = new Booking(bookingID, user, accommodation, etc...);
         return null;
+    }
+
+    public void getBookingsFromUser(RegisterUser user) {
+        try {
+            String query = "SELECT * FROM bookings WHERE userID=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Booking booking = new Booking();
+                booking.setBookingID(resultSet.getInt("id"));
+                booking.setCustomer(user);
+                booking.setCheckInDate(resultSet.getDate("checkIn"));
+                booking.setCheckOutDate(resultSet.getDate("checkOut"));
+                int accID = resultSet.getInt("accommodationID");
+                AccommodationDAO accommodationDAO =new AccommodationDAO();
+                Accommodation accommodation = accommodationDAO.getAccommodationByID(accID);
+                booking.setAccommodation(accommodation);
+                booking.setNumPeople(resultSet.getInt("numPeople"));
+                booking.setPrice(resultSet.getFloat("price"));
+                State state= State.valueOf(resultSet.getString("state"));
+                booking.setState(state);
+                user.addBooking(booking);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
