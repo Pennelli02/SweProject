@@ -150,7 +150,15 @@ public class UserDAO {
     }
 
     public void removeUser(int id) throws SQLException, ClassNotFoundException {
-        // ce la gestiamo qui magari si può usare direttamente l'email
+        // si suppone che il database agisca on cascade nell'eliminazione
+        try {
+            String query = "DELETE FROM users WHERE id = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // per controllare che non ci siano 2 email uguali aggiunta per una doppia sicurezza

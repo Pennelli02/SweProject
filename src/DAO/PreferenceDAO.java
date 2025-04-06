@@ -69,9 +69,17 @@ public class PreferenceDAO {
                         resultSet.getString("type")
                 ));
 
-                accommodation.setRating(AccommodationRating.valueOf(
-                        resultSet.getString("rating")
-                ));
+                // Gestione rating con nuovo enum
+                int ratingValue = resultSet.getInt("rating");
+                AccommodationRating rating = AccommodationRating.OneStar; // Default
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == ratingValue) {
+                        rating = ar;
+                        break;
+                    }
+                }
+                accommodation.setRating(rating);
+
 
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));

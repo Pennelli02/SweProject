@@ -35,10 +35,16 @@ public class AccommodationDAO {
                 accommodation.setAvailableFrom(resultSet.getDate("availableFrom"));
                 accommodation.setAvailableEnd(resultSet.getDate("availableEnd"));
 
-                // Enum (gestisci eventuali eccezioni se il valore è null o non valido)
-                accommodation.setType(AccommodationType.valueOf(
-                        resultSet.getString("type")
-                ));
+                // Gestione rating con nuovo enum
+                int ratingValue = resultSet.getInt("rating");
+                AccommodationRating rating = AccommodationRating.OneStar; // Default
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == ratingValue) {
+                        rating = ar;
+                        break;
+                    }
+                }
+                accommodation.setRating(rating);
 
                 accommodation.setRating(AccommodationRating.valueOf(
                         resultSet.getString("rating")
