@@ -19,12 +19,26 @@ public class BookingDAO {
     public void removeBooking(int bookingID) {
     }
     // solo un esempio
-    public Booking addBooking(RegisterUser user, Accommodation accommodation, Date datein, Date dateout, int nPeople) {
-        // codice per inserire un booking nel database
-        // e ottenere i dati che ci servono tipo rating price etc... serve sia dei valori si searchParameters (check-in check-out numPersone)
-        // recuperiamo l'id se serve(serve)
-        int bookingID=1;// qui si inserisce id
-    //  Booking booking = new Booking(bookingID, user, accommodation, etc...);
+    public Booking addBooking(RegisterUser user, Accommodation accommodation, Date datein, Date dateout, int nPeople, int price) {
+        java.sql.Date dateIn = new java.sql.Date(datein.getTime());
+        java.sql.Date dateOut = new java.sql.Date(dateout.getTime());
+        try {
+            String query="insert into bookings values(?,?,?,?,?) RETURNING id";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, accommodation.getId());
+            preparedStatement.setDate(3, dateIn);
+            preparedStatement.setDate(4, dateOut);
+            preparedStatement.setInt(5, nPeople);
+            preparedStatement.setInt(6, price);
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()) {
+                return new Booking( rs.getInt(1), user, accommodation, price, nPeople, dateIn, dateout, State.Booking_Confirmed);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 

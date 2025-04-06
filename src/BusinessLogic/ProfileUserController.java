@@ -21,30 +21,30 @@ public class ProfileUserController {
         user.showMyPersonalInfo();
     }
 
-    public void updateProfile(String newFirstName, String newLastName, String newEmail, String newpPassword, String newUsername, Location newLocation) {
+    public void updateProfile(String newFirstName, String newLastName, String newEmail, String newpPassword, String newUsername, Location newLocation) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         if(!Objects.equals(newFirstName, user.getName())) {
-            userDAO.updateName(newFirstName);
+            userDAO.updateName(user.getId(), newFirstName);
             user.setName(newFirstName);
         }
         if(!Objects.equals(newLastName, user.getSurname())) {
-            userDAO.updateSurname(newLastName);
+            userDAO.updateSurname(user.getId(), newLastName);
             user.setSurname(newLastName);
         }
         if(!Objects.equals(newEmail, user.getEmail())) {
-            userDAO.updateEmail(newEmail);
+            userDAO.updateEmail(user.getId(), newEmail);
             user.setEmail(newEmail);
         }
         if(!Objects.equals(newpPassword, user.getPassword())) {
-            userDAO.updatePassword(newpPassword);
+            userDAO.updatePassword(user.getId(), newpPassword);
             user.setPassword(newpPassword);
         }
         if(!Objects.equals(newUsername, user.getUsername())) {
-            userDAO.updateUsername(newUsername);
+            userDAO.updateUsername(user.getId(), newUsername);
             user.setUsername(newUsername);
         }
         if(newLocation != user.getFavouriteLocations()) {
-            userDAO.updateFavouriteLocations(newLocation);
+            userDAO.updateFavouriteLocations(user.getId(), newLocation);
             user.setFavouriteLocations(newLocation);
         }
     }
@@ -61,9 +61,9 @@ public class ProfileUserController {
     }
 
     public ArrayList<Accommodation> viewMySavings() {
-        //UserDAO userDAO=new UserDAO(); vediamo se va bene o no... cioè o si fa qui o si fa nel login
         return user.getMyPreferences();
     }
+
     public ArrayList<Booking> viewMyBookings() {
         return user.getMyBookings();
     }
@@ -85,7 +85,7 @@ public class ProfileUserController {
 
     public void unSaveAccommodation(Accommodation accommodation) throws SQLException, ClassNotFoundException {
         PreferenceDAO preferenceDAO=new PreferenceDAO();
-        preferenceDAO.unSave(user, accommodation.getId());
+        preferenceDAO.unSave(user.getId(), accommodation.getId());
         user.removePreference(accommodation);
     }
 }

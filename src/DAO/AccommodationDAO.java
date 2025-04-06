@@ -78,4 +78,6 @@ public class AccommodationDAO {
     public void deleteAccommodation(int idAccommodation){
 
     }
+    // si può fare con un trigger nel db
+    public void updateRating(int accommodationID) {}
 }

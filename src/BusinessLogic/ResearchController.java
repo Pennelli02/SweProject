@@ -22,9 +22,9 @@ public class ResearchController {
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
 
-    public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers) {
+    public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers, int price) {
         BookingDAO bookingDAO = new BookingDAO();
-        Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers);// oltre a restituire un valore lo mettiamo direttamente nel db
+        Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
         user.addBooking(booking);
     }
 
@@ -38,6 +38,12 @@ public class ResearchController {
         ReviewDAO reviewDAO = new ReviewDAO();
         reviewDAO.addReview(user, accommodation, content, rating);
     }
+
+    public ArrayList<Review> getReviews(Accommodation accommodation) {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        return reviewDAO.getReviewByAccomodation(accommodation);
+    }
+
     public RegisterUser getUser(){
         return user;
     }

@@ -18,10 +18,28 @@ public class PreferenceDAO {
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
-    public void unSave(RegisterUser user, int AccommodationID) {
+    public void unSave(int userID, int AccommodationID) {
+        try {
+            String query = "DELETE FROM preferences WHERE userID = ? AND accommodationID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, AccommodationID);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void save(int Userid, int accommodationID) {
+        try {
+            String query = "INSERT INTO favourites VALUES(?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, Userid);
+            preparedStatement.setInt(2, accommodationID);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     // gestire i casi che siano nulli
     public ArrayList<Accommodation> getFavouritesByUser(int id) {
