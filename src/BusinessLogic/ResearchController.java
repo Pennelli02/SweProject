@@ -1,9 +1,6 @@
 package BusinessLogic;
 
-import DAO.AccommodationDAO;
-import DAO.BookingDAO;
-import DAO.PreferenceDAO;
-import DAO.ReviewDAO;
+import DAO.*;
 import DomainModel.*;
 
 import java.util.ArrayList;
@@ -24,8 +21,10 @@ public class ResearchController {
 
     public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers, int price) {
         BookingDAO bookingDAO = new BookingDAO();
+        UserDAO userDAO = new UserDAO();
         Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
         user.addBooking(booking);
+        userDAO.updateFidPoints(user, price);
     }
 
     public void saveAccommodation(Accommodation accommodation) {

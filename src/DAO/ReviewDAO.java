@@ -41,23 +41,13 @@ public class ReviewDAO {
                 int accommodationID = rs.getInt("accommodationID");
                 int rating = rs.getInt("rating");
 
-                // Crea un nuovo oggetto Review con i dati estratti
-                AccommodationRating accRating= AccommodationRating.oneStar;
-                switch (rating){
-                    case 1:
+                // Conversione del rating usando il nuovo enum
+                AccommodationRating accRating = AccommodationRating.OneStar; // Default
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == rating) {
+                        accRating = ar;
                         break;
-                    case 2:
-                        accRating=AccommodationRating.twoStar;
-                        break;
-                    case 3:
-                        accRating=AccommodationRating.threeStar;
-                        break;
-                    case 4:
-                        accRating=AccommodationRating.fourStar;
-                        break;
-                    case 5:
-                        accRating=AccommodationRating.fiveStar;
-                        break;
+                    }
                 }
                 AccommodationDAO accommodationDAO = new AccommodationDAO();
                 Accommodation acc=accommodationDAO.getAccommodationByID(accommodationID);
@@ -74,7 +64,7 @@ public class ReviewDAO {
         // Restituisce la lista di recensioni trovate
         return reviews;
     }
-
+///  rating di accommodation si attiva grazie a un trigger
     public void removeReview(int reviewID) {
         String sql = "DELETE FROM reviews WHERE id = ?";
 
@@ -85,27 +75,51 @@ public class ReviewDAO {
             e.printStackTrace();
         }
     }
-
+    ///  rating di accommodation si attiva grazie a un trigger
+    // utile tener conto di quando è stata pubblicata?
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
-/*
-        String sql = "INSERT INTO reviews (user_email, accommodation_id, content, rating) VALUES (?, ?, ?, ?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try {
+            String sql = "INSERT INTO reviews VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, user.getEmail());
-            stmt.setInt(2, accommodation.getId());
+            stmt.setString(2, accommodation.getName());
             stmt.setString(3, content);
-            stmt.setInt(4, rating);
+            stmt.setInt(4, rating.getNumericValue());
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-*/
     }
 
     public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation) {
         ArrayList<Review> reviews = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM reviews WHERE accommodationID = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, accommodation.getId());
+            ResultSet rs = stmt.executeQuery();
+            UserDAO userDAO = new UserDAO();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String content = rs.getString("content");
+                int authorID = rs.getInt("authorID");
+                RegisterUser author=userDAO.getUserById(authorID);
+                int rating = rs.getInt("rating");
+                AccommodationRating accRating = AccommodationRating.OneStar;
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == rating) {
+                        accRating = ar;
+                        break;
+                    }
+                }
+                Review review= new Review(id, author, accommodation, content, accRating);
+                reviews.add(review);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return reviews;
     }
-
 
 }

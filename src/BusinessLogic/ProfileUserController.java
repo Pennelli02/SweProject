@@ -73,10 +73,13 @@ public class ProfileUserController {
         return reviewDAO.getReviewByUser(user);
     }
 
+    // teniamo conto del refund?
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
+        UserDAO userDAO=new UserDAO();
         bookingDAO.removeBooking(booking.getBookingID());
         user.removeBooking(booking);
+        userDAO.updateFidPoints(user, -(booking.getPrice()));
     }
     public void removeReview(Review review) throws SQLException, ClassNotFoundException {
         ReviewDAO reviewDAO=new ReviewDAO();

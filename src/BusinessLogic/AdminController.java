@@ -68,7 +68,8 @@ public class AdminController {
     public void exit(){
         isLoggedIn = false;
     }
-    // non so se tenerla è praticamente inutile e difficile da implementare
+
+    /// non so se tenerla è praticamente inutile e difficile da implementare
     public void updatePassword(String password, String newPassword) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         userDAO.updatePassword(password, newPassword, isLoggedIn);
