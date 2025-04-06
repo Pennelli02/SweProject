@@ -1,5 +1,5 @@
 package BusinessLogic;
-import java.util.ArrayList;
+
 import java.sql.SQLException;
 import DAO.UserDAO;
 import DomainModel.Location;

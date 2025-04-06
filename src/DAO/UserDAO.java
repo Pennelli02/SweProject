@@ -375,7 +375,7 @@ public class UserDAO {
 
     }
 
-    // si attiva a ogni pagamento
+    // si attiva a ogni pagamento o eliminazione
     public void updateFidPoints(RegisterUser user, float transactionAmount) {
         // Calcola la variazione punti
         int pointsVariation = calculatePointsVariation(transactionAmount);
