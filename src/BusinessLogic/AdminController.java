@@ -74,8 +74,9 @@ public class AdminController {
         userDAO.updatePassword(password, newPassword, isLoggedIn);
     }
 
-    public void loginAdmin(String password) throws SQLException, ClassNotFoundException {
+    public boolean loginAdmin(String password) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         isLoggedIn = userDAO.getAdminByPassword(password);
+        return isLoggedIn;
     }
 }
