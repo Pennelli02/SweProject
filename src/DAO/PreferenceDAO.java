@@ -23,7 +23,7 @@ public class PreferenceDAO {
 
     public void save(int Userid, int accommodationID) {
     }
-
+    // gestire i casi che siano nulli
     public ArrayList<Accommodation> getFavouritesByUser(int id) {
         ArrayList<Accommodation> favourites = new ArrayList<>();
         try {
@@ -34,7 +34,7 @@ public class PreferenceDAO {
             while (resultSet.next()) {
                 Accommodation accommodation = new Accommodation();
                 // Set degli attributi base
-                accommodation.setId(resultSet.getInt("id")); // O accommodationID se diverso
+                accommodation.setId(resultSet.getInt("id"));
                 accommodation.setName(resultSet.getString("name"));
                 accommodation.setDescription(resultSet.getString("description"));
                 accommodation.setPlace(resultSet.getString("place"));
