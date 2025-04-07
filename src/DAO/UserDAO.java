@@ -104,7 +104,7 @@ public class UserDAO {
         return null;
     }
    // da valutare se fare così o public void addUser + getUserByEmailPassword
-    public RegisterUser addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
+    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
         // 1. Validazione input
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email non può essere vuota");
