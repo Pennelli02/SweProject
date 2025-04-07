@@ -39,6 +39,10 @@ public class RegisterUser {
         myBookings = new ArrayList<>();
         myPreferences = new ArrayList<>();
     }
+    // lo uso come possibile gestione per quando l'utente inserisce l'email giusta, ma la password sbagliata id<0
+    public RegisterUser(int errorID, String email) {
+        this.id = errorID; this.email = email;
+    }
 
     public int getId() {
         return id;

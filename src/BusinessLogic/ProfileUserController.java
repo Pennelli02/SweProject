@@ -80,11 +80,11 @@ public class ProfileUserController {
         userDAO.updateFidPoints(user, -booking.getPrice());
     }
 
-    // teniamo conto del refund?
+    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
         UserDAO userDAO=new UserDAO();
-        bookingDAO.removeBooking(booking.getBookingID());
+        bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
         user.removeBooking(booking);
     }
     public void removeReview(Review review) throws SQLException, ClassNotFoundException {

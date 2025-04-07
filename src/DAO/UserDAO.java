@@ -70,7 +70,7 @@ public class UserDAO {
                 }else{
                     System.out.println("Wrong password");
                     // magari ci si mette qualcosa per indicare al main questa cosa valore boolean?
-                    return null;
+                    return new RegisterUser(-1 ,email) ; // ci metto l'email che magari può essere utile
                 }
 
             }else {
@@ -103,7 +103,7 @@ public class UserDAO {
          }
         return null;
     }
-   // da valutare se fare così o public void addUser + getUserByEmailPassword
+
     public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
         // 1. Validazione input
         if (email == null || email.trim().isEmpty()) {
@@ -186,7 +186,7 @@ public class UserDAO {
         }
         return false;
     }
- // suupongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
+ // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
     public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
         if (newPassword == null || newPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("La password non può essere vuota");

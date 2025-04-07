@@ -18,9 +18,23 @@ public class BookingDAO {
     public BookingDAO() {
         this.connection=DatabaseConnection.getInstance().getConnection();
     }
-    public void removeBooking(int bookingID) {
+
+    public void removeBooking(int bookingID, State stateBooking) {
+        if(stateBooking==State.Booking_Confirmed|| stateBooking==State.Checking_In){
+            throw new RuntimeException("You can't remove booking from confirmed booking or in state of checking, you have to remove first");
+        }else{
+            try {
+                String query="DELETE FROM booking WHERE bookingID=?";
+                PreparedStatement preparedStatement=connection.prepareStatement(query);
+                preparedStatement.setInt(1, bookingID);
+                preparedStatement.executeUpdate();
+                System.out.println("Booking removed successfully");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
-    // solo un esempio
+
     public Booking addBooking(RegisterUser user, Accommodation accommodation, Date datein, Date dateout, int nPeople, int price) {
         java.sql.Date dateIn = new java.sql.Date(datein.getTime());
         java.sql.Date dateOut = new java.sql.Date(dateout.getTime());
