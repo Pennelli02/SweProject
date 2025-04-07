@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AccommodationDAO {
     private Connection connection;
@@ -78,7 +79,7 @@ public class AccommodationDAO {
         return null;
     }
 
-    public ArrayList<Accommodation> getAllAccomodation() throws SQLException, ClassNotFoundException {
+    public ArrayList<Accommodation> getAllAccommodation() throws SQLException, ClassNotFoundException {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         try {
             String query = "SELECT * FROM accommodation";
@@ -138,19 +139,54 @@ public class AccommodationDAO {
         return accommodations;
     }
 
-    // o si fa cascade o si fa per funzioni... farei per cascade
+    //Fixme problemi con la logica di cancellazione forse si ritorna al trigger? vogliamo eliminare le prenotazioni inerenti o settarle con un nuovo valore?
     public void deleteAccommodation(int idAccommodation){
         try {
             String query = "DELETE FROM accommodation WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             preparedStatement.executeUpdate();
+//            BookingDAO bookingDAO = new BookingDAO();
+//            bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
             System.out.println("Accommodation deleted successfully");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+
     // si può fare con un trigger nel db
     public void updateRating(int accommodationID) {}
+
+    //FixMe da vedere in futuro se funziona
+    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, Date availableFrom, Date availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal) {
+        try {
+            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rate_price, available_from, available_end, description, rating, refundable, free_wifi, smoking_area, parking, coffee_machine, room_service, cleaning_service, spa, good_for_kids, number_of_rooms, welcome_animals) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, place);
+            preparedStatement.setInt(4, disponibility);
+            preparedStatement.setString(5, type.toString());
+            preparedStatement.setFloat(6, ratePrice);
+            preparedStatement.setDate(7, new java.sql.Date(availableFrom.getTime()));
+            preparedStatement.setDate(8, new java.sql.Date(availableEnd.getTime()));
+            preparedStatement.setString(9, description);
+            preparedStatement.setInt(10, rating.getNumericValue());
+            preparedStatement.setBoolean(11, refundable);
+            preparedStatement.setBoolean(12, freewifi);
+            preparedStatement.setBoolean(13, haveSmokingArea);
+            preparedStatement.setBoolean(14, haveParking);
+            preparedStatement.setBoolean(15, coffeMachine);
+            preparedStatement.setInt(16, numberOfRoom);
+            preparedStatement.setBoolean(17, cleaningService);
+            preparedStatement.setBoolean(18, haveSpa);
+            preparedStatement.setBoolean(19, goodForKids);
+            preparedStatement.setBoolean(20, roomService);
+            preparedStatement.setBoolean(21, welcomeAnimal);
+            System.out.println("Accommodation added successfully");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

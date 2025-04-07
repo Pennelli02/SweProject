@@ -41,7 +41,8 @@ public class PreferenceDAO {
             throw new RuntimeException(e);
         }
     }
-    // gestire i casi che siano nulli
+
+    // FIXME gestire i casi che siano nulli
     public ArrayList<Accommodation> getFavouritesByUser(int id) {
         ArrayList<Accommodation> favourites = new ArrayList<>();
         try {

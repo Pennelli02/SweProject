@@ -129,12 +129,8 @@ public class UserDAO {
             ps.setString(4, name);
             ps.setString(5, surname);
             ps.setObject(6, favouriteLocation); // Per tipi complessi come Location
-
             ps.executeUpdate();
-            ResultSet rs = ps.executeQuery();
-            RegisterUser user;
 
-            throw new SQLException("Failed to get generated ID");
 
         } catch (SQLException e) {
             // 4. Controllo violazione unique constraint
@@ -144,9 +140,9 @@ public class UserDAO {
 
         }
     }
-
+    //ToDo gestire logica di cancellazione utente
     public void removeUser(int id) throws SQLException, ClassNotFoundException {
-        // si suppone che il database agisca on cascade nell'eliminazione
+        //si suppone che il database agisca on cascade nell'eliminazione
         try {
             String query = "DELETE FROM users WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(query);

@@ -3,12 +3,11 @@ package BusinessLogic;
 import DAO.AccommodationDAO;
 import DAO.ReviewDAO;
 import DAO.UserDAO;
-import DomainModel.Accommodation;
-import DomainModel.RegisterUser;
-import DomainModel.Review;
+import DomainModel.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdminController {
     private boolean isLoggedIn;
@@ -21,12 +20,14 @@ public class AdminController {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         accommodationDAO.deleteAccommodation(idAccomodation);
     }
-
+    //TODO da implemtare tale funzione
     public void updateAccomodation(){
 
     }
 
-    public void addAccomodation(){
+    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, Date availableFrom, Date availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal ){
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        accommodationDAO.addAccommodation( name,  address,  place,  disponibility, type,  ratePrice,  availableFrom, availableEnd, description, rating, refundable,  freewifi,  haveSmokingArea, haveParking,  coffeMachine,  roomService, cleaningService,  haveSpa,  goodForKids, numberOfRoom,  welcomeAnimal);
         
     }
     
@@ -42,7 +43,7 @@ public class AdminController {
 
     public ArrayList<Accommodation> getAllAccomodation() throws SQLException, ClassNotFoundException {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        return accommodationDAO.getAllAccomodation();
+        return accommodationDAO.getAllAccommodation();
     }
 
     public ArrayList<RegisterUser> getAllUser() throws SQLException, ClassNotFoundException {
