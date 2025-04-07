@@ -17,7 +17,7 @@ public class UserDAO {
            System.err.println("Error: " + e.getMessage());
       }
     }
-    // valuatare come gestire i tre casi
+
     public RegisterUser getUserByEmailPassword(String email, String password) throws SQLException, ClassNotFoundException {
         try{
             // Prima verifica se l'email esiste
@@ -186,25 +186,25 @@ public class UserDAO {
         }
         return false;
     }
- // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
-    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
-        if (newPassword == null || newPassword.trim().isEmpty()) {
-            throw new IllegalArgumentException("La password non può essere vuota");
-        }
-        if(logged){
-            try {
-                String query = "UPDATE users SET password = ? WHERE email = ?";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, newPassword);
-                ps.setString(2, email);
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }else {
-            throw new IllegalArgumentException("Non puoi modificare la password");
-        }
-
- }
+// // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
+//    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
+//        if (newPassword == null || newPassword.trim().isEmpty()) {
+//            throw new IllegalArgumentException("La password non può essere vuota");
+//        }
+//        if(logged){
+//            try {
+//                String query = "UPDATE users SET password = ? WHERE email = ?";
+//                PreparedStatement ps = connection.prepareStatement(query);
+//                ps.setString(1, newPassword);
+//                ps.setString(2, email);
+//            }catch (Exception e){
+//                throw new RuntimeException(e);
+//            }
+//        }else {
+//            throw new IllegalArgumentException("Non puoi modificare la password");
+//        }
+//
+// }
 
     public ArrayList<RegisterUser> getAllUsers() throws SQLException, ClassNotFoundException {
         ArrayList<RegisterUser> users = new ArrayList<>();

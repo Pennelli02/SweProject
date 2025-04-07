@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         logInMenu();
     }
-
+    //TODO gestire l'eventualità che l'utente inserisca l'email giusta ma la password sbagliata 2 opzioni fargliela rimettere o richiedere la password.
     public static void logInMenu() throws SQLException, ClassNotFoundException {
         Scanner in = new Scanner(System.in);
         UserController uc = new UserController();
@@ -39,7 +39,7 @@ public class Main {
                     String password = in1.nextLine();
 
                     RegisterUser registerUser = uc.login(email,password);
-
+                    //TODO gestione caso in cui ci sono degli errori
                     if(registerUser != null) {
                         userMenu();
                     }

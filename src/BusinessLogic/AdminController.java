@@ -69,11 +69,12 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    /// non so se tenerla è praticamente inutile e difficile da implementare
-    public void updatePassword(String password, String newPassword) throws SQLException, ClassNotFoundException {
-        UserDAO userDAO = new UserDAO();
-        userDAO.updatePassword(password, newPassword, isLoggedIn);
-    }
+    //fixme non so se tenerla è praticamente inutile e difficile da implementare
+//    public void updatePassword(String newPassword) throws SQLException, ClassNotFoundException {
+//        String emailAdmin="admin@gmail.com";
+//        UserDAO userDAO = new UserDAO();
+//        userDAO.updatePassword(emailAdmin, newPassword, isLoggedIn);
+//    }
 
     public boolean loginAdmin(String password) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
