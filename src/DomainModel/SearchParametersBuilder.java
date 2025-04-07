@@ -10,7 +10,7 @@ public final class SearchParametersBuilder {
     private int howMuchPeople;
     private AccommodationType category;
     private boolean allCategories;
-    private float maxPrice;
+    private Float maxPrice;
     private AccommodationRating minAccommodationRating;
     private AccommodationRating specificAccommodationRating;
     private boolean isRefundable;
@@ -131,14 +131,70 @@ public final class SearchParametersBuilder {
 
     public SearchParameters build() {
 
+        // Validazione delle date
+        validateDates();
+
+        // Validazione degli altri parametri
+        validatePeopleAndRooms();
+        validatePriceRange();
+        validateRating();
+
+        return new SearchParameters(place,  dateOfCheckIn,  dateOfCheckOut,  howMuchRooms,  howMuchPeople, category,  allCategories,  maxPrice, minAccommodationRating, specificAccommodationRating,  isRefundable,  haveFreeWifi,  canISmoke,  haveParking,  haveCoffeeMachine,  haveRoomService,  haveCleaningService,  haveSpa,  goodForKids,  canHaveAnimal);
+    }
+
+    private void validateDates() {
         Date now = new Date();
 
         if (dateOfCheckIn != null && dateOfCheckOut != null) {
-            if (dateOfCheckIn.before(now) || dateOfCheckOut.before(now) || dateOfCheckOut.before(dateOfCheckIn)) {
-                throw new IllegalArgumentException("Invalid check-in or check-out dates.");
+            // Verifica che le date non siano nel passato
+            if (dateOfCheckIn.before(now)) {
+                throw new IllegalArgumentException("Check-in date cannot be in the past.");
             }
+
+            if (dateOfCheckOut.before(now)) {
+                throw new IllegalArgumentException("Check-out date cannot be in the past.");
+            }
+
+            // Verifica che la data di check-out sia dopo il check-in
+            if (!dateOfCheckOut.after(dateOfCheckIn)) {
+                throw new IllegalArgumentException("Check-out date must be after check-in date.");
+            }
+
+        } else if (dateOfCheckIn != null || dateOfCheckOut != null) {
+            // Se solo una delle due date è specificata
+            throw new IllegalArgumentException("Both check-in and check-out dates must be provided or both must be null.");
         }
-        return new SearchParameters(place,  dateOfCheckIn,  dateOfCheckOut,  howMuchRooms,  howMuchPeople, category,  allCategories,  maxPrice, minAccommodationRating, specificAccommodationRating,  isRefundable,  haveFreeWifi,  canISmoke,  haveParking,  haveCoffeeMachine,  haveRoomService,  haveCleaningService,  haveSpa,  goodForKids,  canHaveAnimal);
+    }
+
+    private void validatePeopleAndRooms() {
+        if (howMuchPeople < 1) {
+            throw new IllegalArgumentException("Number of people must be at least 1.");
+        }
+
+        if (howMuchRooms < 1) {
+            throw new IllegalArgumentException("Number of rooms must be at least 1.");
+        }
+    }
+
+    private void validatePriceRange() {
+        if (maxPrice != null && maxPrice < 0) {
+            throw new IllegalArgumentException("Maximum price cannot be negative.");
+        }
+    }
+
+    private void validateRating() {
+        if (minAccommodationRating != null && (minAccommodationRating.getNumericValue() < 1 || minAccommodationRating.getNumericValue() > 5)) {
+            throw new IllegalArgumentException("Minimum rating must be between 1 and 5.");
+        }
+
+        if (specificAccommodationRating != null && (specificAccommodationRating.getNumericValue() < 1 || specificAccommodationRating.getNumericValue() > 5)) {
+            throw new IllegalArgumentException("Specific rating must be between 1 and 5.");
+        }
+
+        // Verifica che non siano specificati sia rating minimo che specifico
+        if (minAccommodationRating != null && specificAccommodationRating != null) {
+            throw new IllegalArgumentException("Cannot specify both minimum and exact rating.");
+        }
     }
 
 }

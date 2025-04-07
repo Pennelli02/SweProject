@@ -5,5 +5,5 @@ public enum State {
     Checking_In,
     Checking_Out,
     Cancelled,
-    Booking_Refunded
+    Booking_Refunded,
 }

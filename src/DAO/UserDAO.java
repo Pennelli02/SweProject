@@ -117,7 +117,7 @@ public class UserDAO {
 
         // 3. Inserimento con controllo di unicità a livello DB
         String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location) " +
-                "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try  {
            PreparedStatement ps = connection.prepareStatement(query);
@@ -133,10 +133,7 @@ public class UserDAO {
             ps.executeUpdate();
             ResultSet rs = ps.executeQuery();
             RegisterUser user;
-           if (rs.next()) {
-               int id = rs.getInt("id"); // se vogliamo usare l'id... altrimenti elimino tutto e uso solo l'email
-               return new RegisterUser(id, username, password, email, 0, name, surname, favouriteLocation);
-           }
+
             throw new SQLException("Failed to get generated ID");
 
         } catch (SQLException e) {
@@ -146,7 +143,6 @@ public class UserDAO {
             }
 
         }
-        return null;
     }
 
     public void removeUser(int id) throws SQLException, ClassNotFoundException {

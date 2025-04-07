@@ -8,6 +8,8 @@ import DomainModel.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -108,39 +110,62 @@ public class BookingDAO {
             return currentState;
         }
 
-        // Verifica se oggi è il giorno del check-in
-        if (isSameDay(now, checkIn)) {
+        // Converti le date in LocalDateTime per un confronto più preciso
+        LocalDateTime nowLdt = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime checkInLdt = checkIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime checkOutLdt = checkOut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        // Verifica se siamo nell'ora esatta del check-in
+        if (isSameDayAndTime(now, checkIn)) {
             return State.Checking_In;
         }
 
-        // Verifica se oggi è il giorno del check-out
-        if (isSameDay(now, checkOut)) {
+        // Verifica se siamo nell'ora esatta del check-out
+        if (isSameDayAndTime(now, checkOut)) {
             return State.Checking_Out;
         }
 
-        // Verifica se il soggiorno è in corso
-        if (now.after(checkIn) && now.before(checkOut)) {
-            return State.Checking_In; // Oppure potresti avere uno stato "In_Progress"
+        // Verifica se il soggiorno è in corso (tra check-in e check-out)
+        if (nowLdt.isAfter(checkInLdt) && nowLdt.isBefore(checkOutLdt)) {
+            return State.Checking_In; // Oppure "In_Progress" se definito
         }
 
         // Se la data di check-in è passata ma lo stato non è stato aggiornato
-        if (now.after(checkIn) && currentState == State.Booking_Confirmed) {
+        if (nowLdt.isAfter(checkInLdt) && currentState == State.Booking_Confirmed) {
             return State.Checking_In;
+        }
+
+        // Se la data di check-out è passata e lo stato era Checking_In o Checking_Out
+        if (nowLdt.isAfter(checkOutLdt) &&
+                (currentState == State.Checking_In || currentState == State.Checking_Out)) {
+            return State.Checking_Out;
         }
 
         return currentState;
     }
 
-    private boolean isSameDay(Date date1, Date date2) {
-        // Confronta solo giorno, mese e anno ignorando ore/minuti/secondi
-        java.util.Calendar cal1 = java.util.Calendar.getInstance();
-        java.util.Calendar cal2 = java.util.Calendar.getInstance();
-        cal1.setTime(date1);
-        cal2.setTime(date2);
-        return cal1.get(java.util.Calendar.YEAR) == cal2.get(java.util.Calendar.YEAR) &&
-                cal1.get(java.util.Calendar.MONTH) == cal2.get(java.util.Calendar.MONTH) &&
-                cal1.get(java.util.Calendar.DAY_OF_MONTH) == cal2.get(java.util.Calendar.DAY_OF_MONTH);
+    private boolean isSameDayAndTime(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            return false;
+        }
+
+        LocalDateTime ldt1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime ldt2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        return ldt1.getYear() == ldt2.getYear() &&
+                ldt1.getMonth() == ldt2.getMonth() &&
+                ldt1.getDayOfMonth() == ldt2.getDayOfMonth() &&
+                ldt1.getHour() == ldt2.getHour();
     }
 
 
+    public void cancelBook(Booking booking) {
+        if(booking.getAccommodation().isRefundable()){
+            booking.setState(State.Booking_Refunded);
+            updateBookingState(booking.getBookingID(), booking.getState());
+        }else{
+            booking.setState(State.Cancelled);
+            updateBookingState(booking.getBookingID(), booking.getState());
+        }
+    }
 }
