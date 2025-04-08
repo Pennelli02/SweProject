@@ -1,17 +1,17 @@
 package DomainModel;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Accommodation {
     private int id;
     private String name;
     private String address;
     private String place;
-    private int disponibility;
+    private int disponibility; // per la disponibilità di prenotazioni
     private AccommodationType type;
     private float ratePrice;
-    private Date availableFrom;
-    private Date availableEnd;
+    private LocalDateTime availableFrom;
+    private LocalDateTime availableEnd;
     private String description;
     private AccommodationRating rating;
     private boolean refundable;
@@ -25,6 +25,7 @@ public class Accommodation {
     private boolean goodForKids;
     private int numberOfRoom;
     private boolean welcomeAnimal;
+    private int maxNumberOfPeople; // per il numero massimo di persone
 
     public int getId() {
         return id;
@@ -82,19 +83,19 @@ public class Accommodation {
         this.ratePrice = ratePrice;
     }
 
-    public Date getAvailableFrom() {
+    public LocalDateTime getAvailableFrom() {
         return availableFrom;
     }
 
-    public void setAvailableFrom(Date availableFrom) {
+    public void setAvailableFrom(LocalDateTime availableFrom) {
         this.availableFrom = availableFrom;
     }
 
-    public Date getAvailableEnd() {
+    public LocalDateTime getAvailableEnd() {
         return availableEnd;
     }
 
-    public void setAvailableEnd(Date availableEnd) {
+    public void setAvailableEnd(LocalDateTime availableEnd) {
         this.availableEnd = availableEnd;
     }
 
@@ -186,9 +187,6 @@ public class Accommodation {
         this.goodForKids = goodForKids;
     }
 
-    public int isNumberOfRoom() {
-        return numberOfRoom;
-    }
 
     public void setNumberOfRoom(int numberOfRoom) {
         this.numberOfRoom = numberOfRoom;
@@ -202,7 +200,20 @@ public class Accommodation {
         this.welcomeAnimal = welcomeAnimal;
     }
 
+    public void setDisponibility(int disponibility) {
+        this.disponibility = disponibility;
+    }
 
+    public int getNumberOfRoom() {
+        return numberOfRoom;
+    }
 
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
+    }
+
+    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
+    }
 
 }

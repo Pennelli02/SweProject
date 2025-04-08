@@ -1,11 +1,11 @@
 package DomainModel;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public final class SearchParametersBuilder {
     private String place;
-    private Date dateOfCheckIn;
-    private Date dateOfCheckOut;
+    private LocalDateTime dateOfCheckIn;
+    private LocalDateTime dateOfCheckOut;
     private int howMuchRooms;
     private int howMuchPeople;
     private AccommodationType category;
@@ -24,12 +24,12 @@ public final class SearchParametersBuilder {
     private boolean goodForKids;
     private boolean canHaveAnimal;
 
-    public SearchParametersBuilder setDateOfCheckIn(Date dateOfCheckIn) {
+    public SearchParametersBuilder setDateOfCheckIn(LocalDateTime dateOfCheckIn) {
         this.dateOfCheckIn = dateOfCheckIn;
         return this;
     }
 
-    public SearchParametersBuilder setDateOfCheckOut(Date dateOfCheckOut) {
+    public SearchParametersBuilder setDateOfCheckOut(LocalDateTime dateOfCheckOut) {
         this.dateOfCheckOut = dateOfCheckOut;
         return this;
     }
@@ -143,20 +143,20 @@ public final class SearchParametersBuilder {
     }
 
     private void validateDates() {
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
 
         if (dateOfCheckIn != null && dateOfCheckOut != null) {
             // Verifica che le date non siano nel passato
-            if (dateOfCheckIn.before(now)) {
+            if (dateOfCheckIn.isBefore(now)) {
                 throw new IllegalArgumentException("Check-in date cannot be in the past.");
             }
 
-            if (dateOfCheckOut.before(now)) {
+            if (dateOfCheckOut.isBefore(now)) {
                 throw new IllegalArgumentException("Check-out date cannot be in the past.");
             }
 
             // Verifica che la data di check-out sia dopo il check-in
-            if (!dateOfCheckOut.after(dateOfCheckIn)) {
+            if (!dateOfCheckOut.isAfter(dateOfCheckIn)) {
                 throw new IllegalArgumentException("Check-out date must be after check-in date.");
             }
 

@@ -1,11 +1,11 @@
 package DomainModel;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class SearchParameters {
     private String place;
-    private Date dateOfCheckIn;
-    private Date dateOfCheckOut;
+    private LocalDateTime dateOfCheckIn;
+    private LocalDateTime dateOfCheckOut;
     private int howMuchRooms;
     private int howMuchPeople;
     private AccommodationType category;
@@ -24,7 +24,7 @@ public class SearchParameters {
     private boolean goodForKids;
     private boolean canHaveAnimal;
 
-    public SearchParameters(String place, Date dateOfCheckIn, Date dateOfCheckOut, int howMuchRooms, int howMuchPeople, AccommodationType category, boolean allCategories, float maxPrice, AccommodationRating minAccommodationRating, AccommodationRating specificAccommodationRating, boolean isRefundable, boolean haveFreeWifi, boolean canISmoke, boolean haveParking, boolean haveCoffeeMachine, boolean haveRoomService, boolean haveCleaningService, boolean haveSpa, boolean goodForKids, boolean canHaveAnimal) {
+    public SearchParameters(String place, LocalDateTime dateOfCheckIn, LocalDateTime dateOfCheckOut, int howMuchRooms, int howMuchPeople, AccommodationType category, boolean allCategories, float maxPrice, AccommodationRating minAccommodationRating, AccommodationRating specificAccommodationRating, boolean isRefundable, boolean haveFreeWifi, boolean canISmoke, boolean haveParking, boolean haveCoffeeMachine, boolean haveRoomService, boolean haveCleaningService, boolean haveSpa, boolean goodForKids, boolean canHaveAnimal) {
         this.place = place;
         this.dateOfCheckIn = dateOfCheckIn;
         this.dateOfCheckOut = dateOfCheckOut;
@@ -52,11 +52,11 @@ public class SearchParameters {
         return place;
     }
 
-    public Date getDateOfCheckIn() {
+    public LocalDateTime getDateOfCheckIn() {
         return dateOfCheckIn;
     }
 
-    public Date getDateOfCheckOut() {
+    public LocalDateTime getDateOfCheckOut() {
         return dateOfCheckOut;
     }
 

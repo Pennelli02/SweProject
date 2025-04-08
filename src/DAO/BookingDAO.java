@@ -35,21 +35,23 @@ public class BookingDAO {
         }
     }
 
-    public Booking addBooking(RegisterUser user, Accommodation accommodation, Date datein, Date dateout, int nPeople, int price) {
-        java.sql.Date dateIn = new java.sql.Date(datein.getTime());
-        java.sql.Date dateOut = new java.sql.Date(dateout.getTime());
+    public Booking addBooking(RegisterUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
+            if(accommodation.getDisponibility()==0){
+                throw new RuntimeException("This accommodation is not disponible");
+            }
+
         try {
             String query="insert into bookings values(?,?,?,?,?) RETURNING id";
             PreparedStatement preparedStatement=connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, accommodation.getId());
-            preparedStatement.setDate(3, dateIn);
-            preparedStatement.setDate(4, dateOut);
+            preparedStatement.setTimestamp(7, java.sql.Timestamp.valueOf(datein));
+            preparedStatement.setTimestamp(8, java.sql.Timestamp.valueOf(dateout));
             preparedStatement.setInt(5, nPeople);
             preparedStatement.setInt(6, price);
             ResultSet rs = preparedStatement.executeQuery();
             if(rs.next()) {
-                return new Booking( rs.getInt(1), user, accommodation, price, nPeople, dateIn, dateout, State.Booking_Confirmed);
+                return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, dateout, State.Booking_Confirmed);
             }
 
         } catch (Exception e) {
@@ -70,14 +72,19 @@ public class BookingDAO {
                 booking.setBookingID(resultSet.getInt("id"));
                 booking.setCustomer(user);
 
-                // Convertire le date
-                java.sql.Date sqlCheckIn = resultSet.getDate("checkIn");
-                java.sql.Date sqlCheckOut = resultSet.getDate("checkOut");
-                Date checkInDate = new Date(sqlCheckIn.getTime());
-                Date checkOutDate = new Date(sqlCheckOut.getTime());
+                // Date
+                // Get timestamps from ResultSet
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("CheckIn");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("CheckOut");
 
-                booking.setCheckInDate(checkInDate);
-                booking.setCheckOutDate(checkOutDate);
+                // Convert to LocalDateTime (handling null values)
+                if (sqlAvailableFrom != null) {
+                    booking.setCheckInDate(sqlAvailableFrom.toLocalDateTime());
+                }
+
+                if (sqlAvailableEnd != null) {
+                    booking.setCheckOutDate(sqlAvailableEnd.toLocalDateTime());
+                }
 
                 int accID = resultSet.getInt("accommodationID");
                 AccommodationDAO accommodationDAO = new AccommodationDAO();
@@ -88,8 +95,8 @@ public class BookingDAO {
 
                 // Determinare lo stato in base alla data corrente
                 State state = determineBookingState(
-                        checkInDate,
-                        checkOutDate,
+                        booking.getCheckInDate(),
+                        booking.getCheckOutDate(),
                         State.valueOf(resultSet.getString("state"))
                 );
                 booking.setState(state);
@@ -116,18 +123,14 @@ public class BookingDAO {
         }
     }
 
-    private State determineBookingState(Date checkIn, Date checkOut, State currentState) {
-        Date now = new Date();
+    private State determineBookingState(LocalDateTime checkIn, LocalDateTime checkOut, State currentState) {
+        LocalDateTime now = LocalDateTime.now();
 
         // Se la prenotazione è cancellata o rimborsata, non cambia stato
         if (currentState == State.Cancelled || currentState == State.Booking_Refunded) {
             return currentState;
         }
 
-        // Converti le date in LocalDateTime per un confronto più preciso
-        LocalDateTime nowLdt = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime checkInLdt = checkIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime checkOutLdt = checkOut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         // Verifica se siamo nell'ora esatta del check-in
         if (isSameDayAndTime(now, checkIn)) {
@@ -140,17 +143,17 @@ public class BookingDAO {
         }
 
         // Verifica se il soggiorno è in corso (tra check-in e check-out)
-        if (nowLdt.isAfter(checkInLdt) && nowLdt.isBefore(checkOutLdt)) {
+        if (now.isAfter(checkIn) && now.isBefore(checkOut)) {
             return State.Checking_In; // Oppure "In_Progress" se definito
         }
 
         // Se la data di check-in è passata ma lo stato non è stato aggiornato
-        if (nowLdt.isAfter(checkInLdt) && currentState == State.Booking_Confirmed) {
+        if (now.isAfter(checkIn) && currentState == State.Booking_Confirmed) {
             return State.Checking_In;
         }
 
         // Se la data di check-out è passata e lo stato era Checking_In o Checking_Out
-        if (nowLdt.isAfter(checkOutLdt) &&
+        if (now.isAfter(checkOut) &&
                 (currentState == State.Checking_In || currentState == State.Checking_Out)) {
             return State.Checking_Out;
         }
@@ -158,18 +161,17 @@ public class BookingDAO {
         return currentState;
     }
 
-    private boolean isSameDayAndTime(Date date1, Date date2) {
+    private boolean isSameDayAndTime(LocalDateTime date1, LocalDateTime date2) {
         if (date1 == null || date2 == null) {
             return false;
         }
 
-        LocalDateTime ldt1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime ldt2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        return ldt1.getYear() == ldt2.getYear() &&
-                ldt1.getMonth() == ldt2.getMonth() &&
-                ldt1.getDayOfMonth() == ldt2.getDayOfMonth() &&
-                ldt1.getHour() == ldt2.getHour();
+
+        return date1.getYear() == date2.getYear() &&
+                date1.getMonth() == date2.getMonth() &&
+                date1.getDayOfMonth() == date2.getDayOfMonth() &&
+                date1.getHour() == date2.getHour();
     }
 
     public void cancelBook(Booking booking) {

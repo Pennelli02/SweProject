@@ -6,8 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class AccommodationDAO {
     private Connection connection;
@@ -34,8 +35,18 @@ public class AccommodationDAO {
                 accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
 
                 // Date
-                accommodation.setAvailableFrom(resultSet.getDate("availableFrom"));
-                accommodation.setAvailableEnd(resultSet.getDate("availableEnd"));
+                // Get timestamps from ResultSet
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+
+                // Convert to LocalDateTime (handling null values)
+                if (sqlAvailableFrom != null) {
+                    accommodation.setAvailableFrom(sqlAvailableFrom.toLocalDateTime());
+                }
+
+                if (sqlAvailableEnd != null) {
+                    accommodation.setAvailableEnd(sqlAvailableEnd.toLocalDateTime());
+                }
 
                 // Gestione rating con nuovo enum
                 int ratingValue = resultSet.getInt("rating");
@@ -97,8 +108,18 @@ public class AccommodationDAO {
                 accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
 
                 // Date
-                accommodation.setAvailableFrom(resultSet.getDate("availableFrom"));
-                accommodation.setAvailableEnd(resultSet.getDate("availableEnd"));
+                // Get timestamps from ResultSet
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+
+                // Convert to LocalDateTime (handling null values)
+                if (sqlAvailableFrom != null) {
+                    accommodation.setAvailableFrom(sqlAvailableFrom.toLocalDateTime());
+                }
+
+                if (sqlAvailableEnd != null) {
+                    accommodation.setAvailableEnd(sqlAvailableEnd.toLocalDateTime());
+                }
 
                 // Enum (gestisci eventuali eccezioni se il valore è null o non valido)
                 accommodation.setType(AccommodationType.valueOf(
@@ -130,6 +151,7 @@ public class AccommodationDAO {
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
 
                 accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
 
                 accommodations.add(accommodation);
             }
@@ -159,9 +181,12 @@ public class AccommodationDAO {
     public void updateRating(int accommodationID) {}
 
     //FixMe da vedere in futuro se funziona
-    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, Date availableFrom, Date availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal) {
+    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxNumberOfPeople) {
+        if(disponibility<=0){
+            throw new RuntimeException("disponibility should be greater than 0");
+        }
         try {
-            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rate_price, available_from, available_end, description, rating, refundable, free_wifi, smoking_area, parking, coffee_machine, room_service, cleaning_service, spa, good_for_kids, number_of_rooms, welcome_animals) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
+            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rate_price, available_from, available_end, description, rating, refundable, free_wifi, smoking_area, parking, coffee_machine, room_service, cleaning_service, spa, good_for_kids, number_of_rooms, welcome_animals, maxPeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);
@@ -169,8 +194,8 @@ public class AccommodationDAO {
             preparedStatement.setInt(4, disponibility);
             preparedStatement.setString(5, type.toString());
             preparedStatement.setFloat(6, ratePrice);
-            preparedStatement.setDate(7, new java.sql.Date(availableFrom.getTime()));
-            preparedStatement.setDate(8, new java.sql.Date(availableEnd.getTime()));
+            preparedStatement.setTimestamp(7, java.sql.Timestamp.valueOf(availableFrom));
+            preparedStatement.setTimestamp(8, java.sql.Timestamp.valueOf(availableEnd));
             preparedStatement.setString(9, description);
             preparedStatement.setInt(10, rating.getNumericValue());
             preparedStatement.setBoolean(11, refundable);
@@ -184,8 +209,23 @@ public class AccommodationDAO {
             preparedStatement.setBoolean(19, goodForKids);
             preparedStatement.setBoolean(20, roomService);
             preparedStatement.setBoolean(21, welcomeAnimal);
+            preparedStatement.setInt(22, numberOfRoom);
+            preparedStatement.execute();
             System.out.println("Accommodation added successfully");
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateAccommodationDisponibility(int accommodationID, int statusDisponibility) {
+        try {
+            String query = "UPDATE accommodation SET disponibility = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, statusDisponibility);
+            preparedStatement.setInt(2, accommodationID);
+            preparedStatement.executeUpdate();
+            System.out.println("Accommodation updated successfully");
+        }catch (Exception e){
             throw new RuntimeException(e);
         }
     }

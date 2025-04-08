@@ -6,6 +6,7 @@ import DAO.UserDAO;
 import DomainModel.*;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,10 +25,10 @@ public class AdminController {
     public void updateAccomodation(){
 
     }
-
-    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, Date availableFrom, Date availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal ){
+ // teniamo conto che se la disponibilità è uguale a zero allora darà errore
+    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxPeople ){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        accommodationDAO.addAccommodation( name,  address,  place,  disponibility, type,  ratePrice,  availableFrom, availableEnd, description, rating, refundable,  freewifi,  haveSmokingArea, haveParking,  coffeMachine,  roomService, cleaningService,  haveSpa,  goodForKids, numberOfRoom,  welcomeAnimal);
+        accommodationDAO.addAccommodation( name,  address,  place,  disponibility, type,  ratePrice,  availableFrom, availableEnd, description, rating, refundable,  freewifi,  haveSmokingArea, haveParking,  coffeMachine,  roomService, cleaningService,  haveSpa,  goodForKids, numberOfRoom,  welcomeAnimal, maxPeople);
         
     }
     
