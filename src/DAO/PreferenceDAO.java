@@ -105,6 +105,7 @@ public class PreferenceDAO {
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
 
                 accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
 
                 favourites.add(accommodation);
             }

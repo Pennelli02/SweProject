@@ -2,12 +2,10 @@ package DAO;
 
 import DomainModel.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AccommodationDAO {
@@ -74,8 +72,8 @@ public class AccommodationDAO {
                 accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
                 accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
-
                 accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
                 return accommodation;
             }
         } catch (RuntimeException | SQLException e) {
@@ -84,10 +82,180 @@ public class AccommodationDAO {
         }
         return null;
     }
-
+    //TODO gestire la logica di ricerca per parametri
     public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
-        //utilizzare un query generator cioè a ogni valore non nullo nei parametri aggiungo una stringa alla query
-        return null;
+        ArrayList<Accommodation> accommodations = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM accommodation WHERE disponibility > 0");
+
+            // Lista parametri per PreparedStatement
+            List<Object> parameters = new ArrayList<>();
+
+            // Aggiunta condizioni in base ai parametri non nulli
+            if (searchParameters.getPlace() != null && !searchParameters.getPlace().isEmpty()) {
+                queryBuilder.append(" AND place LIKE ?");
+                parameters.add(searchParameters.getPlace());
+            }
+
+            if (searchParameters.getDateOfCheckIn() != null && searchParameters.getDateOfCheckOut() != null) {
+                queryBuilder.append(
+                        " AND AvailableFrom <= ? " +  // Disponibile prima del check-out
+                        " AND AvailableEnd >= ? "     // Disponibile dopo il check-in
+                );
+                parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckOut()));
+                parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckIn()));
+            }
+
+            if (searchParameters.getHowMuchRooms() > 0) {
+                queryBuilder.append(" AND numberOfRoom >= ?");
+                parameters.add(searchParameters.getHowMuchRooms());
+            }
+
+            if (searchParameters.getHowMuchPeople() > 0) {
+                queryBuilder.append(" AND  maxPeople <= ?");
+                parameters.add(searchParameters.getHowMuchPeople());
+            }
+
+            if (!searchParameters.isAllCategories() && searchParameters.getCategory() != null) {
+                queryBuilder.append(" AND type = ?");
+                parameters.add(searchParameters.getCategory().name());
+            }
+
+            if (searchParameters.getMaxPrice() > 0) {
+                queryBuilder.append(" AND ratePrice <= ?");
+                parameters.add(searchParameters.getMaxPrice());
+            }
+
+            if (searchParameters.getMinAccommodationRating() != null) {
+                queryBuilder.append(" AND rating >= ?");
+                parameters.add(searchParameters.getMinAccommodationRating().getNumericValue());
+            } else if (searchParameters.getSpecificAccommodationRating() != null) {
+                queryBuilder.append(" AND a.rating = ?");
+                parameters.add(searchParameters.getSpecificAccommodationRating().getNumericValue());
+            }
+
+            // Aggiunta condizioni per i servizi (solo se true)
+            if (searchParameters.isRefundable()) {
+                queryBuilder.append(" AND a.refundable = TRUE");
+            }
+
+            if (searchParameters.isHaveFreeWifi()) {
+                queryBuilder.append(" AND a.freewifi = TRUE");
+            }
+
+            if (searchParameters.isCanISmoke()) {
+                queryBuilder.append(" AND a.haveSmokingArea = TRUE");
+            }
+
+            if (searchParameters.isHaveParking()) {
+                queryBuilder.append(" AND a.haveParking = TRUE");
+            }
+
+            if (searchParameters.isHaveCoffeeMachine()) {
+                queryBuilder.append(" AND a.coffeMachine = TRUE");
+            }
+
+            if (searchParameters.isHaveRoomService()) {
+                queryBuilder.append(" AND a.roomService = TRUE");
+            }
+
+            if (searchParameters.isHaveCleaningService()) {
+                queryBuilder.append(" AND a.cleaningService = TRUE");
+            }
+
+            if (searchParameters.isHaveSpa()) {
+                queryBuilder.append(" AND a.haveSpa = TRUE");
+            }
+
+            if (searchParameters.isGoodForKids()) {
+                queryBuilder.append(" AND a.goodForKids = TRUE");
+            }
+
+            if (searchParameters.isCanHaveAnimal()) {
+                queryBuilder.append(" AND a.welcomeAnimal = TRUE");
+            }
+
+            // Aggiunto ordinamento per rating (decrescente) e prezzo (crescente)
+            queryBuilder.append(" ORDER BY a.rating DESC, a.ratePrice ASC");
+
+            // Esecuzione query
+
+        try {
+          PreparedStatement ps = connection.prepareStatement(queryBuilder.toString());
+
+          // Imposta tutti i parametri
+            for (int i = 0; i < parameters.size(); i++) {
+                Object param = parameters.get(i);
+                if (param instanceof String) {
+                    ps.setString(i + 1, (String) param);
+                } else if (param instanceof Integer) {
+                    ps.setInt(i + 1, (Integer) param);
+                } else if (param instanceof Float) {
+                    ps.setFloat(i + 1, (Float) param);
+                } else if (param instanceof java.sql.Timestamp) {
+                    ps.setTimestamp(i + 1, (java.sql.Timestamp) param);
+                }
+            }
+
+          ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                Accommodation accommodation = new Accommodation();
+                // Set degli attributi base
+                accommodation.setId(resultSet.getInt("id")); // O accommodationID se diverso
+                accommodation.setName(resultSet.getString("name"));
+                accommodation.setDescription(resultSet.getString("description"));
+                accommodation.setPlace(resultSet.getString("place"));
+                accommodation.setAddress(resultSet.getString("address"));
+                accommodation.setDisponibility(resultSet.getInt("disponibility"));
+                accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
+
+                // Date
+                // Get timestamps from ResultSet
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+
+                // Convert to LocalDateTime (handling null values)
+                if (sqlAvailableFrom != null) {
+                    accommodation.setAvailableFrom(sqlAvailableFrom.toLocalDateTime());
+                }
+
+                if (sqlAvailableEnd != null) {
+                    accommodation.setAvailableEnd(sqlAvailableEnd.toLocalDateTime());
+                }
+
+                // Gestione rating con nuovo enum
+                int ratingValue = resultSet.getInt("rating");
+                AccommodationRating rating = AccommodationRating.OneStar; // Default
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == ratingValue) {
+                        rating = ar;
+                        break;
+                    }
+                }
+                accommodation.setRating(rating);
+
+                accommodation.setRating(AccommodationRating.valueOf(
+                        resultSet.getString("rating")
+                ));
+
+                // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
+                accommodation.setRefundable(resultSet.getBoolean("refundable"));
+                accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
+                accommodation.setHaveSmokingArea(resultSet.getBoolean("haveSmokingArea"));
+                accommodation.setHaveParking(resultSet.getBoolean("haveParking"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffeMachine"));
+                accommodation.setRoomService(resultSet.getBoolean("roomService"));
+                accommodation.setCleaningService(resultSet.getBoolean("cleaningService"));
+                accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
+                accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
+                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
+                accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
+                accommodations.add(accommodation);
+            }
+            return accommodations;
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public ArrayList<Accommodation> getAllAccommodation() throws SQLException, ClassNotFoundException {
@@ -203,13 +371,13 @@ public class AccommodationDAO {
             preparedStatement.setBoolean(13, haveSmokingArea);
             preparedStatement.setBoolean(14, haveParking);
             preparedStatement.setBoolean(15, coffeMachine);
-            preparedStatement.setInt(16, numberOfRoom);
+            preparedStatement.setBoolean(16, roomService);
             preparedStatement.setBoolean(17, cleaningService);
             preparedStatement.setBoolean(18, haveSpa);
             preparedStatement.setBoolean(19, goodForKids);
-            preparedStatement.setBoolean(20, roomService);
+            preparedStatement.setInt(20, numberOfRoom);
             preparedStatement.setBoolean(21, welcomeAnimal);
-            preparedStatement.setInt(22, numberOfRoom);
+            preparedStatement.setInt(22, maxNumberOfPeople);
             preparedStatement.execute();
             System.out.println("Accommodation added successfully");
         } catch (Exception e) {
