@@ -1,9 +1,6 @@
 package BusinessLogic;
 
-import DAO.BookingDAO;
-import DAO.PreferenceDAO;
-import DAO.ReviewDAO;
-import DAO.UserDAO;
+import DAO.*;
 import DomainModel.*;
 
 import java.sql.SQLException;
@@ -72,14 +69,21 @@ public class ProfileUserController {
         ReviewDAO reviewDAO=new ReviewDAO();
         return reviewDAO.getReviewByUser(user);
     }
+// cancella una prenotazione ma non la rimuove e attiva tutte le funzioni del caso
+    public void cancelABooking(Booking booking) throws SQLException, ClassNotFoundException {
+        BookingDAO bookingDAO=new BookingDAO();
+        bookingDAO.cancelBook(booking);
+        AccommodationDAO accommodationDAO=new AccommodationDAO();
+        UserDAO userDAO=new UserDAO();
+        userDAO.updateFidPoints(user, -booking.getPrice());
+        accommodationDAO.updateAccommodationDisponibility(booking.getAccommodation().getId(), booking.getAccommodation().getDisponibility()+1);
+    }
 
-    // teniamo conto del refund?
+    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
-        UserDAO userDAO=new UserDAO();
-        bookingDAO.removeBooking(booking.getBookingID());
+        bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
         user.removeBooking(booking);
-        userDAO.updateFidPoints(user, -(booking.getPrice()));
     }
     public void removeReview(Review review) throws SQLException, ClassNotFoundException {
         ReviewDAO reviewDAO=new ReviewDAO();

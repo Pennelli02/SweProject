@@ -3,8 +3,9 @@ package BusinessLogic;
 import DAO.*;
 import DomainModel.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class ResearchController {
     private RegisterUser user;
@@ -18,13 +19,19 @@ public class ResearchController {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
-
-    public void booking(Accommodation accommodation, Date checkInDate, Date checkOutDate, int numOfMembers, int price) {
-        BookingDAO bookingDAO = new BookingDAO();
-        UserDAO userDAO = new UserDAO();
-        Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
-        user.addBooking(booking);
-        userDAO.updateFidPoints(user, price);
+    //avvia una prenotazione con tutte le funzioni del caso
+    public void booking(Accommodation accommodation, LocalDateTime checkInDate, LocalDateTime checkOutDate, int numOfMembers, int price) {
+        if(accommodation.getDisponibility()>0) { // controllo aggiuntivo per sicurezza teoricamente è gestito da addBooking
+            BookingDAO bookingDAO = new BookingDAO();
+            UserDAO userDAO = new UserDAO();
+            AccommodationDAO accommodationDAO = new AccommodationDAO();
+            Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
+            user.addBooking(booking);
+            userDAO.updateFidPoints(user, price);
+            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility()-1);
+        }else{
+            System.out.println("You are not allowed to book this accommodation");
+        }
     }
 
     public void saveAccommodation(Accommodation accommodation) {

@@ -17,7 +17,7 @@ public class UserDAO {
            System.err.println("Error: " + e.getMessage());
       }
     }
-    // valuatare come gestire i tre casi
+
     public RegisterUser getUserByEmailPassword(String email, String password) throws SQLException, ClassNotFoundException {
         try{
             // Prima verifica se l'email esiste
@@ -70,7 +70,7 @@ public class UserDAO {
                 }else{
                     System.out.println("Wrong password");
                     // magari ci si mette qualcosa per indicare al main questa cosa valore boolean?
-                    return null;
+                    return new RegisterUser(-1 ,email) ; // ci metto l'email che magari può essere utile
                 }
 
             }else {
@@ -103,8 +103,8 @@ public class UserDAO {
          }
         return null;
     }
-   // da valutare se fare così o public void addUser + getUserByEmailPassword
-    public RegisterUser addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
+
+    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
         // 1. Validazione input
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email non può essere vuota");
@@ -117,7 +117,7 @@ public class UserDAO {
 
         // 3. Inserimento con controllo di unicità a livello DB
         String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location) " +
-                "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try  {
            PreparedStatement ps = connection.prepareStatement(query);
@@ -129,15 +129,8 @@ public class UserDAO {
             ps.setString(4, name);
             ps.setString(5, surname);
             ps.setObject(6, favouriteLocation); // Per tipi complessi come Location
-
             ps.executeUpdate();
-            ResultSet rs = ps.executeQuery();
-            RegisterUser user;
-           if (rs.next()) {
-               int id = rs.getInt("id"); // se vogliamo usare l'id... altrimenti elimino tutto e uso solo l'email
-               return new RegisterUser(id, username, password, email, 0, name, surname, favouriteLocation);
-           }
-            throw new SQLException("Failed to get generated ID");
+
 
         } catch (SQLException e) {
             // 4. Controllo violazione unique constraint
@@ -146,11 +139,11 @@ public class UserDAO {
             }
 
         }
-        return null;
     }
 
+    //ToDo gestire logica di cancellazione utente
     public void removeUser(int id) throws SQLException, ClassNotFoundException {
-        // si suppone che il database agisca on cascade nell'eliminazione
+        //si suppone che il database agisca on cascade nell'eliminazione
         try {
             String query = "DELETE FROM users WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -190,25 +183,25 @@ public class UserDAO {
         }
         return false;
     }
- // suupongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
-    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
-        if (newPassword == null || newPassword.trim().isEmpty()) {
-            throw new IllegalArgumentException("La password non può essere vuota");
-        }
-        if(logged){
-            try {
-                String query = "UPDATE users SET password = ? WHERE email = ?";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, newPassword);
-                ps.setString(2, email);
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }else {
-            throw new IllegalArgumentException("Non puoi modificare la password");
-        }
-
- }
+// // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
+//    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
+//        if (newPassword == null || newPassword.trim().isEmpty()) {
+//            throw new IllegalArgumentException("La password non può essere vuota");
+//        }
+//        if(logged){
+//            try {
+//                String query = "UPDATE users SET password = ? WHERE email = ?";
+//                PreparedStatement ps = connection.prepareStatement(query);
+//                ps.setString(1, newPassword);
+//                ps.setString(2, email);
+//            }catch (Exception e){
+//                throw new RuntimeException(e);
+//            }
+//        }else {
+//            throw new IllegalArgumentException("Non puoi modificare la password");
+//        }
+//
+// }
 
     public ArrayList<RegisterUser> getAllUsers() throws SQLException, ClassNotFoundException {
         ArrayList<RegisterUser> users = new ArrayList<>();

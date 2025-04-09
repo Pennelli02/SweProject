@@ -41,7 +41,8 @@ public class PreferenceDAO {
             throw new RuntimeException(e);
         }
     }
-    // gestire i casi che siano nulli
+
+    // FIXME gestire i casi che siano nulli
     public ArrayList<Accommodation> getFavouritesByUser(int id) {
         ArrayList<Accommodation> favourites = new ArrayList<>();
         try {
@@ -61,8 +62,18 @@ public class PreferenceDAO {
                 accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
 
                 // Date
-                accommodation.setAvailableFrom(resultSet.getDate("availableFrom"));
-                accommodation.setAvailableEnd(resultSet.getDate("availableEnd"));
+                // Get timestamps from ResultSet
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+
+                // Convert to LocalDateTime (handling null values)
+                if (sqlAvailableFrom != null) {
+                    accommodation.setAvailableFrom(sqlAvailableFrom.toLocalDateTime());
+                }
+
+                if (sqlAvailableEnd != null) {
+                    accommodation.setAvailableEnd(sqlAvailableEnd.toLocalDateTime());
+                }
 
                 // Enum (gestisci eventuali eccezioni se il valore è null o non valido)
                 accommodation.setType(AccommodationType.valueOf(
@@ -94,6 +105,7 @@ public class PreferenceDAO {
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
 
                 accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
 
                 favourites.add(accommodation);
             }

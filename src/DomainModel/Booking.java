@@ -1,5 +1,6 @@
 package DomainModel;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Booking {
@@ -8,8 +9,8 @@ public class Booking {
     private Accommodation accommodation;
     private float price;
     private int numPeople;
-    private Date checkInDate;
-    private Date checkOutDate;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
     private State state;
 
     public int getBookingID() {
@@ -52,19 +53,19 @@ public class Booking {
         this.numPeople = numPeople;
     }
 
-    public Date getCheckInDate() {
+    public LocalDateTime getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(Date checkInDate) {
+    public void setCheckInDate(LocalDateTime checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public LocalDateTime getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(Date checkOutDate) {
+    public void setCheckOutDate(LocalDateTime checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 
@@ -77,7 +78,7 @@ public class Booking {
     }
 
 
-    public Booking(int bookingID, RegisterUser customer, Accommodation accommodation, float price, int numPeople, Date checkInDate, Date checkOutDate, State state) {
+    public Booking(int bookingID, RegisterUser customer, Accommodation accommodation, float price, int numPeople, LocalDateTime checkInDate, LocalDateTime checkOutDate, State state) {
         this.bookingID = bookingID;
         this.customer = customer;
         this.accommodation = accommodation;
