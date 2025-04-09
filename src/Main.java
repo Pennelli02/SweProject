@@ -40,9 +40,10 @@ public class Main {
                     String password = in1.nextLine();
 
                     RegisterUser registerUser = uc.login(email,password);
-                    //TODO gestione caso in cui ci sono degli errori
                     if(registerUser != null) {
                         userMenu(registerUser);
+                    }else{
+                        System.out.println("Invalid email or password, try again");
                     }
                     break;
                 }
@@ -54,6 +55,8 @@ public class Main {
 
                     if(ac.loginAdmin(passwordAdmin)){
                         adminMenu();
+                    }else{
+                        System.out.println("Invalid password, try again");
                     }
                     break;
                 }
@@ -62,6 +65,8 @@ public class Main {
 
                     if(registerUser != null){
                         userMenu(registerUser);
+                    }else{
+                        System.out.println("Something went wrong, try again");
                     }
                     break;
                 }
@@ -164,6 +169,7 @@ public class Main {
     }
 
     private static void changePersonalInformation() {
+        //TODO Pensare se è meglio fargli fare gli aggiornamenti dei dati uno alla volta o tutti insieme
         Scanner scanner = new Scanner(System.in);
         int choice;
 
