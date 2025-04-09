@@ -71,6 +71,7 @@ public class Main {
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
+                    break;
                 }
             }
 
@@ -102,6 +103,7 @@ public class Main {
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
+                    break;
                 }
             }
         }while(choice != 4);
@@ -155,13 +157,93 @@ public class Main {
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
+                    break;
                 }
             }
         }while (choice!=7);
     }
 
     private static void changePersonalInformation() {
-        //TODO
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do{
+           System.out.println("What information do you want to change: "
+           + "\n1. Name"
+           + "\n2. Surname"
+           + "\n3. Email"
+           + "\n4. Password"
+           + "\n5. Username"
+           + "\n6. Favourite Location"
+           + "\n7. Exit");
+
+           choice = scanner.nextInt();
+
+           switch(choice) {
+               case 1:{
+                   System.out.println("Enter your new Name: ");
+                   String name = scanner.nextLine();
+                   break;
+               }
+               case 2:{
+                   System.out.println("Enter your new Surname: ");
+                   String surname = scanner.nextLine();
+                   break;
+               }
+               case 3:{
+                   System.out.println("Enter your new Email: ");
+                   String email = scanner.nextLine();
+                   break;
+               }
+               case 4:{
+                   System.out.println("Enter your new Password: ");
+                   String password = scanner.nextLine();
+                   break;
+               }
+               case 5:{
+                   System.out.println("Enter your new UserName: ");
+                   String username = scanner.nextLine();
+                   break;
+               }
+               case 6:{
+                   Location nfl = Location.Nothing;
+                   int choice2;
+                   do{
+                       System.out.println("Enter your new favourite location: " +
+                               "\n1. Sea"+
+                               "\n2. Mountain"+
+                               "\n3. ArtCity"
+                               + "\n4. Nothing");
+
+                       choice2 = scanner.nextInt();
+
+                       switch(choice2) {
+                           case 1: {
+                               nfl = Location.Sea;
+                               break;
+                           }
+                           case 2: {
+                               nfl = Location.Mountain;
+                               break;
+                           }
+                           case 3: {
+                               nfl = Location.ArtCity;
+                               break;
+                           }
+                           default: {
+                               System.out.println("Please enter a valid choice");
+                               break;
+                           }
+                       }
+                   }while (choice2!=4);
+                   break;
+               }
+               default: {
+                   System.out.println("Please enter a valid choice");
+                   break;
+               }
+           }
+        }while(choice!=7);
     }
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {
@@ -182,28 +264,35 @@ public class Main {
         stringAttributes.add(in.nextLine());
         System.out.println("Enter your surname: ");
         stringAttributes.add(in.nextLine());
-        System.out.println("Enter your location: " +
-                            "\n1. Sea"+
-                            "\n2. Mountain"+
-                            "\n3. ArtCity"
-                            + "\n4. Nothing");
-        int choice = in.nextInt();
-        Location favouriteLocations;
-        switch(choice) {
-            case 1:{
-                favouriteLocations = Location.Sea;
+        int choice;
+        Location favouriteLocations = Location.Nothing;
+        do {
+            System.out.println("Enter your favourite location: " +
+                    "\n1. Sea" +
+                    "\n2. Mountain" +
+                    "\n3. ArtCity"
+                    + "\n4. Nothing");
+            choice = in.nextInt();
+            switch (choice) {
+                case 1: {
+                    favouriteLocations = Location.Sea;
+                    break;
+                }
+                case 2: {
+                    favouriteLocations = Location.Mountain;
+                    break;
+                }
+                case 3: {
+                    favouriteLocations = Location.ArtCity;
+                    break;
+                }
+                default: {
+                    System.out.println("Please enter a valid choice");
+                    break;
+                }
             }
-            case 2:{
-                favouriteLocations = Location.Mountain;
-            }
-            case 3:{
-                favouriteLocations = Location.ArtCity;
-            }
-            default:{
-                favouriteLocations = Location.Nothing;
-            }
-        }
+        } while (choice != 4);
         return uc.register(stringAttributes.get(0), stringAttributes.get(1),
-                stringAttributes.get(2),stringAttributes.get(3),stringAttributes.get(4),favouriteLocations);
+                stringAttributes.get(2), stringAttributes.get(3), stringAttributes.get(4), favouriteLocations);
     }
 }
