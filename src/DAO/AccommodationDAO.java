@@ -397,4 +397,192 @@ public class AccommodationDAO {
             throw new RuntimeException(e);
         }
     }
+// gestione update con dirty flag
+    public void updateAccommodationDirty(Accommodation accommodation) {
+        try {
+
+            // Aggiorna solo i campi modificati
+            if (accommodation.isFieldModified("name")) {
+                updateField(accommodation.getId(), "name", accommodation.getName());
+            }
+            if (accommodation.isFieldModified("address")) {
+                updateField(accommodation.getId(), "address", accommodation.getAddress());
+            }
+            if (accommodation.isFieldModified("place")) {
+                updateField(accommodation.getId(), "place", accommodation.getPlace());
+            }
+            if (accommodation.isFieldModified("type")) {
+                updateField(accommodation.getId(), "type", accommodation.getType().toString());
+            }
+            if (accommodation.isFieldModified("ratePrice")) {
+                updateField(accommodation.getId(), "ratePrice", accommodation.getRatePrice());
+            }
+            if (accommodation.isFieldModified("availableFrom")) {
+                updateField(accommodation.getId(), "availableFrom", accommodation.getAvailableFrom());
+            }
+            if (accommodation.isFieldModified("availableEnd")) {
+                updateField(accommodation.getId(), "availableEnd", accommodation.getAvailableEnd());
+            }
+            if (accommodation.isFieldModified("description")) {
+                updateField(accommodation.getId(), "description", accommodation.getDescription());
+            }
+            if (accommodation.isFieldModified("freewifi")) {
+                updateField(accommodation.getId(), "freewifi", accommodation.isFreewifi());
+            }
+            if (accommodation.isFieldModified("haveSmokingArea")) {
+                updateField(accommodation.getId(), "haveSmokingArea", accommodation.isHaveSmokingArea());
+            }
+            if (accommodation.isFieldModified("haveParking")) {
+                updateField(accommodation.getId(), "haveParking", accommodation.isHaveParking());
+            }
+            if (accommodation.isFieldModified("coffeMachine")) {
+                updateField(accommodation.getId(), "coffeMachine", accommodation.isCoffeMachine());
+            }
+            if (accommodation.isFieldModified("roomService")) {
+                updateField(accommodation.getId(), "roomService", accommodation.isRoomService());
+            }
+            if (accommodation.isFieldModified("cleaningService")) {
+                updateField(accommodation.getId(), "cleaningService", accommodation.isCleaningService());
+            }
+            if (accommodation.isFieldModified("haveSpa")) {
+                updateField(accommodation.getId(), "haveSpa", accommodation.isHaveSpa());
+            }
+            if (accommodation.isFieldModified("goodForKids")) {
+                updateField(accommodation.getId(), "goodForKids", accommodation.isGoodForKids());
+            }
+            if (accommodation.isFieldModified("numberOfRoom")) {
+                updateField(accommodation.getId(), "numberOfRoom", accommodation.getNumberOfRoom());
+            }
+            if (accommodation.isFieldModified("welcomeAnimal")) {
+                updateField(accommodation.getId(), "welcomeAnimal", accommodation.isWelcomeAnimal());
+            }
+            if (accommodation.isFieldModified("maxNumberOfPeople")) {
+                updateField(accommodation.getId(), "maxNumberOfPeople", accommodation.getMaxNumberOfPeople());
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        // Esegue un singolo update (riutilizzabile) dirty flag
+            private void updateField(int id, String field, Object value) throws SQLException {
+                String sql = "UPDATE accommodations SET " + field + " = ? WHERE id = ?";
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                    // Gestione speciale per LocalDateTime
+                    if (value instanceof LocalDateTime) {
+                        stmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
+                    } else {
+                        stmt.setObject(1, value);
+                    }
+                    stmt.setInt(2, id);
+                    stmt.executeUpdate();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+    public void updateName(int idAcc, String newName) {
+        try {
+            String query = "UPDATE accommodations SET name = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, newName);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateAddress(int idAcc, String newAddress) {
+        try {
+            String query = "UPDATE accommodations SET address = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, newAddress);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updatePlace(int idAcc, String place) {
+        try {
+            String query = "UPDATE accommodations SET place = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, place);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateType(int idAcc, AccommodationType type) {
+        try {
+            String query = "UPDATE accommodations SET type = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, type.toString());
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateRatePrice(int idAcc, float ratePrice) {
+        try {
+            String query = "UPDATE accommodations SET ratePrice = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setFloat(1, ratePrice);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateAvailableFrom(int idAcc, LocalDateTime availableFrom) {
+    }
+
+    public void updateAvailableEnd(int idAcc, LocalDateTime availableEnd) {
+    }
+
+    public void updateDescription(int idAcc, String description) {
+    }
+
+    public void updateFreewifi(int idAcc, boolean freewifi) {
+    }
+
+    public void updateHaveSmokingArea(int idAcc, boolean haveSmokingArea) {
+    }
+
+    public void updateHaveParking(int idAcc, boolean haveParking) {
+    }
+
+    public void updateCoffeMachine(int idAcc, boolean coffeMachine) {
+    }
+
+    public void updateRoomService(int idAcc, boolean roomService) {
+    }
+
+    public void updateCleaningService(int idAcc, boolean cleaningService) {
+    }
+
+    public void updateHaveSpa(int idAcc, boolean haveSpa) {
+    }
+
+    public void updateGoodForKids(int idAcc, boolean goodForKids) {
+    }
+
+    public void updateNumberOfRoom(int idAcc, int numberOfRoom) {
+    }
+
+    public void updateWelcomeAnimal(int idAcc, boolean welcomeAnimal) {
+    }
+
+    public void updateMaxNumberOfPeople(int idAcc, int maxNumberOfPeople) {
+    }
 }

@@ -1,7 +1,10 @@
 package DomainModel;
 
 import java.time.LocalDateTime;
-
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+// setter modificati per tener conto del dirty flag
 public class Accommodation {
     private int id;
     private String name;
@@ -26,6 +29,7 @@ public class Accommodation {
     private int numberOfRoom;
     private boolean welcomeAnimal;
     private int maxNumberOfPeople; // per il numero massimo di persone
+    private Set<String> modifiedFields = new HashSet<>(); // utilizzo il concetto di dirty Flag
 
     public int getId() {
         return id;
@@ -40,6 +44,9 @@ public class Accommodation {
     }
 
     public void setName(String name) {
+        if (!Objects.equals(this.name, name)) {
+            modifiedFields.add("name");
+        }
         this.name = name;
     }
 
@@ -48,6 +55,9 @@ public class Accommodation {
     }
 
     public void setAddress(String address) {
+        if (!Objects.equals(this.address, address)) {
+            modifiedFields.add("address");
+        }
         this.address = address;
     }
 
@@ -56,6 +66,9 @@ public class Accommodation {
     }
 
     public void setPlace(String place) {
+        if (!Objects.equals(this.place, place)) {
+            modifiedFields.add("place");
+        }
         this.place = place;
     }
 
@@ -72,6 +85,9 @@ public class Accommodation {
     }
 
     public void setType(AccommodationType type) {
+        if (!Objects.equals(this.type, type)) {
+            modifiedFields.add("type");
+        }
         this.type = type;
     }
 
@@ -80,6 +96,9 @@ public class Accommodation {
     }
 
     public void setRatePrice(float ratePrice) {
+        if (!Objects.equals(this.ratePrice, ratePrice)) {
+            modifiedFields.add("ratePrice");
+        }
         this.ratePrice = ratePrice;
     }
 
@@ -88,6 +107,9 @@ public class Accommodation {
     }
 
     public void setAvailableFrom(LocalDateTime availableFrom) {
+        if (!Objects.equals(this.availableFrom, availableFrom)) {
+            modifiedFields.add("availableFrom");
+        }
         this.availableFrom = availableFrom;
     }
 
@@ -96,6 +118,9 @@ public class Accommodation {
     }
 
     public void setAvailableEnd(LocalDateTime availableEnd) {
+        if (!Objects.equals(this.availableEnd, availableEnd)) {
+            modifiedFields.add("availableEnd");
+        }
         this.availableEnd = availableEnd;
     }
 
@@ -104,6 +129,9 @@ public class Accommodation {
     }
 
     public void setDescription(String description) {
+        if (!Objects.equals(this.description, description)) {
+            modifiedFields.add("description");
+        }
         this.description = description;
     }
 
@@ -112,6 +140,9 @@ public class Accommodation {
     }
 
     public void setRating(AccommodationRating rating) {
+        if (!Objects.equals(this.rating, rating)) {
+            modifiedFields.add("rating");
+        }
         this.rating = rating;
     }
 
@@ -128,6 +159,9 @@ public class Accommodation {
     }
 
     public void setFreewifi(boolean freewifi) {
+        if (!Objects.equals(this.freewifi, freewifi)) {
+            modifiedFields.add("freewifi");
+        }
         this.freewifi = freewifi;
     }
 
@@ -136,6 +170,9 @@ public class Accommodation {
     }
 
     public void setHaveSmokingArea(boolean haveSmokingArea) {
+        if (!Objects.equals(this.haveSmokingArea, haveSmokingArea)) {
+            modifiedFields.add("haveSmokingArea");
+        }
         this.haveSmokingArea = haveSmokingArea;
     }
 
@@ -144,6 +181,9 @@ public class Accommodation {
     }
 
     public void setHaveParking(boolean haveParking) {
+        if (!Objects.equals(this.haveParking, haveParking)) {
+            modifiedFields.add("haveParking");
+        }
         this.haveParking = haveParking;
     }
 
@@ -152,6 +192,9 @@ public class Accommodation {
     }
 
     public void setCoffeMachine(boolean coffeMachine) {
+        if (!Objects.equals(this.coffeMachine, coffeMachine)) {
+            modifiedFields.add("coffeMachine");
+        }
         this.coffeMachine = coffeMachine;
     }
 
@@ -160,6 +203,9 @@ public class Accommodation {
     }
 
     public void setRoomService(boolean roomService) {
+        if (!Objects.equals(this.roomService, roomService)) {
+            modifiedFields.add("roomService");
+        }
         this.roomService = roomService;
     }
 
@@ -168,6 +214,9 @@ public class Accommodation {
     }
 
     public void setCleaningService(boolean cleaningService) {
+        if (!Objects.equals(this.cleaningService, cleaningService)) {
+            modifiedFields.add("cleaningService");
+        }
         this.cleaningService = cleaningService;
     }
 
@@ -176,6 +225,9 @@ public class Accommodation {
     }
 
     public void setHaveSpa(boolean haveSpa) {
+        if (!Objects.equals(this.haveSpa, haveSpa)) {
+            modifiedFields.add("haveSpa");
+        }
         this.haveSpa = haveSpa;
     }
 
@@ -184,11 +236,17 @@ public class Accommodation {
     }
 
     public void setGoodForKids(boolean goodForKids) {
+        if (!Objects.equals(this.goodForKids, goodForKids)) {
+            modifiedFields.add("goodForKids");
+        }
         this.goodForKids = goodForKids;
     }
 
 
     public void setNumberOfRoom(int numberOfRoom) {
+        if (!Objects.equals(this.numberOfRoom, numberOfRoom)) {
+            modifiedFields.add("numberOfRoom");
+        }
         this.numberOfRoom = numberOfRoom;
     }
 
@@ -197,6 +255,9 @@ public class Accommodation {
     }
 
     public void setWelcomeAnimal(boolean welcomeAnimal) {
+        if (!Objects.equals(this.welcomeAnimal, welcomeAnimal)) {
+            modifiedFields.add("welcomeAnimal");
+        }
         this.welcomeAnimal = welcomeAnimal;
     }
 
@@ -213,7 +274,26 @@ public class Accommodation {
     }
 
     public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        if (!Objects.equals(this.maxNumberOfPeople, maxNumberOfPeople)) {
+            modifiedFields.add("maxNumberOfPeople");
+        }
         this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
+    public Set<String> getModifiedFields() {
+        return modifiedFields;
+    }
+
+    public void setModifiedFields(Set<String> modifiedFields) {
+        this.modifiedFields = modifiedFields;
+    }
+
+    // Aggiungi questo metodo controlla che sia stato modificato
+    public boolean isFieldModified(String fieldName) {
+        return modifiedFields.contains(fieldName);
+    }
+
+    public void clearModifiedFields() {
+        modifiedFields.clear();
+    }
 }
