@@ -56,4 +56,6 @@ public class Review {
     public void setVote(AccommodationRating vote) {
         this.vote = vote;
     }
+
+    public void removeReview(int id){}
 }

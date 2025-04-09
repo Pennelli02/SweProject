@@ -1,5 +1,6 @@
 import BusinessLogic.AdminController;
 import BusinessLogic.UserController;
+import DomainModel.Accommodation;
 import DomainModel.Location;
 import DomainModel.RegisterUser;
 
@@ -18,7 +19,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
         UserController uc = new UserController();
         AdminController ac = new AdminController();
-        String choice;
+        int choice;
         do{
             System.out.println("MENU LOGIN APARTMENT: "
                             + "\n1. LOGIN USER"
@@ -26,10 +27,10 @@ public class Main {
                             + "\n3. SIGN IN"
                             + "\n4. EXIT");
 
-            choice = in.nextLine();
+            choice = in.nextInt();
 
             switch(choice) {
-                case "1":{
+                case 1:{
 
                     Scanner in1 = new Scanner(System.in);
 
@@ -41,11 +42,11 @@ public class Main {
                     RegisterUser registerUser = uc.login(email,password);
 
                     if(registerUser != null) {
-                        userMenu();
+                        userMenu(registerUser);
                     }
                     break;
                 }
-                case "2":{
+                case 2:{
                     Scanner in2 = new Scanner(System.in);
 
                     System.out.println("Enter your password: ");
@@ -56,15 +57,15 @@ public class Main {
                     }
                     break;
                 }
-                case "3":{
+                case 3:{
                     RegisterUser registerUser = registerModule(uc);
 
                     if(registerUser != null){
-                        userMenu();
+                        userMenu(registerUser);
                     }
                     break;
                 }
-                case "4":{
+                case 4:{
                     System.exit(0);
                     break;
                 }
@@ -76,12 +77,95 @@ public class Main {
         }while (true);
     }
 
-    public static void userMenu() throws SQLException, ClassNotFoundException {
+    public static void userMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Accommodation> accommodations = new ArrayList<Accommodation>();
+        int choice;
+        do{
+            System.out.println("MENU USER: " +
+                                "\n1. Manage Profile" +
+                                "\n2. Research: do an apartment search " +
+                                "\n3. Manage operations on the searched accommodations."+
+                                "\n4. Log out ");
 
+            choice = scanner.nextInt();
+
+            switch(choice) {
+                case 1:{
+                    profileMenu(registerUser);
+                }
+                case 2:{
+                    rearchAccommodation();
+                }
+                case 3:{
+                    //todo
+                }
+                default: {
+                    System.out.println("Please enter a valid choice");
+                }
+            }
+        }while(choice != 4);
+    }
+
+    private static void rearchAccommodation() {
+        //todo
+    }
+
+    private static void profileMenu(RegisterUser registerUser) {
+        Scanner scanner = new Scanner(System.in);
+
+        int choice;
+
+        do{
+            System.out.println("MENU PROFILE USER: " +
+                    "\n1. SEE PERSONAL INFORMATION" +
+                    "\n2. SEE ALL FAVOURITE LOCATION" +
+                    "\n3. SEE ALL BOOKINGS" +
+                    "\n4. CHANGE PERSONAL INFORMATION"+
+                    "\n5. DELETE A REVIEW" +
+                    "\n6. DELETE FAVOURITE LOCATION" +
+                    "\n7. EXIT");
+
+            choice = scanner.nextInt();
+
+            switch(choice) {
+                case 1:{
+                    registerUser.showMyPersonalInfo();
+                    break;
+                }
+                case 2:{
+                    registerUser.showMyPreferences();
+                    break;
+                }
+                case 3:{
+                    registerUser.showMyBookings();
+                    break;
+                }
+                case 4:{
+                    changePersonalInformation();
+                    break;
+                }
+                case 5:{
+                    //todo
+                    break;
+                }
+                case 6:{
+                    //todo
+                    break;
+                }
+                default: {
+                    System.out.println("Please enter a valid choice");
+                }
+            }
+        }while (choice!=7);
+    }
+
+    private static void changePersonalInformation() {
+        //TODO
     }
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {
-
+        //todo
     }
 
     public static RegisterUser registerModule(UserController uc) throws SQLException, ClassNotFoundException {

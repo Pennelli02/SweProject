@@ -147,4 +147,16 @@ public class RegisterUser {
 //        System.out.println("My Bookings: " + myBookings);
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }
+
+    public void showMyBookings(){
+        for (Booking myBooking : myBookings) {
+            System.out.println(myBooking.toString());
+        }
+    }
+
+    public void showMyPreferences(){
+        for (Accommodation myPreference : myPreferences) {
+            System.out.println(myPreference.toString());
+        }
+    }
 }
