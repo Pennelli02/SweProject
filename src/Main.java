@@ -101,7 +101,7 @@ public class Main {
                     profileMenu(registerUser);
                 }
                 case 2:{
-                    rearchAccommodation();
+                    reSearchAccommodation();
                 }
                 case 3:{
                     //todo
@@ -114,7 +114,7 @@ public class Main {
         }while(choice != 4);
     }
 
-    private static void rearchAccommodation() {
+    private static void reSearchAccommodation() {
         //todo
     }
 
@@ -129,8 +129,8 @@ public class Main {
                     "\n2. SEE ALL FAVOURITE LOCATION" +
                     "\n3. SEE ALL BOOKINGS" +
                     "\n4. CHANGE PERSONAL INFORMATION"+
-                    "\n5. DELETE A REVIEW" +
-                    "\n6. DELETE FAVOURITE LOCATION" +
+                    "\n5. DELETE A REVIEW" + //Fixme io metterei vedi le mie recensioni e da lì decidi se eliminare o no
+                    "\n6. DELETE FAVOURITE LOCATION" + //fixme stessa cosa delle recensioni
                     "\n7. EXIT");
 
             choice = scanner.nextInt();
