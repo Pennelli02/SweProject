@@ -188,13 +188,15 @@ public class BookingDAO {
     }
 
     public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
+        UserDAO userDAO=new UserDAO(); // non è consigliato ma lo farò
         try {
-            String query = "SELECT id FROM bookings WHERE accommodationID = ?";
+            String query = "SELECT id, userID, price FROM bookings WHERE accommodationID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 updateBookingState(resultSet.getInt("id"), State.Accommodation_Cancelled);
+                userDAO.updateFidPoints(userDAO.getUserById(resultSet.getInt("userID")), -resultSet.getFloat("price")); // fixme valutare se tenerlo qui
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
