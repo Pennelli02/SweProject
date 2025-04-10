@@ -87,8 +87,11 @@ public class BookingDAO {
                 }
 
                 int accID = resultSet.getInt("accommodationID");
-                AccommodationDAO accommodationDAO = new AccommodationDAO();
-                Accommodation accommodation = accommodationDAO.getAccommodationByID(accID);
+                Accommodation accommodation = null;
+                if(!resultSet.wasNull()) { //on delete set NULL
+                    AccommodationDAO accommodationDAO = new AccommodationDAO();
+                    accommodation = accommodationDAO.getAccommodationByID(accID);
+                }
                 booking.setAccommodation(accommodation);
                 booking.setNumPeople(resultSet.getInt("numPeople"));
                 booking.setPrice(resultSet.getFloat("price"));
@@ -127,7 +130,7 @@ public class BookingDAO {
         LocalDateTime now = LocalDateTime.now();
 
         // Se la prenotazione è cancellata o rimborsata, non cambia stato
-        if (currentState == State.Cancelled || currentState == State.Booking_Refunded) {
+        if (currentState == State.Cancelled || currentState == State.Booking_Refunded || currentState == State.Accommodation_Cancelled) {
             return currentState;
         }
 
@@ -181,6 +184,20 @@ public class BookingDAO {
         }else{
             booking.setState(State.Cancelled);
             updateBookingState(booking.getBookingID(), booking.getState());
+        }
+    }
+
+    public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
+        try {
+            String query = "SELECT id FROM bookings WHERE accommodationID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAccommodation);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                updateBookingState(resultSet.getInt("id"), State.Accommodation_Cancelled);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
