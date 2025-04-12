@@ -176,7 +176,7 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    //fixme non so se tenerla è praticamente inutile e difficile da implementare
+    //fixme non so se tenerla è praticamente inutile e difficile da implementare (richiesta Lore)
 //    public void updatePassword(String newPassword) throws SQLException, ClassNotFoundException {
 //        String emailAdmin="admin@gmail.com";
 //        UserDAO userDAO = new UserDAO();

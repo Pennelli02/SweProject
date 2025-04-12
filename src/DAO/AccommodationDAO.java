@@ -329,15 +329,15 @@ public class AccommodationDAO {
         return accommodations;
     }
 
-    //Fixme problemi con la logica di cancellazione forse si ritorna al trigger? vogliamo eliminare le prenotazioni inerenti o settarle con un nuovo valore?
+    //Fixme problemi con la logica di cancellazione forse si ritorna al trigger? ci penso io  faccio che nelle preference sia cascade e nel booking sia on set null
     public void deleteAccommodation(int idAccommodation){
         try {
             String query = "DELETE FROM accommodation WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             preparedStatement.executeUpdate();
-//            BookingDAO bookingDAO = new BookingDAO();
-//            bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
+            BookingDAO bookingDAO = new BookingDAO();
+            bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
             System.out.println("Accommodation deleted successfully");
         } catch (Exception e) {
             throw new RuntimeException(e);

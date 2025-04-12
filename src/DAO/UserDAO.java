@@ -141,7 +141,7 @@ public class UserDAO {
         }
     }
 
-    //ToDo gestire logica di cancellazione utente
+    //ToDo gestire logica di cancellazione utente elimino qualsiasi cosa
     public void removeUser(int id) throws SQLException, ClassNotFoundException {
         //si suppone che il database agisca on cascade nell'eliminazione
         try {

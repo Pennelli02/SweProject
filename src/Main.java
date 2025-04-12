@@ -1,11 +1,10 @@
 import BusinessLogic.AdminController;
 import BusinessLogic.UserController;
-import DAO.UserDAO;
-import DomainModel.*;
+import DomainModel.Accommodation;
+import DomainModel.Location;
+import DomainModel.RegisterUser;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -102,7 +101,7 @@ public class Main {
                     profileMenu(registerUser);
                 }
                 case 2:{
-                    rearchAccommodation();
+                    reSearchAccommodation();
                 }
                 case 3:{
                     //todo
@@ -115,169 +114,13 @@ public class Main {
         }while(choice != 4);
     }
 
-    private static void rearchAccommodation() {
-        Object [] filter = setFilterArray();
-        Scanner scanner = new Scanner(System.in);
-        boolean dativalidi = false;
-        int choice;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //todo ma all categories e cateogy non si potrebbe unire in uno solo lasciando solo category e vedere quali sono importanti avere sicuramente
-        do{
-            do {
-                System.out.println("MENU FILTER FOR THE RESEARCH ACCOMMODATION: " +
-                        "\nPLEASE, ENTER THE FILTERS FOR THE RESEARCH ACCOMMODATION"
-                        + "\n1*. Place"
-                        + "\n2*. dateOfCheckIn"
-                        + "\n3*. dateOfCheckOut"
-                        + "\n4*. howMuchRooms"
-                        + "\n5*. howMuchPeople"
-                        + "\n6. category"
-                        + "\n7. allCategories"
-                        + "\n8. maxPrice"
-                        + "\n9. minAccommodationRating"
-                        + "\n10. specificAccommodationRating"
-                        + "\n11. isRefundable"
-                        + "\n12. haveFreeWifi"
-                        + "\n13. canISmoke"
-                        + "\n14. haveParking"
-                        + "\n15. haveCoffeeMachine"
-                        + "\n16. haveRoomService"
-                        + "\n17. haveCleaningService"
-                        + "\n18. haveSpa"
-                        + "\n19. goodForKids"
-                        + "\n20. canHaveAnimal"
-                        + "\n21. Stop insert filter"
-                        //+ "\nThose with * are mandatory to enter to carry out the search."
-                        + "\nEnter your choice: ");
-
-                choice = scanner.nextInt();
-
-                switch (choice) {
-                    case 1:{
-                        System.out.println("Enter the place where you want to go: ");
-                        filter[0] = scanner.nextLine().split(" ");
-                        break;
-                    }
-                    case 2:{
-                        System.out.println("Enter a check-in date in format 'yyyy-MM-dd': ");
-                        String input = scanner.nextLine();
-                        try {
-                            filter[1] = LocalDateTime.parse(input, formatter);
-                        } catch (Exception e) {
-                            System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
-                        }
-                        break;
-                    }
-                    case 3:{
-                        System.out.println("Enter a check-out date in format 'yyyy-MM-dd': ");
-                        String input = scanner.nextLine();
-                        try {
-                            filter[2] = LocalDateTime.parse(input, formatter);
-                        } catch (Exception e) {
-                            System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
-                        }
-                        break;
-                    }
-                    case 4:{
-                        System.out.println("Enter as many rooms as you need");
-                        filter[3] = scanner.nextInt();
-                        break;
-                    }
-                    case 5:{
-                        System.out.println("Enter as many people as you need");
-                        filter[4] = scanner.nextInt();
-                    }
-                    //todo decidere per il category o all category
-                    case 6:{
-                        break;
-                    }
-                    case 7:{
-                        break;
-                    }
-                    case 8:{
-                        System.out.println("Enter the maximum price you would like to spend: ");
-                        filter[7] = scanner.nextInt();
-                        break;
-                    }
-                    case 9:{
-                        System.out.println("Please enter the lowest accommodation rating number to search: ");
-                        filter[8] = scanner.nextInt();
-                        break;
-                    }
-                    case 10:{
-                        System.out.println("Enter a specific rating of the accommodations you want to search for: ");
-                        filter[9] = scanner.nextInt();
-                        break;
-                    }
-                    case 11:{
-                        filter[10] = true;
-                        break;
-                    }
-                    case 12:{
-                        filter[11] = true;
-                        break;
-                    }
-                    case 13:{
-                        filter[12]= true;
-                        break;
-                    }
-                    case 14:{
-                        filter[13]= true;
-                        break;
-                    }
-                    case 15:{
-                        filter[14]= true;
-                        break;
-                    }
-                    case 16:{
-                        filter[15]= true;
-                        break;
-                    }
-                    case 17:{
-                        filter[16]= true;
-                        break;
-                    }
-                    case 18:{
-                        filter[17] = true;
-                        break;
-                    }
-                    case 19:{
-                        filter[18]= true;
-                        break;
-                    }
-                    case 20:{
-                        filter[19] = true;
-                        break;
-                    }
-                    default: {
-                        System.out.println("Please enter a valid choice");
-                    }
-                }
-            }while (choice!=21);
-            //todo controllo se i dati obbligatori sono stati inseriti e magari se i dati sono sensati(ovviamente se al prof interessa)
-        }while (!dativalidi);
-        //todo fare il builder dei parametri
+    private static void reSearchAccommodation() {
+        //todo
     }
 
-    private static Object[] setFilterArray() {
-        //todo gestione del accomodationrating se nessuno vuole inserirlo
-        Object[] array = new Object[20];
-        for (int i = 0; i < array.length; i++) {
-            if (i<3){
-                array[i] = null;
-            }else if(i == 3 || i==4 || i == 7){
-                array[i] = 0;
-            }else if (i == 8 || i == 9){
-
-            }else{
-                array[i] = false;
-            }
-        }
-        return array;
-    }
-
-    private static void profileMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
+    private static void profileMenu(RegisterUser registerUser) {
         Scanner scanner = new Scanner(System.in);
+
         int choice;
 
         do{
@@ -286,8 +129,8 @@ public class Main {
                     "\n2. SEE ALL FAVOURITE LOCATION" +
                     "\n3. SEE ALL BOOKINGS" +
                     "\n4. CHANGE PERSONAL INFORMATION"+
-                    "\n5. DELETE A REVIEW" +
-                    "\n6. DELETE FAVOURITE LOCATION" +
+                    "\n5. DELETE A REVIEW" + //Fixme io metterei vedi le mie recensioni e da lì decidi se eliminare o no
+                    "\n6. DELETE FAVOURITE LOCATION" + //fixme stessa cosa delle recensioni
                     "\n7. EXIT");
 
             choice = scanner.nextInt();
@@ -306,7 +149,7 @@ public class Main {
                     break;
                 }
                 case 4:{
-                    changePersonalInformation(registerUser);
+                    changePersonalInformation();
                     break;
                 }
                 case 5:{
@@ -325,10 +168,10 @@ public class Main {
         }while (choice!=7);
     }
 
-    private static void changePersonalInformation(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
+    private static void changePersonalInformation() {
+        //TODO Pensare se è meglio fargli fare gli aggiornamenti dei dati uno alla volta o tutti insieme
         Scanner scanner = new Scanner(System.in);
         int choice;
-        UserDAO userDAO = new UserDAO();
 
         do{
            System.out.println("What information do you want to change: "
@@ -346,36 +189,26 @@ public class Main {
                case 1:{
                    System.out.println("Enter your new Name: ");
                    String name = scanner.nextLine();
-                   registerUser.setName(name);
-                   userDAO.updateName(registerUser.getId(),name);
                    break;
                }
                case 2:{
                    System.out.println("Enter your new Surname: ");
                    String surname = scanner.nextLine();
-                   registerUser.setSurname(surname);
-                   userDAO.updateSurname(registerUser.getId(),surname);
                    break;
                }
                case 3:{
                    System.out.println("Enter your new Email: ");
                    String email = scanner.nextLine();
-                   registerUser.setEmail(email);
-                   userDAO.updateEmail(registerUser.getId(),email);
                    break;
                }
                case 4:{
                    System.out.println("Enter your new Password: ");
                    String password = scanner.nextLine();
-                   registerUser.setPassword(password);
-                   userDAO.updatePassword(registerUser.getId(),password);
                    break;
                }
                case 5:{
                    System.out.println("Enter your new UserName: ");
                    String username = scanner.nextLine();
-                   registerUser.setUsername(username);
-                   userDAO.updateUsername(registerUser.getId(),username);
                    break;
                }
                case 6:{
@@ -409,8 +242,6 @@ public class Main {
                            }
                        }
                    }while (choice2!=4);
-                   registerUser.setFavouriteLocations(nfl);
-                   userDAO.updateFavouriteLocations(registerUser.getId(),nfl);
                    break;
                }
                default: {
@@ -423,7 +254,6 @@ public class Main {
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {
         //todo
-
     }
 
     public static RegisterUser registerModule(UserController uc) throws SQLException, ClassNotFoundException {
