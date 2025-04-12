@@ -295,6 +295,7 @@ public class Main {
                 default: {
                     System.out.println("Please enter a valid choice");
                     break;
+
                 }
             }
         } while (choice != 4);
