@@ -423,6 +423,7 @@ public class Main {
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {
         //todo
+
     }
 
     public static RegisterUser registerModule(UserController uc) throws SQLException, ClassNotFoundException {
