@@ -411,13 +411,15 @@ public class Main {
                }
            }
         }while(choice!=7);
-        if(profileUserController.updateProfile(name,surname,email,password,username,nfl)){
-            registerUser.setName(name);
-            registerUser.setSurname(surname);
-            registerUser.setEmail(email);
-            registerUser.setPassword(password);
-            registerUser.setUsername(username);
-            registerUser.setFavouriteLocations(nfl);
+        if(name!=null && surname!=null && email!=null && password!=null && username!=null && nfl!=null){
+            if(profileUserController.updateProfile(name,surname,email,password,username,nfl)){
+                registerUser.setName(name);
+                registerUser.setSurname(surname);
+                registerUser.setEmail(email);
+                registerUser.setPassword(password);
+                registerUser.setUsername(username);
+                registerUser.setFavouriteLocations(nfl);
+            }
         }
     }
 
