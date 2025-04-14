@@ -350,31 +350,26 @@ public class Main {
                case 1:{
                    System.out.println("Enter your new Name: ");
                    name = scanner.nextLine();
-                   registerUser.setName(name);
                    break;
                }
                case 2:{
                    System.out.println("Enter your new Surname: ");
                    surname = scanner.nextLine();
-                   registerUser.setSurname(surname);
                    break;
                }
                case 3:{
                    System.out.println("Enter your new Email: ");
                    email = scanner.nextLine();
-                   registerUser.setEmail(email);
                    break;
                }
                case 4:{
                    System.out.println("Enter your new Password: ");
                    password = scanner.nextLine();
-                   registerUser.setPassword(password);
                    break;
                }
                case 5:{
                    System.out.println("Enter your new UserName: ");
                    username = scanner.nextLine();
-                   registerUser.setUsername(username);
                    break;
                }
                case 6:{
@@ -408,7 +403,6 @@ public class Main {
                            }
                        }
                    }while (choice2!=4);
-                   registerUser.setFavouriteLocations(nfl);
                    break;
                }
                default: {
@@ -417,7 +411,14 @@ public class Main {
                }
            }
         }while(choice!=7);
-        profileUserController.updateProfile(name,surname,email,password,username,nfl);
+        if(profileUserController.updateProfile(name,surname,email,password,username,nfl)){
+            registerUser.setName(name);
+            registerUser.setSurname(surname);
+            registerUser.setEmail(email);
+            registerUser.setPassword(password);
+            registerUser.setUsername(username);
+            registerUser.setFavouriteLocations(nfl);
+        }
     }
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {
