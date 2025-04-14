@@ -1,4 +1,5 @@
 import BusinessLogic.AdminController;
+import BusinessLogic.ProfileUserController;
 import BusinessLogic.UserController;
 import DAO.UserDAO;
 import DomainModel.Accommodation;
@@ -323,16 +324,15 @@ public class Main {
     }
 
     private static void changePersonalInformation(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
-        //TODO Pensare se è meglio fargli fare gli aggiornamenti dei dati uno alla volta o tutti insieme
         Scanner scanner = new Scanner(System.in);
-        UserDAO userDAO = new UserDAO();
+        ProfileUserController profileUserController = new ProfileUserController(registerUser);
         int choice;
-        String name;
-        String surname;
-        String email;
-        String username;
-        String password;
-        Location nfl;
+        String name = null;
+        String surname = null;
+        String email = null;
+        String username = null;
+        String password = null;
+        Location nfl = null;
 
         do{
            System.out.println("What information do you want to change: "
@@ -351,35 +351,30 @@ public class Main {
                    System.out.println("Enter your new Name: ");
                    name = scanner.nextLine();
                    registerUser.setName(name);
-                   userDAO.updateName(registerUser.getId(), name);
                    break;
                }
                case 2:{
                    System.out.println("Enter your new Surname: ");
                    surname = scanner.nextLine();
                    registerUser.setSurname(surname);
-                   userDAO.updateSurname(registerUser.getId(), surname);
                    break;
                }
                case 3:{
                    System.out.println("Enter your new Email: ");
                    email = scanner.nextLine();
                    registerUser.setEmail(email);
-                   userDAO.updateEmail(registerUser.getId(),email);
                    break;
                }
                case 4:{
                    System.out.println("Enter your new Password: ");
                    password = scanner.nextLine();
                    registerUser.setPassword(password);
-                   userDAO.updatePassword(registerUser.getId(), password);
                    break;
                }
                case 5:{
                    System.out.println("Enter your new UserName: ");
                    username = scanner.nextLine();
                    registerUser.setUsername(username);
-                   userDAO.updateUsername(registerUser.getId(), username);
                    break;
                }
                case 6:{
@@ -414,7 +409,6 @@ public class Main {
                        }
                    }while (choice2!=4);
                    registerUser.setFavouriteLocations(nfl);
-                   userDAO.updateFavouriteLocations(registerUser.getId(),nfl);
                    break;
                }
                default: {
@@ -423,6 +417,7 @@ public class Main {
                }
            }
         }while(choice!=7);
+        profileUserController.updateProfile(name,surname,email,password,username,nfl);
     }
 
     public static void adminMenu() throws SQLException, ClassNotFoundException {

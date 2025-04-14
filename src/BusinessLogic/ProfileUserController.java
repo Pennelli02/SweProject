@@ -20,27 +20,27 @@ public class ProfileUserController {
 
     public void updateProfile(String newFirstName, String newLastName, String newEmail, String newpPassword, String newUsername, Location newLocation) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        if(!Objects.equals(newFirstName, user.getName())) {
+        if(newFirstName != null && !Objects.equals(newFirstName, user.getName())) {
             userDAO.updateName(user.getId(), newFirstName);
             user.setName(newFirstName);
         }
-        if(!Objects.equals(newLastName, user.getSurname())) {
+        if(newLastName!= null && !Objects.equals(newLastName, user.getSurname())) {
             userDAO.updateSurname(user.getId(), newLastName);
             user.setSurname(newLastName);
         }
-        if(!Objects.equals(newEmail, user.getEmail())) {
+        if(newEmail!= null && !Objects.equals(newEmail, user.getEmail())) {
             userDAO.updateEmail(user.getId(), newEmail);
             user.setEmail(newEmail);
         }
-        if(!Objects.equals(newpPassword, user.getPassword())) {
+        if(newpPassword!= null && !Objects.equals(newpPassword, user.getPassword())) {
             userDAO.updatePassword(user.getId(), newpPassword);
             user.setPassword(newpPassword);
         }
-        if(!Objects.equals(newUsername, user.getUsername())) {
+        if(newUsername!= null && !Objects.equals(newUsername, user.getUsername())) {
             userDAO.updateUsername(user.getId(), newUsername);
             user.setUsername(newUsername);
         }
-        if(newLocation != user.getFavouriteLocations()) {
+        if(newLocation!= null && newLocation != user.getFavouriteLocations()) {
             userDAO.updateFavouriteLocations(user.getId(), newLocation);
             user.setFavouriteLocations(newLocation);
         }
