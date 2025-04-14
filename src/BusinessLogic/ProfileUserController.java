@@ -69,7 +69,7 @@ public class ProfileUserController {
         ReviewDAO reviewDAO=new ReviewDAO();
         return reviewDAO.getReviewByUser(user);
     }
-// cancella una prenotazione ma non la rimuove e attiva tutte le funzioni del caso
+    // cancella una prenotazione ma non la rimuove e attiva tutte le funzioni del caso
     public void cancelABooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
         bookingDAO.cancelBook(booking);
@@ -79,9 +79,13 @@ public class ProfileUserController {
         accommodationDAO.updateAccommodationDisponibility(booking.getAccommodation().getId(), booking.getAccommodation().getDisponibility()+1);
     }
 
-    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded
+    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded, accommodation cancelled fixme mettere qui il update points?
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
+        UserDAO userDAO=new UserDAO();
+        if(booking.getState()==State.Accommodation_Cancelled) {
+            userDAO.updateFidPoints(user, -booking.getPrice()); // sarà meno pesante meno query però a livello di logica non torna
+        }
         bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
         user.removeBooking(booking);
     }
