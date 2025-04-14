@@ -24,7 +24,7 @@ public class AdminController {
     }
 
     //TODO scegliere quale soluzione tenere in considerazione (richiesta a Lore)
-    //TODO da implemtare tale funzione uso il dirty Flag
+    //TODO da implementare tale funzione uso il dirty Flag
     public void updateAccommodation(Accommodation accommodation){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         accommodationDAO.updateAccommodationDirty(accommodation);

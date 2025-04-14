@@ -116,8 +116,8 @@ public class UserDAO {
         }
 
         // 3. Inserimento con controllo di unicità a livello DB
-        String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location, isAdmin) " +
+                "VALUES (?, ?, ?, ?, ?, ?, FALSE)";
 
         try  {
            PreparedStatement ps = connection.prepareStatement(query);

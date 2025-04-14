@@ -9,9 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class BookingDAO {
     private Connection connection;
@@ -196,7 +193,7 @@ public class BookingDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 updateBookingState(resultSet.getInt("id"), State.Accommodation_Cancelled);
-                userDAO.updateFidPoints(userDAO.getUserById(resultSet.getInt("userID")), -resultSet.getFloat("price")); // fixme valutare se tenerlo qui
+                userDAO.updateFidPoints(userDAO.getUserById(resultSet.getInt("userID")), -resultSet.getFloat("price")); // fixme valutare se farlo qui ha più senso a livello logico, ma pesa troppe query
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
