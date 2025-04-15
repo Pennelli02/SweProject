@@ -18,36 +18,31 @@ public class ProfileUserController {
         user.showMyPersonalInfo();
     }
 
-    public boolean updateProfile(String newFirstName, String newLastName, String newEmail, String newpPassword, String newUsername, Location newLocation){
-        try{
-            UserDAO userDAO = new UserDAO();
-            if(newFirstName != null && !Objects.equals(newFirstName, user.getName())) {
-                userDAO.updateName(user.getId(), newFirstName);
-                user.setName(newFirstName);
-            }
-            if(newLastName!= null && !Objects.equals(newLastName, user.getSurname())) {
-                userDAO.updateSurname(user.getId(), newLastName);
-                user.setSurname(newLastName);
-            }
-            if(newEmail!= null && !Objects.equals(newEmail, user.getEmail())) {
-                userDAO.updateEmail(user.getId(), newEmail);
-                user.setEmail(newEmail);
-            }
-            if(newpPassword!= null && !Objects.equals(newpPassword, user.getPassword())) {
-                userDAO.updatePassword(user.getId(), newpPassword);
-                user.setPassword(newpPassword);
-            }
-            if(newUsername!= null && !Objects.equals(newUsername, user.getUsername())) {
-                userDAO.updateUsername(user.getId(), newUsername);
-                user.setUsername(newUsername);
-            }
-            if(newLocation!= null && newLocation != user.getFavouriteLocations()) {
-                userDAO.updateFavouriteLocations(user.getId(), newLocation);
-                user.setFavouriteLocations(newLocation);
-            }
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            return false;
+    public void updateProfile(String newFirstName, String newLastName, String newEmail, String newpPassword, String newUsername, Location newLocation) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        if(newFirstName != null && !Objects.equals(newFirstName, user.getName())) {
+            userDAO.updateName(user.getId(), newFirstName);
+            user.setName(newFirstName);
+        }
+        if(newLastName!= null && !Objects.equals(newLastName, user.getSurname())) {
+            userDAO.updateSurname(user.getId(), newLastName);
+            user.setSurname(newLastName);
+        }
+        if(newEmail!= null && !Objects.equals(newEmail, user.getEmail())) {
+            userDAO.updateEmail(user.getId(), newEmail);
+            user.setEmail(newEmail);
+        }
+        if(newpPassword!= null && !Objects.equals(newpPassword, user.getPassword())) {
+            userDAO.updatePassword(user.getId(), newpPassword);
+            user.setPassword(newpPassword);
+        }
+        if(newUsername!= null && !Objects.equals(newUsername, user.getUsername())) {
+            userDAO.updateUsername(user.getId(), newUsername);
+            user.setUsername(newUsername);
+        }
+        if(newLocation!= null && newLocation != user.getFavouriteLocations()) {
+            userDAO.updateFavouriteLocations(user.getId(), newLocation);
+            user.setFavouriteLocations(newLocation);
         }
     }
 
