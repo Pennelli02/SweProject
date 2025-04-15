@@ -18,7 +18,7 @@ public class UserDAO {
       }
     }
 
-    public RegisterUser getUserByEmailPassword(String email, String password) throws SQLException, ClassNotFoundException {
+    public RegisterUser getUserByEmailPassword(String email, String password) {
         PreparedStatement emailPs=null;
         PreparedStatement passwordPs=null;
         try{
@@ -89,7 +89,7 @@ public class UserDAO {
     }
 
     //supponiamo che l'email sia unica non teniamo conto della sicurezza
-    public String getPassword(String email) throws SQLException, ClassNotFoundException {
+    public String getPassword(String email) {
         PreparedStatement ps=null;
          try {
              String pswdQuery = "SELECT password FROM users WHERE email = ?";
@@ -197,7 +197,7 @@ public class UserDAO {
         }finally {
             DBUtils.closeQuietly(ps);
         }
-        return false;
+        return null;
     }
 // // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
 //    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
@@ -435,5 +435,21 @@ public class UserDAO {
         // 1 punto ogni 30€ spesi (arrotondato per difetto)
         // Per resi (amount negativo), la variazione sarà negativa
         return (int)(amount / 30);
+    }
+
+    public void updateAdminPassword(String adminEmail, String newPassword) {
+        PreparedStatement ps=null;
+        try {
+            String query = "UPDATE user SET password = ? WHERE email = ?";
+            ps = connection.prepareStatement(query);
+            ps.setString(1, newPassword);
+            ps.setString(2, adminEmail);
+            ps.executeUpdate();
+
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
+        }
     }
 }

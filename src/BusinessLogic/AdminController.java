@@ -84,4 +84,9 @@ public class AdminController {
         isLoggedIn = adminEmail != null;
         return isLoggedIn;
     }
+
+    public void changePassword(String newPassword) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateAdminPassword(adminEmail, newPassword);
+    }
 }
