@@ -15,7 +15,11 @@ public class ReviewDAO {
     private Connection connection;
 
     public ReviewDAO() {
-        this.connection=DatabaseConnection.getInstance().getConnection();
+        try {
+            this.connection=DatabaseConnection.getInstance().getConnection();
+        }catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     // esempio di jdbc
@@ -58,7 +62,7 @@ public class ReviewDAO {
             }
         } catch (SQLException e) {
             // Stampa l'errore SQL nel caso si verifichi un'eccezione
-            e.printStackTrace();
+            DBUtils.printSQLException(e);
         }
 
         // Restituisce la lista di recensioni trovate
@@ -72,31 +76,35 @@ public class ReviewDAO {
             stmt.setInt(1, reviewID);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            DBUtils.printSQLException(e);
         }
     }
     ///  rating di accommodation si attiva grazie a un trigger
     // utile tener conto di quando è stata pubblicata?
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
+       PreparedStatement stmt = null;
         try {
             String sql = "INSERT INTO reviews VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, accommodation.getName());
             stmt.setString(3, content);
             stmt.setInt(4, rating.getNumericValue());
             stmt.executeUpdate();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
-    public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation) {
+    public ArrayList<Review> getReviewByAccommodation(Accommodation accommodation) {
         ArrayList<Review> reviews = new ArrayList<>();
+        PreparedStatement stmt = null;
         try {
             String sql = "SELECT * FROM reviews WHERE accommodationID = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.setInt(1, accommodation.getId());
             ResultSet rs = stmt.executeQuery();
             UserDAO userDAO = new UserDAO();
@@ -116,8 +124,12 @@ public class ReviewDAO {
                 Review review= new Review(id, author, accommodation, content, accRating);
                 reviews.add(review);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+           DBUtils.printSQLException(e);
+        }catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
         return reviews;
     }

@@ -13,22 +13,24 @@ public class UserDAO {
     public UserDAO() {
        try{
             this.connection=DatabaseConnection.getInstance().getConnection();
-      }catch (Exception e){ // da valutare se inserire la gestione delle eccezioni
+      }catch (Exception e){
            System.err.println("Error: " + e.getMessage());
       }
     }
 
     public RegisterUser getUserByEmailPassword(String email, String password) throws SQLException, ClassNotFoundException {
+        PreparedStatement emailPs=null;
+        PreparedStatement passwordPs=null;
         try{
             // Prima verifica se l'email esiste
             String emailQuery = "SELECT * FROM users WHERE email = ?";
-            PreparedStatement emailPs = connection.prepareStatement(emailQuery);
+            emailPs = connection.prepareStatement(emailQuery);
             emailPs.setString(1, email);
             ResultSet emailRs = emailPs.executeQuery();
             if(emailRs.next()){
                 //esiste l'email
                 String passwordQuery = "SELECT * FROM users WHERE email = ? AND password = ?";
-                PreparedStatement passwordPs = connection.prepareStatement(passwordQuery);
+                passwordPs= connection.prepareStatement(passwordQuery);
                 passwordPs.setString(1, email);
                 passwordPs.setString(2, password);
                 ResultSet passwordRs = passwordPs.executeQuery();
@@ -78,28 +80,29 @@ public class UserDAO {
                 return null;
             }
         } catch (SQLException SQLe) {
-            while( SQLe != null) {
-                System.out.println(SQLe.getMessage());
-                System.out.print("EC: "+SQLe.getErrorCode());
-                System.out.println (" SS: "+SQLe.getSQLState());
-                SQLe = SQLe.getNextException();
-            }
+            DBUtils.printSQLException(SQLe);
+        }finally{
+            DBUtils.closeQuietly(emailPs);
+            DBUtils.closeQuietly(passwordPs);
         }
         return null;
     }
 
     //supponiamo che l'email sia unica non teniamo conto della sicurezza
     public String getPassword(String email) throws SQLException, ClassNotFoundException {
+        PreparedStatement ps=null;
          try {
              String pswdQuery = "SELECT password FROM users WHERE email = ?";
-             PreparedStatement ps = connection.prepareStatement(pswdQuery);
+             ps = connection.prepareStatement(pswdQuery);
              ps.setString(1, email);
              ResultSet passwordRs = ps.executeQuery();
              if(passwordRs.next()){
                  return passwordRs.getString("password");
              }
-         } catch (RuntimeException e) {
-             throw new RuntimeException(e);
+         } catch (SQLException SQLe) {
+             DBUtils.printSQLException(SQLe);
+         }finally {
+             DBUtils.closeQuietly(ps);
          }
         return null;
     }
@@ -118,9 +121,9 @@ public class UserDAO {
         // 3. Inserimento con controllo di unicità a livello DB
         String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location, isAdmin) " +
                 "VALUES (?, ?, ?, ?, ?, ?, FALSE)";
-
+        PreparedStatement ps=null;
         try  {
-           PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
 
 
             ps.setString(1, email);
@@ -137,49 +140,62 @@ public class UserDAO {
             if (e.getSQLState().equals("23505")) { // Codice errore per violazione unique constraint
                 throw new IllegalArgumentException("Email già registrata: " + email, e);
             }
+            DBUtils.printSQLException(e);
 
+        }
+        finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
-    //ToDo gestire logica di cancellazione utente elimino qualsiasi cosa
     public void removeUser(int id) throws SQLException, ClassNotFoundException {
         //si suppone che il database agisca on cascade nell'eliminazione
+        PreparedStatement ps=null;
         try {
             String query = "DELETE FROM users WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
     // per controllare che non ci siano 2 email uguali aggiunta per una doppia sicurezza
     private boolean checkEmail(String email) throws SQLException, ClassNotFoundException {
         String query = "SELECT 1 FROM users WHERE email = ? LIMIT 1";
+        PreparedStatement ps=null;
         try {
-             PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
 
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // True se esiste già
             }
-        }catch (Exception e){
-            throw new SQLException(e.getMessage());
+        }catch (SQLException SQLe) {
+           DBUtils.printSQLException(SQLe);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
+        return false;
     }
 
     public boolean getAdminByPassword(String password) throws SQLException, ClassNotFoundException {
+        PreparedStatement ps=null;
         try {
             String query = "SELECT 1 FROM users WHERE password = ? AND isAdmin = TRUE LIMIT 1";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return true;
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
         return false;
     }
@@ -205,25 +221,29 @@ public class UserDAO {
 
     public ArrayList<RegisterUser> getAllUsers() throws SQLException, ClassNotFoundException {
         ArrayList<RegisterUser> users = new ArrayList<>();
+        PreparedStatement ps=null;
        try {
            String query = "SELECT id FROM users";
-           PreparedStatement ps = connection.prepareStatement(query);
+           ps = connection.prepareStatement(query);
            ResultSet rs = ps.executeQuery();
            while (rs.next()) {
                RegisterUser user=getUserById(rs.getInt("id"));
                users.add(user);
            }
-       } catch (Exception e) {
-           throw new RuntimeException(e);
+       } catch (SQLException e) {
+           DBUtils.printSQLException(e);
+       }finally {
+           DBUtils.closeQuietly(ps);
        }
 
         return users;
     }
     // da gestire il fatto che ci siano 2 funzioni che fanno la stessa cosa
     public RegisterUser getUserById(int id) throws SQLException, ClassNotFoundException {
+        PreparedStatement ps=null;
         try {
             String query = "SELECT * FROM users WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -258,8 +278,10 @@ public class UserDAO {
 
                 return user;
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
         return null;
     }
@@ -268,15 +290,18 @@ public class UserDAO {
         if (newFirstName == null || newFirstName.trim().isEmpty()) {
             throw new IllegalArgumentException("Il nuovo nome non può essere vuoto");
         }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET name = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, newFirstName);
             ps.setInt(2, id);
             ps.executeUpdate();
             System.out.println("New name updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -284,15 +309,18 @@ public class UserDAO {
         if (newLastName == null || newLastName.trim().isEmpty()) {
             throw new IllegalArgumentException("Il nuovo cognome non può essere vuoto");
         }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET surname = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, newLastName);
             ps.setInt(2, id);
             ps.executeUpdate();
             System.out.println("New surname updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -300,16 +328,19 @@ public class UserDAO {
         if (newLocation == null) {
             newLocation = Location.Nothing;
         }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET FavouriteLocation = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             String favouriteLocationString = newLocation.toString();
             ps.setObject(1, favouriteLocationString);
             ps.setInt(2, id);
             ps.executeUpdate();
             System.out.println("New favourite location updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -317,15 +348,18 @@ public class UserDAO {
         if (newUsername == null || newUsername.trim().isEmpty()) {
             throw new IllegalArgumentException("L'username non può essere vuoto");
         }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET username = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, newUsername);
             ps.setInt(2, id);
             ps.executeUpdate();
             System.out.println("New username updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -333,15 +367,18 @@ public class UserDAO {
         if (newPassword == null || newPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("La password non può essere vuota");
         }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET password = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, newPassword);
             ps.setInt(2, id);
             ps.executeUpdate();
             System.out.println("New password updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -352,9 +389,10 @@ public class UserDAO {
             if (checkEmail(newEmail)) {
                 throw new IllegalArgumentException("Email già registrata: " + newEmail);
             }
+            PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET email = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, newEmail);
             ps.setInt(2, userId);
             ps.executeUpdate();
@@ -363,7 +401,9 @@ public class UserDAO {
             if (e.getSQLState().equals("23505")) { // Codice errore per violazione unique constraint
                 throw new IllegalArgumentException("Email già registrata: " + newEmail, e);
             }
-            throw new RuntimeException(e);
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
 
     }
@@ -374,18 +414,20 @@ public class UserDAO {
         int pointsVariation = calculatePointsVariation(transactionAmount);
         int newFidelityPoints = user.getFidelityPoints() + pointsVariation;
 
-
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET FidelityPoints = ? WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, newFidelityPoints);
             ps.setInt(2, user.getId());
             ps.executeUpdate();
 
             user.setFidelityPoints(newFidelityPoints);
             System.out.println("New fidelity points updated");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 

@@ -11,14 +11,19 @@ import java.util.List;
 public class AccommodationDAO {
     private Connection connection;
     public AccommodationDAO() {
-        this.connection=DatabaseConnection.getInstance().getConnection();
+        try {
+            this.connection = DatabaseConnection.getInstance().getConnection();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     // manca la gestione dei casi in cui sono nulli
     public Accommodation getAccommodationByID(int accommodationID) {
+        PreparedStatement preparedStatement = null;
         try {
             String query = "SELECT * FROM accommodation WHERE accommodationID = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accommodationID);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
@@ -76,13 +81,14 @@ public class AccommodationDAO {
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
                 return accommodation;
             }
-        } catch (RuntimeException | SQLException e) {
-            throw new RuntimeException(e);
-
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally{
+            DBUtils.closeQuietly(preparedStatement);
         }
         return null;
     }
-    //TODO gestire la logica di ricerca per parametri
+
     public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM accommodation WHERE disponibility > 0");
@@ -178,9 +184,10 @@ public class AccommodationDAO {
             queryBuilder.append(" ORDER BY a.rating DESC, a.ratePrice ASC");
 
             // Esecuzione query
+        PreparedStatement ps = null;
 
         try {
-          PreparedStatement ps = connection.prepareStatement(queryBuilder.toString());
+          ps = connection.prepareStatement(queryBuilder.toString());
 
           // Imposta tutti i parametri
             for (int i = 0; i < parameters.size(); i++) {
@@ -253,16 +260,20 @@ public class AccommodationDAO {
                 accommodations.add(accommodation);
             }
             return accommodations;
-        }catch (Exception e) {
-            throw new RuntimeException(e);
+        }catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
+        return null;
     }
 
     public ArrayList<Accommodation> getAllAccommodation() throws SQLException, ClassNotFoundException {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
         try {
             String query = "SELECT * FROM accommodation";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Accommodation accommodation = new Accommodation();
@@ -323,24 +334,29 @@ public class AccommodationDAO {
 
                 accommodations.add(accommodation);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
         return accommodations;
     }
 
-    //Fixme problemi con la logica di cancellazione forse si ritorna al trigger? ci penso io  faccio che nelle preference sia cascade e nel booking sia on set null
+    //Fixme ci penso io  faccio che nelle preference sia cascade e nel booking sia on set null
     public void deleteAccommodation(int idAccommodation){
+        PreparedStatement preparedStatement = null;
         try {
             String query = "DELETE FROM accommodation WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             preparedStatement.executeUpdate();
             BookingDAO bookingDAO = new BookingDAO();
             bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
             System.out.println("Accommodation deleted successfully");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
@@ -353,9 +369,10 @@ public class AccommodationDAO {
         if(disponibility<=0){
             throw new RuntimeException("disponibility should be greater than 0");
         }
+        PreparedStatement preparedStatement = null;
         try {
             String query="INSERT INTO accommodation (name, address, place, disponibility, type, rate_price, available_from, available_end, description, rating, refundable, free_wifi, smoking_area, parking, coffee_machine, room_service, cleaning_service, spa, good_for_kids, number_of_rooms, welcome_animals, maxPeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);
             preparedStatement.setString(3, place);
@@ -380,8 +397,10 @@ public class AccommodationDAO {
             preparedStatement.setInt(22, maxNumberOfPeople);
             preparedStatement.execute();
             System.out.println("Accommodation added successfully");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
@@ -397,7 +416,8 @@ public class AccommodationDAO {
             throw new RuntimeException(e);
         }
     }
-// gestione update con dirty flag
+
+//fixme gestione update con dirty flag (Richiesta Lore)
     public void updateAccommodationDirty(Accommodation accommodation) {
         try {
 
@@ -462,7 +482,7 @@ public class AccommodationDAO {
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
     }
 
@@ -478,111 +498,292 @@ public class AccommodationDAO {
                     }
                     stmt.setInt(2, id);
                     stmt.executeUpdate();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                } catch (SQLException e) {
+                    DBUtils.printSQLException(e);
                 }
             }
 
     public void updateName(int idAcc, String newName) {
+        PreparedStatement stmt = null;
         try {
             String query = "UPDATE accommodations SET name = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt = connection.prepareStatement(query);
             stmt.setString(1, newName);
             stmt.setInt(2, idAcc);
             stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally{
+            DBUtils.closeQuietly(stmt);
         }
     }
 
     public void updateAddress(int idAcc, String newAddress) {
+        PreparedStatement stmt = null;
         try {
             String query = "UPDATE accommodations SET address = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt = connection.prepareStatement(query);
             stmt.setString(1, newAddress);
             stmt.setInt(2, idAcc);
             stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
     public void updatePlace(int idAcc, String place) {
+        PreparedStatement stmt = null;
         try {
             String query = "UPDATE accommodations SET place = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt = connection.prepareStatement(query);
             stmt.setString(1, place);
             stmt.setInt(2, idAcc);
             stmt.executeUpdate();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
     public void updateType(int idAcc, AccommodationType type) {
+        PreparedStatement stmt = null;
         try {
             String query = "UPDATE accommodations SET type = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt = connection.prepareStatement(query);
             stmt.setString(1, type.toString());
             stmt.setInt(2, idAcc);
             stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
     public void updateRatePrice(int idAcc, float ratePrice) {
+        PreparedStatement stmt = null;
         try {
             String query = "UPDATE accommodations SET ratePrice = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt = connection.prepareStatement(query);
             stmt.setFloat(1, ratePrice);
             stmt.setInt(2, idAcc);
             stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
     public void updateAvailableFrom(int idAcc, LocalDateTime availableFrom) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET availableFrom = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setTimestamp(1, Timestamp.valueOf(availableFrom));
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateAvailableEnd(int idAcc, LocalDateTime availableEnd) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET availableEnd = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setTimestamp(1, Timestamp.valueOf(availableEnd));
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }
     }
 
     public void updateDescription(int idAcc, String description) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET description = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setString(1, description);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateFreewifi(int idAcc, boolean freewifi) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET freewifi = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, freewifi);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateHaveSmokingArea(int idAcc, boolean haveSmokingArea) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET smokingArea = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, haveSmokingArea);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateHaveParking(int idAcc, boolean haveParking) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET parking = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, haveParking);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateCoffeMachine(int idAcc, boolean coffeMachine) {
+        PreparedStatement stmt = null;
+        try{
+            String query="UPDATE accommodations SET coffeMachine = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, coffeMachine);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateRoomService(int idAcc, boolean roomService) {
+        PreparedStatement stmt = null;
+        try{
+            String query = "UPDATE accommodations SET roomService = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, roomService);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateCleaningService(int idAcc, boolean cleaningService) {
+        PreparedStatement stmt = null;
+        try {
+            String query = "UPDATE accommodations SET cleaningService = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, cleaningService);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateHaveSpa(int idAcc, boolean haveSpa) {
+        PreparedStatement stmt = null;
+        try{
+            String query = "UPDATE accommodations SET haveSpa = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, haveSpa);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateGoodForKids(int idAcc, boolean goodForKids) {
+        PreparedStatement stmt = null;
+        try{
+            String query= "UPDATE accommodations SET goodForKids = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, goodForKids);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateNumberOfRoom(int idAcc, int numberOfRoom) {
+        PreparedStatement stmt = null;
+        try {
+            String query="UPDATE accommodations SET numberOfRoom = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, numberOfRoom);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+          DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateWelcomeAnimal(int idAcc, boolean welcomeAnimal) {
+        PreparedStatement stmt = null;
+        try {
+            String query="UPDATE accommodations SET welcomeAnimal = ? WHERE id = ?";
+            stmt = connection.prepareStatement(query);
+            stmt.setBoolean(1, welcomeAnimal);
+            stmt.setInt(2, idAcc);
+            stmt.executeUpdate();
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 
     public void updateMaxNumberOfPeople(int idAcc, int maxNumberOfPeople) {
+        PreparedStatement stmt = null;
+        try{
+           String query="UPDATE accommodations SET maxNumberOfPeople = ? WHERE id = ?";
+           stmt = connection.prepareStatement(query);
+           stmt.setInt(1, maxNumberOfPeople);
+           stmt.setInt(2, idAcc);
+           stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
     }
 }

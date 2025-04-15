@@ -164,7 +164,7 @@ public class AdminController {
 
     public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation){
         ReviewDAO reviewDAO = new ReviewDAO();
-        return reviewDAO.getReviewByAccomodation(accommodation);
+        return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
     public Accommodation getAccomodationById(int id){
@@ -175,13 +175,6 @@ public class AdminController {
     public void exit(){
         isLoggedIn = false;
     }
-
-    //fixme non so se tenerla è praticamente inutile e difficile da implementare (richiesta Lore)
-//    public void updatePassword(String newPassword) throws SQLException, ClassNotFoundException {
-//        String emailAdmin="admin@gmail.com";
-//        UserDAO userDAO = new UserDAO();
-//        userDAO.updatePassword(emailAdmin, newPassword, isLoggedIn);
-//    }
 
     public boolean loginAdmin(String password) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
