@@ -3,7 +3,7 @@ package DomainModel;
 import java.time.LocalDateTime;
 
 public final class SearchParametersBuilder {
-    private String place;
+    private final String place;
     private LocalDateTime dateOfCheckIn;
     private LocalDateTime dateOfCheckOut;
     private int howMuchRooms;

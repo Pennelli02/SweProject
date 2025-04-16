@@ -15,7 +15,11 @@ public class ReviewDAO {
     private Connection connection;
 
     public ReviewDAO() {
-        this.connection=DatabaseConnection.getInstance().getConnection();
+        try {
+            this.connection=DatabaseConnection.getInstance().getConnection();
+        }catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     // esempio di jdbc
@@ -24,11 +28,11 @@ public class ReviewDAO {
         ArrayList<Review> reviews = new ArrayList<>();
         //test utilizzando l'email dell'utente come elemento unico
         // Query SQL per selezionare tutte le recensioni associate all'email dell'utente
-        String sql = "SELECT * FROM reviews WHERE user_email = ?";
+        String sql = "SELECT * FROM reviews WHERE userId = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Sostituisce il placeholder '?' con l'email dell'utente
-            stmt.setString(1, user.getEmail());
+            stmt.setInt(1, user.getId());
 
             // Esegue la query e ottiene il risultato sotto forma di ResultSet
             ResultSet rs = stmt.executeQuery();
@@ -37,7 +41,7 @@ public class ReviewDAO {
             while (rs.next()) {
                 // Recupera i dati della recensione dalla riga corrente
                 int id = rs.getInt("id");
-                String content = rs.getString("content");
+                String content = rs.getString("commenttext");
                 int accommodationID = rs.getInt("accommodationID");
                 int rating = rs.getInt("rating");
 
@@ -58,7 +62,7 @@ public class ReviewDAO {
             }
         } catch (SQLException e) {
             // Stampa l'errore SQL nel caso si verifichi un'eccezione
-            e.printStackTrace();
+            DBUtils.printSQLException(e);
         }
 
         // Restituisce la lista di recensioni trovate
@@ -72,38 +76,42 @@ public class ReviewDAO {
             stmt.setInt(1, reviewID);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            DBUtils.printSQLException(e);
         }
     }
     ///  rating di accommodation si attiva grazie a un trigger
     // utile tener conto di quando è stata pubblicata?
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
+       PreparedStatement stmt = null;
         try {
             String sql = "INSERT INTO reviews VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getEmail());
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, user.getId());
             stmt.setString(2, accommodation.getName());
             stmt.setString(3, content);
             stmt.setInt(4, rating.getNumericValue());
             stmt.executeUpdate();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
     }
 
-    public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation) {
+    public ArrayList<Review> getReviewByAccommodation(Accommodation accommodation) {
         ArrayList<Review> reviews = new ArrayList<>();
+        PreparedStatement stmt = null;
         try {
-            String sql = "SELECT * FROM reviews WHERE accommodationID = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            String sql = "SELECT * FROM reviews WHERE accommodationId = ?";
+            stmt = connection.prepareStatement(sql);
             stmt.setInt(1, accommodation.getId());
             ResultSet rs = stmt.executeQuery();
             UserDAO userDAO = new UserDAO();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String content = rs.getString("content");
-                int authorID = rs.getInt("authorID");
+                String content = rs.getString("commenttext");
+                int authorID = rs.getInt("userId");
                 RegisterUser author=userDAO.getUserById(authorID);
                 int rating = rs.getInt("rating");
                 AccommodationRating accRating = AccommodationRating.OneStar;
@@ -116,8 +124,12 @@ public class ReviewDAO {
                 Review review= new Review(id, author, accommodation, content, accRating);
                 reviews.add(review);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+           DBUtils.printSQLException(e);
+        }catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }finally {
+            DBUtils.closeQuietly(stmt);
         }
         return reviews;
     }

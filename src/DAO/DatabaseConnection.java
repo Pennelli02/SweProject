@@ -16,9 +16,9 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             // Parametri di connessione (da personalizzare)
-            String DB_URL = "jdbc:postgresql://localhost:5432/nome_database";
-            String DB_USER = "username";
-            String DB_PASSWORD = "password";
+            String DB_URL = "jdbc:postgresql://localhost:5432/ApartamentDB";
+            String DB_USER = "postgres";
+            String DB_PASSWORD = "postgres";
 
             // Carica il driver JDBC
             Class.forName("org.postgresql.Driver");

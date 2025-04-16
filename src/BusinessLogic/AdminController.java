@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class AdminController {
     private boolean isLoggedIn;
+    private String adminEmail=null;
 
     public AdminController() {
         isLoggedIn = false;
@@ -23,110 +24,11 @@ public class AdminController {
         accommodationDAO.deleteAccommodation(idAccomodation);
     }
 
-    //TODO scegliere quale soluzione tenere in considerazione (richiesta a Lore)
-    //TODO da implementare tale funzione uso il dirty Flag
+
     public void updateAccommodation(Accommodation accommodation){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         accommodationDAO.updateAccommodationDirty(accommodation);
         accommodation.clearModifiedFields();
-    }
-    //TODO da implementare tale funzione seguendo la logica del UML
-    public void updateAccommodation(Accommodation accommodation,  String newName, String newAddress, String place, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, boolean freewifi, boolean haveSmokingArea,boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxNumberOfPeople) throws SQLException {
-        AccommodationDAO accommodationDAO = new AccommodationDAO();
-        int idAcc=accommodation.getId();
-        if (!Objects.equals(accommodation.getName(), newName)){
-            accommodationDAO.updateName(idAcc,newName);
-            accommodation.setName(newName);
-        }
-        if (!Objects.equals(accommodation.getAddress(), newAddress)) {
-            accommodationDAO.updateAddress(idAcc, newAddress);
-            accommodation.setAddress(newAddress);
-        }
-
-        if (!Objects.equals(accommodation.getPlace(), place)) {
-            accommodationDAO.updatePlace(idAcc, place);
-            accommodation.setPlace(place);
-        }
-
-        if (!Objects.equals(accommodation.getType(), type)) {
-            accommodationDAO.updateType(idAcc, type);
-            accommodation.setType(type);
-        }
-
-        if (accommodation.getRatePrice() != ratePrice) {
-            accommodationDAO.updateRatePrice(idAcc, ratePrice);
-            accommodation.setRatePrice(ratePrice);
-        }
-
-        if (!Objects.equals(accommodation.getAvailableFrom(), availableFrom)) {
-            accommodationDAO.updateAvailableFrom(idAcc, availableFrom);
-            accommodation.setAvailableFrom(availableFrom);
-        }
-
-        if (!Objects.equals(accommodation.getAvailableEnd(), availableEnd)) {
-            accommodationDAO.updateAvailableEnd(idAcc, availableEnd);
-            accommodation.setAvailableEnd(availableEnd);
-        }
-
-        if (!Objects.equals(accommodation.getDescription(), description)) {
-            accommodationDAO.updateDescription(idAcc, description);
-            accommodation.setDescription(description);
-        }
-
-        if (accommodation.isFreewifi() != freewifi) {
-            accommodationDAO.updateFreewifi(idAcc, freewifi);
-            accommodation.setFreewifi(freewifi);
-        }
-
-        if (accommodation.isHaveSmokingArea() != haveSmokingArea) {
-            accommodationDAO.updateHaveSmokingArea(idAcc, haveSmokingArea);
-            accommodation.setHaveSmokingArea(haveSmokingArea);
-        }
-
-        if (accommodation.isHaveParking() != haveParking) {
-            accommodationDAO.updateHaveParking(idAcc, haveParking);
-            accommodation.setHaveParking(haveParking);
-        }
-
-        if (accommodation.isCoffeMachine() != coffeMachine) {
-            accommodationDAO.updateCoffeMachine(idAcc, coffeMachine);
-            accommodation.setCoffeMachine(coffeMachine);
-        }
-
-        if (accommodation.isRoomService() != roomService) {
-            accommodationDAO.updateRoomService(idAcc, roomService);
-            accommodation.setRoomService(roomService);
-        }
-
-        if (accommodation.isCleaningService() != cleaningService) {
-            accommodationDAO.updateCleaningService(idAcc, cleaningService);
-            accommodation.setCleaningService(cleaningService);
-        }
-
-        if (accommodation.isHaveSpa() != haveSpa) {
-            accommodationDAO.updateHaveSpa(idAcc, haveSpa);
-            accommodation.setHaveSpa(haveSpa);
-        }
-
-        if (accommodation.isGoodForKids() != goodForKids) {
-            accommodationDAO.updateGoodForKids(idAcc, goodForKids);
-            accommodation.setGoodForKids(goodForKids);
-        }
-
-        if (accommodation.getNumberOfRoom() != numberOfRoom) {
-            accommodationDAO.updateNumberOfRoom(idAcc, numberOfRoom);
-            accommodation.setNumberOfRoom(numberOfRoom);
-        }
-
-        if (accommodation.isWelcomeAnimal() != welcomeAnimal) {
-            accommodationDAO.updateWelcomeAnimal(idAcc, welcomeAnimal);
-            accommodation.setWelcomeAnimal(welcomeAnimal);
-        }
-
-        if (accommodation.getMaxNumberOfPeople() != maxNumberOfPeople) {
-            accommodationDAO.updateMaxNumberOfPeople(idAcc, maxNumberOfPeople);
-            accommodation.setMaxNumberOfPeople(maxNumberOfPeople);
-        }
     }
 
  // teniamo conto che se la disponibilità è uguale a zero allora darà errore inoltre quando creo un accommodation di default avrà una stella
@@ -164,7 +66,7 @@ public class AdminController {
 
     public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation){
         ReviewDAO reviewDAO = new ReviewDAO();
-        return reviewDAO.getReviewByAccomodation(accommodation);
+        return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
     public Accommodation getAccomodationById(int id){
@@ -176,16 +78,15 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    //fixme non so se tenerla è praticamente inutile e difficile da implementare (richiesta Lore)
-//    public void updatePassword(String newPassword) throws SQLException, ClassNotFoundException {
-//        String emailAdmin="admin@gmail.com";
-//        UserDAO userDAO = new UserDAO();
-//        userDAO.updatePassword(emailAdmin, newPassword, isLoggedIn);
-//    }
-
     public boolean loginAdmin(String password) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        isLoggedIn = userDAO.getAdminByPassword(password);
+        adminEmail = userDAO.getAdminByPassword(password);
+        isLoggedIn = adminEmail != null;
         return isLoggedIn;
+    }
+
+    public void changePassword(String newPassword) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateAdminPassword(adminEmail, newPassword);
     }
 }

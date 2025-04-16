@@ -15,39 +15,50 @@ public class PreferenceDAO {
     private Connection connection;
 
     public PreferenceDAO() {
-        this.connection = DatabaseConnection.getInstance().getConnection();
+        try{
+            this.connection = DatabaseConnection.getInstance().getConnection();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public void unSave(int userID, int AccommodationID) {
+        PreparedStatement preparedStatement = null;
         try {
-            String query = "DELETE FROM preferences WHERE userID = ? AND accommodationID = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            String query = "DELETE FROM preferences WHERE userId = ? AND accommodationId = ?";
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, AccommodationID);
             preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+           DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
     public void save(int Userid, int accommodationID) {
+        PreparedStatement preparedStatement = null;
         try {
             String query = "INSERT INTO favourites VALUES(?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, Userid);
             preparedStatement.setInt(2, accommodationID);
             preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
     // FIXME gestire i casi che siano nulli
     public ArrayList<Accommodation> getFavouritesByUser(int id) {
         ArrayList<Accommodation> favourites = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
         try {
             String query = "SELECT * FROM Accommodation JOIN Favourites on Accommodation.id = Favourites.id WHERE user_id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -109,9 +120,12 @@ public class PreferenceDAO {
 
                 favourites.add(accommodation);
             }
-            return favourites;
-        } catch (RuntimeException | SQLException e) {
-            throw new RuntimeException(e);
+
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
+        return favourites;
     }
 }

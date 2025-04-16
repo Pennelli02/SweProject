@@ -11,31 +11,36 @@ import java.util.List;
 public class AccommodationDAO {
     private Connection connection;
     public AccommodationDAO() {
-        this.connection=DatabaseConnection.getInstance().getConnection();
+        try {
+            this.connection = DatabaseConnection.getInstance().getConnection();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     // manca la gestione dei casi in cui sono nulli
     public Accommodation getAccommodationByID(int accommodationID) {
+        PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT * FROM accommodation WHERE accommodationID = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            String query = "SELECT * FROM accommodation WHERE accommodationId = ?";
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accommodationID);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
                 Accommodation accommodation = new Accommodation();
                 // Set degli attributi base
-                accommodation.setId(resultSet.getInt("id")); // O accommodationID se diverso
+                accommodation.setId(resultSet.getInt("id"));
                 accommodation.setName(resultSet.getString("name"));
                 accommodation.setDescription(resultSet.getString("description"));
                 accommodation.setPlace(resultSet.getString("place"));
                 accommodation.setAddress(resultSet.getString("address"));
                 accommodation.setDisponibility(resultSet.getInt("disponibility"));
-                accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
+                accommodation.setRatePrice(resultSet.getFloat("rateprice")); // Usa getFloat per decimali
 
                 // Date
                 // Get timestamps from ResultSet
-                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
-                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availablefrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableend");
 
                 // Convert to LocalDateTime (handling null values)
                 if (sqlAvailableFrom != null) {
@@ -64,25 +69,26 @@ public class AccommodationDAO {
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
-                accommodation.setHaveSmokingArea(resultSet.getBoolean("haveSmokingArea"));
-                accommodation.setHaveParking(resultSet.getBoolean("haveParking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffeMachine"));
-                accommodation.setRoomService(resultSet.getBoolean("roomService"));
-                accommodation.setCleaningService(resultSet.getBoolean("cleaningService"));
-                accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
-                accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
-                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
-                accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
-                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
+                accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
+                accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setRoomService(resultSet.getBoolean("roomservice"));
+                accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
+                accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
+                accommodation.setGoodForKids(resultSet.getBoolean("goodforkids"));
+                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
+                accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
                 return accommodation;
             }
-        } catch (RuntimeException | SQLException e) {
-            throw new RuntimeException(e);
-
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally{
+            DBUtils.closeQuietly(preparedStatement);
         }
         return null;
     }
-    //TODO gestire la logica di ricerca per parametri
+
     public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM accommodation WHERE disponibility > 0");
@@ -178,9 +184,10 @@ public class AccommodationDAO {
             queryBuilder.append(" ORDER BY a.rating DESC, a.ratePrice ASC");
 
             // Esecuzione query
+        PreparedStatement ps = null;
 
         try {
-          PreparedStatement ps = connection.prepareStatement(queryBuilder.toString());
+          ps = connection.prepareStatement(queryBuilder.toString());
 
           // Imposta tutti i parametri
             for (int i = 0; i < parameters.size(); i++) {
@@ -206,12 +213,12 @@ public class AccommodationDAO {
                 accommodation.setPlace(resultSet.getString("place"));
                 accommodation.setAddress(resultSet.getString("address"));
                 accommodation.setDisponibility(resultSet.getInt("disponibility"));
-                accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
+                accommodation.setRatePrice(resultSet.getFloat("rateprice")); // Usa getFloat per decimali
 
                 // Date
                 // Get timestamps from ResultSet
-                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
-                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availablefrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableend");
 
                 // Convert to LocalDateTime (handling null values)
                 if (sqlAvailableFrom != null) {
@@ -240,29 +247,33 @@ public class AccommodationDAO {
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
-                accommodation.setHaveSmokingArea(resultSet.getBoolean("haveSmokingArea"));
-                accommodation.setHaveParking(resultSet.getBoolean("haveParking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffeMachine"));
-                accommodation.setRoomService(resultSet.getBoolean("roomService"));
-                accommodation.setCleaningService(resultSet.getBoolean("cleaningService"));
-                accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
-                accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
-                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
-                accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
-                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
+                accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
+                accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setRoomService(resultSet.getBoolean("roomservice"));
+                accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
+                accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
+                accommodation.setGoodForKids(resultSet.getBoolean("goodforkids"));
+                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
+                accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
                 accommodations.add(accommodation);
             }
             return accommodations;
-        }catch (Exception e) {
-            throw new RuntimeException(e);
+        }catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
+        return null;
     }
 
     public ArrayList<Accommodation> getAllAccommodation() throws SQLException, ClassNotFoundException {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
         try {
             String query = "SELECT * FROM accommodation";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Accommodation accommodation = new Accommodation();
@@ -273,12 +284,12 @@ public class AccommodationDAO {
                 accommodation.setPlace(resultSet.getString("place"));
                 accommodation.setAddress(resultSet.getString("address"));
                 accommodation.setDisponibility(resultSet.getInt("disponibility"));
-                accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
+                accommodation.setRatePrice(resultSet.getFloat("rateprice")); // Usa getFloat per decimali
 
                 // Date
                 // Get timestamps from ResultSet
-                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
-                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availablefrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableend");
 
                 // Convert to LocalDateTime (handling null values)
                 if (sqlAvailableFrom != null) {
@@ -309,38 +320,43 @@ public class AccommodationDAO {
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
-                accommodation.setHaveSmokingArea(resultSet.getBoolean("haveSmokingArea"));
-                accommodation.setHaveParking(resultSet.getBoolean("haveParking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffeMachine"));
-                accommodation.setRoomService(resultSet.getBoolean("roomService"));
-                accommodation.setCleaningService(resultSet.getBoolean("cleaningService"));
-                accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
-                accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
-                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
+                accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
+                accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setRoomService(resultSet.getBoolean("roomservice"));
+                accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
+                accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
+                accommodation.setGoodForKids(resultSet.getBoolean("goodforkids"));
+                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
 
-                accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
-                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
+                accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
 
                 accommodations.add(accommodation);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
         return accommodations;
     }
 
-    //Fixme problemi con la logica di cancellazione forse si ritorna al trigger? ci penso io  faccio che nelle preference sia cascade e nel booking sia on set null
+    //Fixme ci penso io  faccio che nelle preference sia cascade e nel booking sia on set null
     public void deleteAccommodation(int idAccommodation){
+        PreparedStatement preparedStatement = null;
         try {
             String query = "DELETE FROM accommodation WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             preparedStatement.executeUpdate();
             BookingDAO bookingDAO = new BookingDAO();
             bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
             System.out.println("Accommodation deleted successfully");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
@@ -353,9 +369,10 @@ public class AccommodationDAO {
         if(disponibility<=0){
             throw new RuntimeException("disponibility should be greater than 0");
         }
+        PreparedStatement preparedStatement = null;
         try {
-            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rate_price, available_from, available_end, description, rating, refundable, free_wifi, smoking_area, parking, coffee_machine, room_service, cleaning_service, spa, good_for_kids, number_of_rooms, welcome_animals, maxPeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rateprice, availablefrom, availableend, description, rating, refundable, freewifi, havesmokingarea, parking, coffeemachine, roomservice, cleaningservice, havespa, goodforkids, numberofrooms, welcomeanimals, maxPeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);
             preparedStatement.setString(3, place);
@@ -380,8 +397,10 @@ public class AccommodationDAO {
             preparedStatement.setInt(22, maxNumberOfPeople);
             preparedStatement.execute();
             System.out.println("Accommodation added successfully");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
@@ -397,7 +416,7 @@ public class AccommodationDAO {
             throw new RuntimeException(e);
         }
     }
-// gestione update con dirty flag
+
     public void updateAccommodationDirty(Accommodation accommodation) {
         try {
 
@@ -415,13 +434,13 @@ public class AccommodationDAO {
                 updateField(accommodation.getId(), "type", accommodation.getType().toString());
             }
             if (accommodation.isFieldModified("ratePrice")) {
-                updateField(accommodation.getId(), "ratePrice", accommodation.getRatePrice());
+                updateField(accommodation.getId(), "rateprice", accommodation.getRatePrice());
             }
             if (accommodation.isFieldModified("availableFrom")) {
-                updateField(accommodation.getId(), "availableFrom", accommodation.getAvailableFrom());
+                updateField(accommodation.getId(), "availablefrom", accommodation.getAvailableFrom());
             }
             if (accommodation.isFieldModified("availableEnd")) {
-                updateField(accommodation.getId(), "availableEnd", accommodation.getAvailableEnd());
+                updateField(accommodation.getId(), "availableend", accommodation.getAvailableEnd());
             }
             if (accommodation.isFieldModified("description")) {
                 updateField(accommodation.getId(), "description", accommodation.getDescription());
@@ -430,39 +449,39 @@ public class AccommodationDAO {
                 updateField(accommodation.getId(), "freewifi", accommodation.isFreewifi());
             }
             if (accommodation.isFieldModified("haveSmokingArea")) {
-                updateField(accommodation.getId(), "haveSmokingArea", accommodation.isHaveSmokingArea());
+                updateField(accommodation.getId(), "havesmockingarea", accommodation.isHaveSmokingArea());
             }
             if (accommodation.isFieldModified("haveParking")) {
-                updateField(accommodation.getId(), "haveParking", accommodation.isHaveParking());
+                updateField(accommodation.getId(), "haveparking", accommodation.isHaveParking());
             }
             if (accommodation.isFieldModified("coffeMachine")) {
-                updateField(accommodation.getId(), "coffeMachine", accommodation.isCoffeMachine());
+                updateField(accommodation.getId(), "coffemachine", accommodation.isCoffeMachine());
             }
             if (accommodation.isFieldModified("roomService")) {
-                updateField(accommodation.getId(), "roomService", accommodation.isRoomService());
+                updateField(accommodation.getId(), "roomservice", accommodation.isRoomService());
             }
             if (accommodation.isFieldModified("cleaningService")) {
                 updateField(accommodation.getId(), "cleaningService", accommodation.isCleaningService());
             }
             if (accommodation.isFieldModified("haveSpa")) {
-                updateField(accommodation.getId(), "haveSpa", accommodation.isHaveSpa());
+                updateField(accommodation.getId(), "havespa", accommodation.isHaveSpa());
             }
             if (accommodation.isFieldModified("goodForKids")) {
-                updateField(accommodation.getId(), "goodForKids", accommodation.isGoodForKids());
+                updateField(accommodation.getId(), "goodforkids", accommodation.isGoodForKids());
             }
             if (accommodation.isFieldModified("numberOfRoom")) {
-                updateField(accommodation.getId(), "numberOfRoom", accommodation.getNumberOfRoom());
+                updateField(accommodation.getId(), "numberofroom", accommodation.getNumberOfRoom());
             }
             if (accommodation.isFieldModified("welcomeAnimal")) {
-                updateField(accommodation.getId(), "welcomeAnimal", accommodation.isWelcomeAnimal());
+                updateField(accommodation.getId(), "welcomeanimal", accommodation.isWelcomeAnimal());
             }
             if (accommodation.isFieldModified("maxNumberOfPeople")) {
-                updateField(accommodation.getId(), "maxNumberOfPeople", accommodation.getMaxNumberOfPeople());
+                updateField(accommodation.getId(), "maxpeople", accommodation.getMaxNumberOfPeople());
             }
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
     }
 
@@ -478,111 +497,10 @@ public class AccommodationDAO {
                     }
                     stmt.setInt(2, id);
                     stmt.executeUpdate();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                } catch (SQLException e) {
+                    DBUtils.printSQLException(e);
                 }
             }
 
-    public void updateName(int idAcc, String newName) {
-        try {
-            String query = "UPDATE accommodations SET name = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, newName);
-            stmt.setInt(2, idAcc);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    public void updateAddress(int idAcc, String newAddress) {
-        try {
-            String query = "UPDATE accommodations SET address = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, newAddress);
-            stmt.setInt(2, idAcc);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updatePlace(int idAcc, String place) {
-        try {
-            String query = "UPDATE accommodations SET place = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, place);
-            stmt.setInt(2, idAcc);
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateType(int idAcc, AccommodationType type) {
-        try {
-            String query = "UPDATE accommodations SET type = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, type.toString());
-            stmt.setInt(2, idAcc);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateRatePrice(int idAcc, float ratePrice) {
-        try {
-            String query = "UPDATE accommodations SET ratePrice = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setFloat(1, ratePrice);
-            stmt.setInt(2, idAcc);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateAvailableFrom(int idAcc, LocalDateTime availableFrom) {
-    }
-
-    public void updateAvailableEnd(int idAcc, LocalDateTime availableEnd) {
-    }
-
-    public void updateDescription(int idAcc, String description) {
-    }
-
-    public void updateFreewifi(int idAcc, boolean freewifi) {
-    }
-
-    public void updateHaveSmokingArea(int idAcc, boolean haveSmokingArea) {
-    }
-
-    public void updateHaveParking(int idAcc, boolean haveParking) {
-    }
-
-    public void updateCoffeMachine(int idAcc, boolean coffeMachine) {
-    }
-
-    public void updateRoomService(int idAcc, boolean roomService) {
-    }
-
-    public void updateCleaningService(int idAcc, boolean cleaningService) {
-    }
-
-    public void updateHaveSpa(int idAcc, boolean haveSpa) {
-    }
-
-    public void updateGoodForKids(int idAcc, boolean goodForKids) {
-    }
-
-    public void updateNumberOfRoom(int idAcc, int numberOfRoom) {
-    }
-
-    public void updateWelcomeAnimal(int idAcc, boolean welcomeAnimal) {
-    }
-
-    public void updateMaxNumberOfPeople(int idAcc, int maxNumberOfPeople) {
-    }
 }
