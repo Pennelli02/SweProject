@@ -27,7 +27,7 @@ public class BookingDAO {
         }else{
             PreparedStatement preparedStatement=null;
             try {
-                String query="DELETE FROM bookings WHERE id=?";
+                String query="DELETE FROM booking WHERE id=?";
                 preparedStatement=connection.prepareStatement(query);
                 preparedStatement.setInt(1, bookingID);
                 preparedStatement.executeUpdate();
@@ -68,7 +68,7 @@ public class BookingDAO {
     public void getBookingsFromUser(RegisterUser user) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "SELECT * FROM bookings WHERE userId=?";
+            String query = "SELECT * FROM booking WHERE userId=?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();

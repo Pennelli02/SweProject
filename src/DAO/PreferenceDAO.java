@@ -57,7 +57,7 @@ public class PreferenceDAO {
         ArrayList<Accommodation> favourites = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT * FROM Accommodation JOIN Favourites on Accommodation.id = Favourites.id WHERE user_id=?";
+            String query = "SELECT * FROM Accommodation JOIN Favourites on Accommodation.id = Favourites.accommodationId WHERE Favourites.userId=?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
