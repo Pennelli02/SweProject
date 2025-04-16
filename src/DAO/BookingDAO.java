@@ -27,7 +27,7 @@ public class BookingDAO {
         }else{
             PreparedStatement preparedStatement=null;
             try {
-                String query="DELETE FROM booking WHERE bookingID=?";
+                String query="DELETE FROM bookings WHERE id=?";
                 preparedStatement=connection.prepareStatement(query);
                 preparedStatement.setInt(1, bookingID);
                 preparedStatement.executeUpdate();
@@ -68,7 +68,7 @@ public class BookingDAO {
     public void getBookingsFromUser(RegisterUser user) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "SELECT * FROM bookings WHERE userID=?";
+            String query = "SELECT * FROM bookings WHERE userId=?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,8 +80,8 @@ public class BookingDAO {
 
                 // Date
                 // Get timestamps from ResultSet
-                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("CheckIn");
-                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("CheckOut");
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("checkin");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("checkout");
 
                 // Convert to LocalDateTime (handling null values)
                 if (sqlAvailableFrom != null) {
@@ -92,14 +92,14 @@ public class BookingDAO {
                     booking.setCheckOutDate(sqlAvailableEnd.toLocalDateTime());
                 }
 
-                int accID = resultSet.getInt("accommodationID");
+                int accID = resultSet.getInt("accommodationId");
                 Accommodation accommodation = null;
                 if(!resultSet.wasNull()) { //on delete set NULL
                     AccommodationDAO accommodationDAO = new AccommodationDAO();
                     accommodation = accommodationDAO.getAccommodationByID(accID);
                 }
                 booking.setAccommodation(accommodation);
-                booking.setNumPeople(resultSet.getInt("numPeople"));
+                booking.setNumPeople(resultSet.getInt("numpeople"));
                 booking.setPrice(resultSet.getFloat("price"));
 
                 // Determinare lo stato in base alla data corrente
@@ -125,7 +125,7 @@ public class BookingDAO {
     private void updateBookingState(int bookingId, State newState) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "UPDATE bookings SET state = ? WHERE id = ?";
+            String query = "UPDATE booking SET state = ? WHERE id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, newState.toString());
             preparedStatement.setInt(2, bookingId);
@@ -199,7 +199,7 @@ public class BookingDAO {
     public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "SELECT id, userID, price FROM bookings WHERE accommodationID = ?";
+            String query = "SELECT id, userId, price FROM bookings WHERE accommodationId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             ResultSet resultSet = preparedStatement.executeQuery();

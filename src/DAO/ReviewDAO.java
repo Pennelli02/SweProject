@@ -28,11 +28,11 @@ public class ReviewDAO {
         ArrayList<Review> reviews = new ArrayList<>();
         //test utilizzando l'email dell'utente come elemento unico
         // Query SQL per selezionare tutte le recensioni associate all'email dell'utente
-        String sql = "SELECT * FROM reviews WHERE user_email = ?";
+        String sql = "SELECT * FROM reviews WHERE userId = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Sostituisce il placeholder '?' con l'email dell'utente
-            stmt.setString(1, user.getEmail());
+            stmt.setInt(1, user.getId());
 
             // Esegue la query e ottiene il risultato sotto forma di ResultSet
             ResultSet rs = stmt.executeQuery();
@@ -41,7 +41,7 @@ public class ReviewDAO {
             while (rs.next()) {
                 // Recupera i dati della recensione dalla riga corrente
                 int id = rs.getInt("id");
-                String content = rs.getString("content");
+                String content = rs.getString("commenttext");
                 int accommodationID = rs.getInt("accommodationID");
                 int rating = rs.getInt("rating");
 
@@ -86,7 +86,7 @@ public class ReviewDAO {
         try {
             String sql = "INSERT INTO reviews VALUES(?, ?, ?, ?, ?)";
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user.getEmail());
+            stmt.setInt(1, user.getId());
             stmt.setString(2, accommodation.getName());
             stmt.setString(3, content);
             stmt.setInt(4, rating.getNumericValue());
@@ -103,15 +103,15 @@ public class ReviewDAO {
         ArrayList<Review> reviews = new ArrayList<>();
         PreparedStatement stmt = null;
         try {
-            String sql = "SELECT * FROM reviews WHERE accommodationID = ?";
+            String sql = "SELECT * FROM reviews WHERE accommodationId = ?";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, accommodation.getId());
             ResultSet rs = stmt.executeQuery();
             UserDAO userDAO = new UserDAO();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String content = rs.getString("content");
-                int authorID = rs.getInt("authorID");
+                String content = rs.getString("commenttext");
+                int authorID = rs.getInt("userId");
                 RegisterUser author=userDAO.getUserById(authorID);
                 int rating = rs.getInt("rating");
                 AccommodationRating accRating = AccommodationRating.OneStar;

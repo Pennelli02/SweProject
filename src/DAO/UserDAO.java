@@ -23,13 +23,13 @@ public class UserDAO {
         PreparedStatement passwordPs=null;
         try{
             // Prima verifica se l'email esiste
-            String emailQuery = "SELECT * FROM users WHERE email = ?";
+            String emailQuery = "SELECT * FROM \"users\" WHERE \"email\" = ?";
             emailPs = connection.prepareStatement(emailQuery);
             emailPs.setString(1, email);
             ResultSet emailRs = emailPs.executeQuery();
             if(emailRs.next()){
                 //esiste l'email
-                String passwordQuery = "SELECT * FROM users WHERE email = ? AND password = ?";
+                String passwordQuery = "SELECT * FROM \"users\" WHERE \"email\" = ? AND \"password\" = ?";
                 passwordPs= connection.prepareStatement(passwordQuery);
                 passwordPs.setString(1, email);
                 passwordPs.setString(2, password);
@@ -38,14 +38,14 @@ public class UserDAO {
                     //esiste l'utente
                     // recuperiamo i dati
                     int id = passwordRs.getInt("id");
-                    String name = passwordRs.getString("Name");
-                    String surname = passwordRs.getString("Surname");
-                    String username = passwordRs.getString("Username");
-                    int fidelityPoints = passwordRs.getInt("FidelityPoints");
+                    String name = passwordRs.getString("name");
+                    String surname = passwordRs.getString("surname");
+                    String username = passwordRs.getString("username");
+                    int fidelityPoints = passwordRs.getInt("fidelitypoints");
                     //String mail =passwordRs.getString("Email");
                     //String pass = passwordRs.getString("Password");
                     // gestione enumerazione
-                    String locationString = passwordRs.getString("Location");
+                    String locationString = passwordRs.getString("favouritelocation");
                     Location location;
                     if (locationString == null) {
                         location=Location.Nothing;
@@ -119,7 +119,7 @@ public class UserDAO {
         }
 
         // 3. Inserimento con controllo di unicità a livello DB
-        String query = "INSERT INTO users (email, password_hash, username, name, surname, favourite_location, isAdmin) " +
+        String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation, isAdmin) " +
                 "VALUES (?, ?, ?, ?, ?, ?, FALSE)";
         PreparedStatement ps=null;
         try  {
@@ -247,14 +247,14 @@ public class UserDAO {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String username = rs.getString("Username");
-                int fidelityPoints = rs.getInt("FidelityPoints");
-                String mail =rs.getString("Email");
-                String pass = rs.getString("Password");
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String username = rs.getString("username");
+                int fidelityPoints = rs.getInt("fidelitypoints");
+                String mail =rs.getString("email");
+                String pass = rs.getString("password");
                 // gestione enumerazione
-                String locationString = rs.getString("Location");
+                String locationString = rs.getString("favouritelocation");
                 Location location;
                 if (locationString == null) {
                     location=Location.Nothing;
@@ -416,7 +416,7 @@ public class UserDAO {
 
         PreparedStatement ps=null;
         try {
-            String query = "UPDATE users SET FidelityPoints = ? WHERE id = ?";
+            String query = "UPDATE users SET fidelitypoints = ? WHERE id = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, newFidelityPoints);
             ps.setInt(2, user.getId());
@@ -436,7 +436,7 @@ public class UserDAO {
         // Per resi (amount negativo), la variazione sarà negativa
         return (int)(amount / 30);
     }
-
+// si  suppone che un admin abbia un'email che non può modificare di tipo admin@apt.com
     public void updateAdminPassword(String adminEmail, String newPassword) {
         PreparedStatement ps=null;
         try {
