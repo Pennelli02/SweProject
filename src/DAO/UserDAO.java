@@ -185,7 +185,7 @@ public class UserDAO {
     public String getAdminByPassword(String password) throws SQLException, ClassNotFoundException {
         PreparedStatement ps=null;
         try {
-            String query = "SELECT 1 FROM users WHERE password = ? AND isAdmin = TRUE LIMIT 1 RETURNING email";
+            String query = "SELECT email FROM users WHERE password = ? AND isAdmin = TRUE LIMIT 1";
             ps = connection.prepareStatement(query);
             ps.setString(1, password);
             ResultSet rs = ps.executeQuery();
