@@ -107,7 +107,7 @@ public class UserDAO {
         return null;
     }
 
-    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
+    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) {
         // 1. Validazione input
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email non può essere vuota");
@@ -119,19 +119,19 @@ public class UserDAO {
         }
 
         // 3. Inserimento con controllo di unicità a livello DB
-        String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation, isAdmin) " +
-                "VALUES (?, ?, ?, ?, ?, ?, FALSE)";
+        String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps=null;
         try  {
             ps = connection.prepareStatement(query);
 
 
-            ps.setString(1, email);
-            ps.setString(2, password);
-            ps.setString(3, username);
-            ps.setString(4, name);
-            ps.setString(5, surname);
-            ps.setObject(6, favouriteLocation); // Per tipi complessi come Location
+            ps.setString(1, name);
+            ps.setString(2, surname);
+            ps.setString(3, email);
+            ps.setString(4, username);
+            ps.setString(5, password);
+            ps.setString(6, favouriteLocation.toString()); // Per tipi complessi come Location
             ps.executeUpdate();
 
 
@@ -148,7 +148,7 @@ public class UserDAO {
         }
     }
 
-    public void removeUser(int id) throws SQLException, ClassNotFoundException {
+    public void removeUser(int id) {
         //si suppone che il database agisca on cascade nell'eliminazione
         PreparedStatement ps=null;
         try {
@@ -164,7 +164,7 @@ public class UserDAO {
     }
 
     // per controllare che non ci siano 2 email uguali aggiunta per una doppia sicurezza
-    private boolean checkEmail(String email) throws SQLException, ClassNotFoundException {
+    private boolean checkEmail(String email) {
         String query = "SELECT 1 FROM users WHERE email = ? LIMIT 1";
         PreparedStatement ps=null;
         try {
@@ -182,10 +182,10 @@ public class UserDAO {
         return false;
     }
 
-    public String getAdminByPassword(String password) throws SQLException, ClassNotFoundException {
+    public String getAdminByPassword(String password) {
         PreparedStatement ps=null;
         try {
-            String query = "SELECT 1 FROM users WHERE password = ? AND isAdmin = TRUE LIMIT 1 RETURNING email";
+            String query = "SELECT email FROM users WHERE password = ? AND isAdmin = TRUE LIMIT 1";
             ps = connection.prepareStatement(query);
             ps.setString(1, password);
             ResultSet rs = ps.executeQuery();
@@ -199,27 +199,8 @@ public class UserDAO {
         }
         return null;
     }
-// // suppongo che chi è admin possieda solo un'email di tipo admin@apt? però questo update password rende il tutto più difficile
-//    public void updatePassword(String email, String newPassword, Boolean logged) throws SQLException, ClassNotFoundException {
-//        if (newPassword == null || newPassword.trim().isEmpty()) {
-//            throw new IllegalArgumentException("La password non può essere vuota");
-//        }
-//        if(logged){
-//            try {
-//                String query = "UPDATE users SET password = ? WHERE email = ?";
-//                PreparedStatement ps = connection.prepareStatement(query);
-//                ps.setString(1, newPassword);
-//                ps.setString(2, email);
-//            }catch (Exception e){
-//                throw new RuntimeException(e);
-//            }
-//        }else {
-//            throw new IllegalArgumentException("Non puoi modificare la password");
-//        }
-//
-// }
 
-    public ArrayList<RegisterUser> getAllUsers() throws SQLException, ClassNotFoundException {
+    public ArrayList<RegisterUser> getAllUsers() throws ClassNotFoundException {
         ArrayList<RegisterUser> users = new ArrayList<>();
         PreparedStatement ps=null;
        try {
@@ -382,7 +363,7 @@ public class UserDAO {
         }
     }
 
-    public void updateEmail(int userId, String newEmail) throws SQLException, ClassNotFoundException {
+    public void updateEmail(int userId, String newEmail) {
             if (newEmail == null || newEmail.trim().isEmpty()) {
                 throw new IllegalArgumentException("La nuova email non può essere vuota");
             }
