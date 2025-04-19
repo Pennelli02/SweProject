@@ -11,9 +11,9 @@ public class UserController {
         return userDAO.getUserByEmailPassword(email, password);
     }
 
-    public RegisterUser register(String email, String password, String username, String name, String surname, Location favouriteLocation, Boolean isAdmin) throws SQLException, ClassNotFoundException {
+    public RegisterUser register(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser(email, password, username, name, surname, favouriteLocation, isAdmin); // fornisce errore o comunque un messaggio di avviso se ci sono 2 email uguali...
+        userDAO.addUser(email, password, username, name, surname, favouriteLocation); // fornisce errore o comunque un messaggio di avviso se ci sono 2 email uguali...
         return userDAO.getUserByEmailPassword(email, password);
     }
 
