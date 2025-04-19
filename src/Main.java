@@ -484,6 +484,6 @@ public class Main {
             }
         } while (choice < 1 || choice > 4);
         return uc.register(stringAttributes.get(0), stringAttributes.get(1),
-                stringAttributes.get(2), stringAttributes.get(3), stringAttributes.get(4), favouriteLocations);
+                stringAttributes.get(2), stringAttributes.get(3), stringAttributes.get(4), favouriteLocations, false);
     }
 }

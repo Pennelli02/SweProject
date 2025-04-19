@@ -107,7 +107,8 @@ public class UserDAO {
         return null;
     }
 
-    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation) {
+    public void addUser(String email, String password, String username, String name, String surname, Location favouriteLocation, Boolean isadmin) {
+        int idUser = 0;
         // 1. Validazione input
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email non può essere vuota");
@@ -118,22 +119,37 @@ public class UserDAO {
             throw new IllegalArgumentException("Email già registrata: " + email);
         }
 
+        try {
+            String idQuery = "SELECT MAX(us.id) from users us GROUP BY us.id";
+            PreparedStatement ps2 = null;
+            ps2 = connection.prepareStatement(idQuery);
+            ResultSet rs2 = ps2.executeQuery();
+            if(rs2.next()){
+                idUser = rs2.getInt(1) + 1;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         // 3. Inserimento con controllo di unicità a livello DB
-        String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (id,name, surname, email, username, password, fidelitypoints, favouritelocation, isadmin) " +
+                "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps=null;
         try  {
             ps = connection.prepareStatement(query);
 
-
-            ps.setString(1, name);
-            ps.setString(2, surname);
-            ps.setString(3, email);
-            ps.setString(4, username);
-            ps.setString(5, password);
-            ps.setString(6, favouriteLocation.toString()); // Per tipi complessi come Location
+            ps.setInt(1, idUser);
+            ps.setString(2, name);
+            ps.setString(3, surname);
+            ps.setString(4, email);
+            ps.setString(5, username);
+            ps.setString(6, password);
+            ps.setInt(7,0);
+            ps.setString(8, favouriteLocation.toString()); // Per tipi complessi come Location
+            ps.setBoolean(9, isadmin);
             ps.executeUpdate();
 
+            System.out.println("User " + username + " has been added successfully");
 
         } catch (SQLException e) {
             // 4. Controllo violazione unique constraint
