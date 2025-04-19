@@ -103,12 +103,18 @@ public class Main {
             switch(choice) {
                 case 1:{
                     profileMenu(registerUser);
+                    break;
                 }
                 case 2:{
                     rearchAccommodation();
+                    break;
                 }
                 case 3:{
                     //todo
+                    break;
+                }
+                case 4:{
+                    System.out.println("successful logout.");
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
@@ -315,6 +321,10 @@ public class Main {
                     //todo
                     break;
                 }
+                case 7:{
+                    System.out.println("successful exit.");
+                    break;
+                }
                 default: {
                     System.out.println("Please enter a valid choice");
                     break;
@@ -324,7 +334,6 @@ public class Main {
     }
 
     private static void changePersonalInformation(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
-        Scanner scanner = new Scanner(System.in);
         ProfileUserController profileUserController = new ProfileUserController(registerUser);
         int choice;
         String name = null;
@@ -333,6 +342,7 @@ public class Main {
         String username = null;
         String password = null;
         Location nfl = null;
+        Scanner scanner = new Scanner(System.in);
 
         do{
            System.out.println("What information do you want to change: "
@@ -348,31 +358,37 @@ public class Main {
 
            switch(choice) {
                case 1:{
+                   Scanner sc = new Scanner(System.in);
                    System.out.println("Enter your new Name: ");
-                   name = scanner.nextLine();
+                   name = sc.nextLine();
                    break;
                }
                case 2:{
+                   Scanner sc = new Scanner(System.in);
                    System.out.println("Enter your new Surname: ");
-                   surname = scanner.nextLine();
+                   surname = sc.nextLine();
                    break;
                }
                case 3:{
+                   Scanner sc = new Scanner(System.in);
                    System.out.println("Enter your new Email: ");
-                   email = scanner.nextLine();
+                   email = sc.nextLine();
                    break;
                }
                case 4:{
+                   Scanner sc = new Scanner(System.in);
                    System.out.println("Enter your new Password: ");
-                   password = scanner.nextLine();
+                   password = sc.nextLine();
                    break;
                }
                case 5:{
+                   Scanner sc = new Scanner(System.in);
                    System.out.println("Enter your new UserName: ");
-                   username = scanner.nextLine();
+                   username = sc.nextLine();
                    break;
                }
                case 6:{
+                   Scanner sc = new Scanner(System.in);
                    nfl = Location.Nothing;
                    int choice2;
                    do{
@@ -382,7 +398,7 @@ public class Main {
                                "\n3. ArtCity"
                                + "\n4. Nothing");
 
-                       choice2 = scanner.nextInt();
+                       choice2 = sc.nextInt();
 
                        switch(choice2) {
                            case 1: {
@@ -397,12 +413,15 @@ public class Main {
                                nfl = Location.ArtCity;
                                break;
                            }
-                           default: {
+                           case 4: {
+                               break;
+                           }
+                           default:{
                                System.out.println("Please enter a valid choice");
                                break;
                            }
                        }
-                   }while (choice2!=4);
+                   }while (choice2<1 || choice2>4);
                    break;
                }
 
@@ -455,12 +474,15 @@ public class Main {
                     favouriteLocations = Location.ArtCity;
                     break;
                 }
+                case 4:{
+                    favouriteLocations = Location.Nothing;
+                }
                 default: {
                     System.out.println("Please enter a valid choice");
                     break;
                 }
             }
-        } while (choice != 4);
+        } while (choice < 1 || choice > 4);
         return uc.register(stringAttributes.get(0), stringAttributes.get(1),
                 stringAttributes.get(2), stringAttributes.get(3), stringAttributes.get(4), favouriteLocations);
     }
