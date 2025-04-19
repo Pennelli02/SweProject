@@ -122,7 +122,7 @@ public class UserDAO {
         PreparedStatement ps2 = null;
 
         // 3. Inserimento con controllo di unicità a livello DB
-        String query = "INSERT INTO users (idUser,name, surname, email, username, password, 0, favouritelocation) " +
+        String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps=null;
         try  {
@@ -136,6 +136,8 @@ public class UserDAO {
             ps.setString(5, password);
             ps.setString(6, favouriteLocation.toString()); // Per tipi complessi come Location
             ps.executeUpdate();
+
+            System.out.println("User " + username + " has been added to the database successfully");
 
 
         } catch (SQLException e) {
