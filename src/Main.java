@@ -108,7 +108,7 @@ public class Main {
                     break;
                 }
                 case 3:{
-                    operationSearchedAccomodations(accommodations);
+                    operationSearchedAccommodations(accommodations);
                     break;
                 }
                 case 4:{
@@ -122,7 +122,7 @@ public class Main {
         }while(choice != 4);
     }
 
-    private static void operationSearchedAccomodations(ArrayList<Accommodation> accommodations) {
+    private static void operationSearchedAccommodations(ArrayList<Accommodation> accommodations) {
 
     }
 
