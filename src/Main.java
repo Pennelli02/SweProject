@@ -5,6 +5,7 @@ import BusinessLogic.UserController;
 import DomainModel.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -105,6 +106,9 @@ public class Main {
                 }
                 case 2:{
                     accommodations = rearchAccommodation(registerUser);
+                    for (Accommodation accommodation : accommodations) {
+                        System.out.println(accommodation);
+                    }
                     break;
                 }
                 case 3:{
@@ -129,7 +133,6 @@ public class Main {
     private static ArrayList<Accommodation> rearchAccommodation(RegisterUser registerUser){
         Scanner scanner = new Scanner(System.in);
         Object [] filter = setFilterArray();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         boolean dativalidi = false;
         int choice;
         ResearchController rc = new ResearchController(registerUser);
@@ -169,10 +172,12 @@ public class Main {
                     }
                     case 2:{
                         System.out.println("Enter the check-in in the format 'yyyy-MM-dd':");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         Scanner sc2 = new Scanner(System.in);
                         String input = sc2.nextLine();
                         try {
-                            filter[1] = LocalDateTime.parse(input, formatter);
+                            LocalDate localDate = LocalDate.parse(input, formatter);
+                            filter[1] = localDate.atStartOfDay(); // Imposta l'ora a mezzanotte
                         } catch (Exception e) {
                             System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
                         }
@@ -180,10 +185,12 @@ public class Main {
                     }
                     case 3:{
                         System.out.println("Enter the check-out in the format 'yyyy-MM-dd':");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         Scanner sc2 = new Scanner(System.in);
                         String input = sc2.nextLine();
                         try {
-                            filter[2] = LocalDateTime.parse(input, formatter);
+                            LocalDate localDate = LocalDate.parse(input, formatter);
+                            filter[2] = localDate.atStartOfDay(); // Imposta l'ora a mezzanotte
                         } catch (Exception e) {
                             System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
                         }
@@ -390,7 +397,7 @@ public class Main {
         }while(!dativalidi);
         SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0]).setDateOfCheckIn((LocalDateTime) filter[1])
                 .setDateOfCheckOut((LocalDateTime) filter[2]).setHowMuchRooms((int) filter[3]).setHowMuchPeople((int) filter[4])
-                .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice((float) filter[7])
+                .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((Double)filter[7]).floatValue())
                 .setMinRatingStars((AccommodationRating) filter[8]).setSpecificRatingStars((AccommodationRating) filter[9])
                 .setRefundable((boolean) filter[10]).setHaveFreeWifi((boolean) filter[11]).setCanISmoke((boolean) filter[12])
                 .setHaveParking((boolean) filter[13]).setHaveCoffeeMachine((boolean) filter[14]).setHaveRoomService((boolean) filter[15])
@@ -405,8 +412,10 @@ public class Main {
         for (int i = 0; i < array.length; i++) {
             if(i < 3){
                 array[i] = null;
-            }else if(i == 3 || i==4 || i==7){
+            }else if(i == 3 || i==4) {
                 array[i] = 0;
+            }else if(i == 7){
+                array[i]=0.0;
             }else if(i == 5 || i==8 || i==9){
                 array[i] = null;
             }else{
