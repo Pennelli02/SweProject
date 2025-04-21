@@ -107,7 +107,7 @@ public class Main {
                 case 2:{
                     accommodations = rearchAccommodation(registerUser);
                     for (Accommodation accommodation : accommodations) {
-                        System.out.println(accommodation);
+                        System.out.println(accommodation.toString());
                     }
                     break;
                 }
@@ -171,28 +171,40 @@ public class Main {
                         break;
                     }
                     case 2:{
-                        System.out.println("Enter the check-in in the format 'yyyy-MM-dd':");
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         Scanner sc2 = new Scanner(System.in);
-                        String input = sc2.nextLine();
+                        System.out.println("Enter the check-in in the format 'yyyy-MM-dd':");
+                        System.out.print("Inserisci l'anno (es. 2025): ");
+                        int anno = sc2.nextInt();
+                        System.out.print("Inserisci il mese (1-12): ");
+                        int mese = sc2.nextInt();
+                        System.out.print("Inserisci il giorno (1-31): ");
+                        int giorno = sc2.nextInt();
+
+                        // Creazione della data locale con ora impostata alle 00:00:00
                         try {
-                            LocalDate localDate = LocalDate.parse(input, formatter);
-                            filter[1] = localDate.atStartOfDay(); // Imposta l'ora a mezzanotte
+                            LocalDateTime dateTime = LocalDateTime.of(anno, mese, giorno, 0, 0, 0);
+                            filter[1] = dateTime;
                         } catch (Exception e) {
-                            System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
+                            System.out.println("Error: date not valid");
                         }
                         break;
                     }
                     case 3:{
-                        System.out.println("Enter the check-out in the format 'yyyy-MM-dd':");
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         Scanner sc2 = new Scanner(System.in);
-                        String input = sc2.nextLine();
+                        System.out.println("Enter the check-out in the format 'yyyy-MM-dd':");
+                        System.out.print("Inserisci l'anno (es. 2025): ");
+                        int anno = sc2.nextInt();
+                        System.out.print("Inserisci il mese (1-12): ");
+                        int mese = sc2.nextInt();
+                        System.out.print("Inserisci il giorno (1-31): ");
+                        int giorno = sc2.nextInt();
+
+                        // Creazione della data locale con ora impostata alle 00:00:00
                         try {
-                            LocalDate localDate = LocalDate.parse(input, formatter);
-                            filter[2] = localDate.atStartOfDay(); // Imposta l'ora a mezzanotte
+                            LocalDateTime dateTime = LocalDateTime.of(anno, mese, giorno, 0, 0, 0);
+                            filter[2] = dateTime;
                         } catch (Exception e) {
-                            System.out.println("Error: the format is not correct. Try again with the format 'yyyy-MM-dd'.");
+                            System.out.println("Error: date not valid");
                         }
                         break;
                     }
@@ -397,13 +409,12 @@ public class Main {
         }while(!dativalidi);
         SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0]).setDateOfCheckIn((LocalDateTime) filter[1])
                 .setDateOfCheckOut((LocalDateTime) filter[2]).setHowMuchRooms((int) filter[3]).setHowMuchPeople((int) filter[4])
-                .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((Double)filter[7]).floatValue())
+                .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((float)filter[7]))
                 .setMinRatingStars((AccommodationRating) filter[8]).setSpecificRatingStars((AccommodationRating) filter[9])
                 .setRefundable((boolean) filter[10]).setHaveFreeWifi((boolean) filter[11]).setCanISmoke((boolean) filter[12])
                 .setHaveParking((boolean) filter[13]).setHaveCoffeeMachine((boolean) filter[14]).setHaveRoomService((boolean) filter[15])
                 .setHaveCleaningService((boolean) filter[16]).setHaveSpa((boolean) filter[17]).setGoodForKids((boolean) filter[18])
                 .setCanHaveAnimal((boolean) filter[19]).build();
-
         return rc.doResearch(sp);
     }
 
@@ -415,7 +426,7 @@ public class Main {
             }else if(i == 3 || i==4) {
                 array[i] = 0;
             }else if(i == 7){
-                array[i]=0.0;
+                array[i]=0.0f;
             }else if(i == 5 || i==8 || i==9){
                 array[i] = null;
             }else{

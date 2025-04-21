@@ -296,4 +296,34 @@ public class Accommodation {
     public void clearModifiedFields() {
         modifiedFields.clear();
     }
+
+    @Override
+    public String toString() {
+        return "Accommodation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", place='" + place + '\'' +
+                ", disponibility=" + disponibility +
+                ", type=" + type +
+                ", ratePrice=" + ratePrice +
+                ", availableFrom=" + availableFrom +
+                ", availableEnd=" + availableEnd +
+                ", description='" + description + '\'' +
+                ", rating=" + rating +
+                ", refundable=" + refundable +
+                ", freewifi=" + freewifi +
+                ", haveSmokingArea=" + haveSmokingArea +
+                ", haveParking=" + haveParking +
+                ", coffeMachine=" + coffeMachine +
+                ", roomService=" + roomService +
+                ", cleaningService=" + cleaningService +
+                ", haveSpa=" + haveSpa +
+                ", goodForKids=" + goodForKids +
+                ", numberOfRoom=" + numberOfRoom +
+                ", welcomeAnimal=" + welcomeAnimal +
+                ", maxNumberOfPeople=" + maxNumberOfPeople +
+                ", modifiedFields=" + modifiedFields +
+                '}';
+    }
 }

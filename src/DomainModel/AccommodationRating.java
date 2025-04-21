@@ -13,6 +13,28 @@ public enum AccommodationRating {
         this.numericValue = numericValue;
     }
 
+    public static String convert(int rating) {
+        switch (rating){
+            case 1:{
+                return "OneStar";
+            }
+            case 2:{
+                return "TwoStar";
+            }
+            case 3:{
+                return "ThreeStar";
+            }
+            case 4:{
+                return "FourStar";
+            }
+            case 5:{
+                return "FiveStar";
+            }
+            default:
+                return "OneStar";
+        }
+    }
+
     public int getNumericValue() {
         return numericValue;
     }
