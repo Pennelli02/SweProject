@@ -62,16 +62,16 @@ public class AccommodationDAO {
                 }
                 accommodation.setRating(rating);
 
-                accommodation.setRating(AccommodationRating.valueOf(
-                        resultSet.getString("rating")
-                ));
+                String app = AccommodationRating.convert(Integer.parseInt(resultSet.getString("rating")));
+
+                accommodation.setRating(AccommodationRating.valueOf(app));
 
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
                 accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
                 accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffeemachine"));
                 accommodation.setRoomService(resultSet.getBoolean("roomservice"));
                 accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
                 accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
@@ -91,7 +91,7 @@ public class AccommodationDAO {
 
     public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
-        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM accommodation WHERE disponibility > 0");
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM accommodation a WHERE disponibility > 0");
 
             // Lista parametri per PreparedStatement
             List<Object> parameters = new ArrayList<>();
@@ -157,7 +157,7 @@ public class AccommodationDAO {
             }
 
             if (searchParameters.isHaveCoffeeMachine()) {
-                queryBuilder.append(" AND a.coffeMachine = TRUE");
+                queryBuilder.append(" AND a.coffeeMachine = TRUE");
             }
 
             if (searchParameters.isHaveRoomService()) {
@@ -246,7 +246,7 @@ public class AccommodationDAO {
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
                 accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
                 accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffeemachine"));
                 accommodation.setRoomService(resultSet.getBoolean("roomservice"));
                 accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
                 accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
@@ -319,7 +319,7 @@ public class AccommodationDAO {
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
                 accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
                 accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffemachine"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffeemachine"));
                 accommodation.setRoomService(resultSet.getBoolean("roomservice"));
                 accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
                 accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
