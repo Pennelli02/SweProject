@@ -3,7 +3,6 @@ package DAO;
 import DomainModel.Accommodation;
 import DomainModel.AccommodationRating;
 import DomainModel.AccommodationType;
-import DomainModel.RegisterUser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

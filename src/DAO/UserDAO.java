@@ -118,8 +118,6 @@ public class UserDAO {
             throw new IllegalArgumentException("Email già registrata: " + email);
         }
 
-        String pswdQuery = "SELECT MAX(us.id) from users us GROUP BY us.id";
-        PreparedStatement ps2 = null;
 
         // 3. Inserimento con controllo di unicità a livello DB
         String query = "INSERT INTO users (name, surname, email, username, password, favouritelocation) " +

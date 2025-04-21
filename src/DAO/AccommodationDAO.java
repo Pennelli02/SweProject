@@ -265,7 +265,7 @@ public class AccommodationDAO {
         return null;
     }
 
-    public ArrayList<Accommodation> getAllAccommodation() throws SQLException, ClassNotFoundException {
+    public ArrayList<Accommodation> getAllAccommodation() {
         ArrayList<Accommodation> accommodations = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
@@ -486,7 +486,7 @@ public class AccommodationDAO {
     }
 
         // Esegue un singolo update (riutilizzabile) dirty flag
-            private void updateField(int id, String field, Object value) throws SQLException {
+            private void updateField(int id, String field, Object value){
                 String sql = "UPDATE accommodations SET " + field + " = ? WHERE id = ?";
                 try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                     // Gestione speciale per LocalDateTime
