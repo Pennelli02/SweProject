@@ -240,9 +240,6 @@ public class AccommodationDAO {
                 }
                 accommodation.setRating(rating);
 
-                accommodation.setRating(AccommodationRating.valueOf(
-                        resultSet.getString("rating")
-                ));
 
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
@@ -405,15 +402,18 @@ public class AccommodationDAO {
     }
 
     public void updateAccommodationDisponibility(int accommodationID, int statusDisponibility) {
+        PreparedStatement preparedStatement=null;
         try {
             String query = "UPDATE accommodation SET disponibility = ? WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, statusDisponibility);
             preparedStatement.setInt(2, accommodationID);
             preparedStatement.executeUpdate();
             System.out.println("Accommodation updated successfully");
-        }catch (Exception e){
-            throw new RuntimeException(e);
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(preparedStatement);
         }
     }
 
