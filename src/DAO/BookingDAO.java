@@ -23,7 +23,7 @@ public class BookingDAO {
 
     public void removeBooking(int bookingID, State stateBooking) {
         if(stateBooking==State.Booking_Confirmed|| stateBooking==State.Checking_In){
-            throw new RuntimeException("You can't remove booking from confirmed booking or in state of checking, you have to remove first");
+            throw new RuntimeException("You can't delete booking from confirmed booking or in state of checking, you have to remove first");
         }else{
             PreparedStatement preparedStatement=null;
             try {
@@ -34,6 +34,8 @@ public class BookingDAO {
                 System.out.println("Booking removed successfully");
             } catch (SQLException e) {
                 DBUtils.printSQLException(e);
+            }finally {
+                DBUtils.closeQuietly(preparedStatement);
             }
         }
     }
