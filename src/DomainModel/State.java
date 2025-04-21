@@ -6,5 +6,5 @@ public enum State {
     Checking_Out,
     Cancelled,
     Booking_Refunded,
-    Accommodation_Cancelled, //FixMe non so se tenerlo
+    Accommodation_Cancelled,
 }

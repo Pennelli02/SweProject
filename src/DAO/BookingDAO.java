@@ -23,7 +23,7 @@ public class BookingDAO {
 
     public void removeBooking(int bookingID, State stateBooking) {
         if(stateBooking==State.Booking_Confirmed|| stateBooking==State.Checking_In){
-            throw new RuntimeException("You can't remove booking from confirmed booking or in state of checking, you have to remove first");
+            throw new RuntimeException("You can't delete booking from confirmed booking or in state of checking, you have to remove first");
         }else{
             PreparedStatement preparedStatement=null;
             try {
@@ -34,6 +34,8 @@ public class BookingDAO {
                 System.out.println("Booking removed successfully");
             } catch (SQLException e) {
                 DBUtils.printSQLException(e);
+            }finally {
+                DBUtils.closeQuietly(preparedStatement);
             }
         }
     }
@@ -123,15 +125,17 @@ public class BookingDAO {
     }
 
     private void updateBookingState(int bookingId, State newState) {
-        PreparedStatement preparedStatement=null;
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE booking SET state = ? WHERE id = ?";
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, newState.toString());
-            preparedStatement.setInt(2, bookingId);
-            preparedStatement.executeUpdate();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, newState.toString());
+            ps.setInt(2, bookingId);
+            ps.executeUpdate();
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
         }
     }
 
@@ -213,21 +217,4 @@ public class BookingDAO {
         }
     }
 
-   /* public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
-        UserDAO userDAO = new UserDAO();
-        try {
-            String query = "SELECT Id, userID, price FROM bookings WHERE accommodationID = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idAccommodation);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                updateBookingState(resultSet.getInt("id"), State.Accommodation_Cancelled);
-                userDAO.updateFidPoints(userDAO.getUserById(resultSet.getInt("userID")), -resultSet.getInt("price"));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }*/
 }
