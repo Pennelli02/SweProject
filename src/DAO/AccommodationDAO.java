@@ -62,9 +62,20 @@ public class AccommodationDAO {
                 }
                 accommodation.setRating(rating);
 
-                String app = AccommodationRating.convert(Integer.parseInt(resultSet.getString("rating")));
+                // Gestione del tipo di alloggio (enum)
+                String typeString = resultSet.getString("type");
+                if (typeString != null) {
+                    try {
+                        AccommodationType type = AccommodationType.fromString(typeString);
+                        accommodation.setType(type);
+                    } catch (IllegalArgumentException ex) {
+                        System.err.println("Tipo di alloggio non riconosciuto: " + typeString);
+                    }
+                }
 
-                accommodation.setRating(AccommodationRating.valueOf(app));
+//                String app = AccommodationRating.convert(Integer.parseInt(resultSet.getString("rating")));
+//
+//                accommodation.setRating(AccommodationRating.valueOf(app));
 
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
@@ -79,6 +90,7 @@ public class AccommodationDAO {
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
                 accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
+                accommodation.clearModifiedFields();
                 return accommodation;
             }
         } catch (SQLException e) {
@@ -123,7 +135,7 @@ public class AccommodationDAO {
 
             if (!searchParameters.isAllCategories() && searchParameters.getCategory() != null) {
                 queryBuilder.append(" AND a.type = ?");
-                parameters.add(searchParameters.getCategory().name());
+                parameters.add(searchParameters.getCategory().toString());
             }
 
             if (searchParameters.getMaxPrice() > 0) {
@@ -240,7 +252,16 @@ public class AccommodationDAO {
                 }
                 accommodation.setRating(rating);
 
-
+                // Gestione del tipo di alloggio (enum)
+                String typeString = resultSet.getString("type");
+                if (typeString != null) {
+                    try {
+                        AccommodationType type = AccommodationType.fromString(typeString);
+                        accommodation.setType(type);
+                    } catch (IllegalArgumentException ex) {
+                        System.err.println("Tipo di alloggio non riconosciuto: " + typeString);
+                    }
+                }
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
@@ -254,6 +275,7 @@ public class AccommodationDAO {
                 accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
                 accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
+                accommodation.clearModifiedFields();
                 accommodations.add(accommodation);
             }
             return accommodations;
@@ -298,9 +320,16 @@ public class AccommodationDAO {
                 }
 
                 // Enum (gestisci eventuali eccezioni se il valore è null o non valido)
-                accommodation.setType(AccommodationType.valueOf(
-                        resultSet.getString("type")
-                ));
+                // Gestione del tipo di alloggio (enum)
+                String typeString = resultSet.getString("type");
+                if (typeString != null) {
+                    try {
+                        AccommodationType type = AccommodationType.fromString(typeString);
+                        accommodation.setType(type);
+                    } catch (IllegalArgumentException ex) {
+                        System.err.println("Tipo di alloggio non riconosciuto: " + typeString);
+                    }
+                }
 
                 // Gestione rating con nuovo enum
                 int ratingValue = resultSet.getInt("rating");
@@ -328,7 +357,7 @@ public class AccommodationDAO {
 
                 accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
-
+                accommodation.clearModifiedFields();
                 accommodations.add(accommodation);
             }
         } catch (SQLException e) {
@@ -347,8 +376,6 @@ public class AccommodationDAO {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             preparedStatement.executeUpdate();
-            BookingDAO bookingDAO = new BookingDAO();
-            bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
             System.out.println("Accommodation deleted successfully");
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
@@ -485,22 +512,22 @@ public class AccommodationDAO {
         }
     }
 
-        // Esegue un singolo update (riutilizzabile) dirty flag
-            private void updateField(int id, String field, Object value){
-                String sql = "UPDATE accommodations SET " + field + " = ? WHERE id = ?";
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    // Gestione speciale per LocalDateTime
-                    if (value instanceof LocalDateTime) {
-                        stmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
-                    } else {
-                        stmt.setObject(1, value);
-                    }
-                    stmt.setInt(2, id);
-                    stmt.executeUpdate();
-                } catch (SQLException e) {
-                    DBUtils.printSQLException(e);
-                }
+   // Esegue un singolo update (riutilizzabile) dirty flag
+   private void updateField(int id, String field, Object value){
+        String sql = "UPDATE accommodations SET " + field + " = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Gestione speciale per LocalDateTime
+            if (value instanceof LocalDateTime) {
+                stmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) value));
+            } else {
+                stmt.setObject(1, value);
             }
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }
+   }
 
 
 }

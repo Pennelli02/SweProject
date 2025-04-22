@@ -164,7 +164,7 @@ public class Main {
                         + "18. Have Spa\n"
                         + "19. Good for Kids\n"
                         + "20. Can Have Animal\n"
-                        + "21. Exit\n"
+                        + "21. Search\n"
                         + "Please enter your choice: ");
                 choice = scanner.nextInt();
                 switch(choice) {
@@ -241,7 +241,7 @@ public class Main {
                                         break;
                                     }
                                     case 2:{
-                                        filter[5] = AccommodationType.BeB;
+                                        filter[5] = AccommodationType.BnB;
                                         break;
                                     }
                                     case 3:{
@@ -444,6 +444,228 @@ public class Main {
         }
         return array;
     }
+
+    // alternativa all'attuale ricerca con uso di colori per indicare ciò che si è scelto più un menu indicativo di cosa manca e cosa si è messo modulare e leggermente userfriendly
+   /* private static final String GREEN = "\u001B[32m";
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+
+    private static ArrayList<Accommodation> researchAccommodation(RegisterUser registerUser) {
+        Scanner scanner = new Scanner(System.in);
+        Object[] filter = setFilterArray();
+        ResearchController rc = new ResearchController(registerUser);
+        int choice;
+
+        do {
+            printMenu(filter);
+            choice = scanner.nextInt();
+            handleUserChoice(choice, filter);
+            if (choice != 21 && filter[0] == null) {
+                System.out.println("\n" + RED + "You must specify a place to perform a search." + RESET + "\n");
+            }
+        } while (choice != 21 || filter[0] == null);
+
+        try {
+            SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0])
+                    .setDateOfCheckIn((LocalDateTime) filter[1])
+                    .setDateOfCheckOut((LocalDateTime) filter[2])
+                    .setHowMuchRooms((int) filter[3])
+                    .setHowMuchPeople((int) filter[4])
+                    .setCategory((AccommodationType) filter[5])
+                    .setAllCategories((boolean) filter[6])
+                    .setMaxPrice((float) filter[7])
+                    .setMinRatingStars((AccommodationRating) filter[8])
+                    .setSpecificRatingStars((AccommodationRating) filter[9])
+                    .setRefundable((boolean) filter[10])
+                    .setHaveFreeWifi((boolean) filter[11])
+                    .setCanISmoke((boolean) filter[12])
+                    .setHaveParking((boolean) filter[13])
+                    .setHaveCoffeeMachine((boolean) filter[14])
+                    .setHaveRoomService((boolean) filter[15])
+                    .setHaveCleaningService((boolean) filter[16])
+                    .setHaveSpa((boolean) filter[17])
+                    .setGoodForKids((boolean) filter[18])
+                    .setCanHaveAnimal((boolean) filter[19])
+                    .build();
+            return rc.doResearch(sp);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+
+    private static void printMenu(Object[] filter) {
+        System.out.println("\n=== FILTER MENU ===");
+        for (int i = 1; i <= 22; i++) {
+            String label = getMenuLabel(i);
+            boolean isSet = isFilterSet(filter, i);
+            String coloredLabel = isSet ? GREEN + label + RESET : label;
+            System.out.println(i + ". " + coloredLabel);
+        }
+        System.out.print("\nChoose an option: ");
+    }
+
+
+    private static String getMenuLabel(int option) {
+        return switch (option) {
+            case 1 -> "Place";
+            case 2 -> "Date of Check-In";
+            case 3 -> "Date of Check-Out";
+            case 4 -> "How Many Rooms";
+            case 5 -> "How Many People";
+            case 6 -> "Category";
+            case 7 -> "All Categories";
+            case 8 -> "Max Price";
+            case 9 -> "Min Accommodation Rating";
+            case 10 -> "Specific Accommodation Rating";
+            case 11 -> "Is Refundable";
+            case 12 -> "Have Free Wifi";
+            case 13 -> "Can I Smoke";
+            case 14 -> "Have Parking";
+            case 15 -> "Have Coffee Machine";
+            case 16 -> "Have Room Service";
+            case 17 -> "Have Cleaning Service";
+            case 18 -> "Have Spa";
+            case 19 -> "Good for Kids";
+            case 20 -> "Can Have Animal";
+            case 21 -> "Exit";
+            case 22 -> "Show Current Filters";
+            default -> "Invalid";
+        };
+    }
+
+    private static boolean isFilterSet(Object[] filter, int option) {
+        return switch (option) {
+            case 1 -> filter[0] != null;
+            case 2 -> filter[1] != null;
+            case 3 -> filter[2] != null;
+            case 4 -> (int) filter[3] > 0;
+            case 5 -> (int) filter[4] > 0;
+            case 6 -> filter[5] != null;
+            case 7 -> (boolean) filter[6];
+            case 8 -> (float) filter[7] > 0;
+            case 9 -> filter[8] != null;
+            case 10 -> filter[9] != null;
+            case 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 -> (boolean) filter[option - 1];
+            default -> false;
+        };
+    }
+
+    private static void handleUserChoice(int choice, Object[] filter) {
+        Scanner scanner = new Scanner(System.in);
+        switch (choice) {
+            case 1 -> {
+                System.out.print("Enter place: ");
+                String place = scanner.nextLine();
+                filter[0] = place;
+                System.out.println("Place set to: " + GREEN + place + RESET);
+            }
+            case 2, 3 -> {
+                System.out.println((choice == 2 ? "Check-In" : "Check-Out") + " Date:");
+                System.out.print("Year (e.g., 2025): ");
+                int year = scanner.nextInt();
+                System.out.print("Month (1-12): ");
+                int month = scanner.nextInt();
+                System.out.print("Day (1-31): ");
+                int day = scanner.nextInt();
+                try {
+                    LocalDateTime date = LocalDateTime.of(year, month, day, 0, 0);
+                    filter[choice - 1] = date;
+                    System.out.println((choice == 2 ? "Check-In" : "Check-Out") + " set to: " + GREEN + date.toLocalDate() + RESET);
+                } catch (Exception e) {
+                    System.out.println(RED + "Invalid date." + RESET);
+                }
+            }
+            case 4, 5 -> {
+                System.out.print("Enter number: ");
+                int num = scanner.nextInt();
+                filter[choice - 1] = num;
+                System.out.println(getMenuLabel(choice) + " set to: " + GREEN + num + RESET);
+            }
+            case 6 -> {
+                System.out.println("Select category: 1. Hotel, 2. B&B, 3. Apartment");
+                int type = scanner.nextInt();
+                AccommodationType selected = switch (type) {
+                    case 1 -> AccommodationType.Hotel;
+                    case 2 -> AccommodationType.BeB;
+                    case 3 -> AccommodationType.Apartment;
+                    default -> null;
+                };
+                filter[5] = selected;
+                if (selected != null)
+                    System.out.println("Category set to: " + GREEN + selected + RESET);
+                else
+                    System.out.println(RED + "Invalid category selected." + RESET);
+            }
+            case 7 -> {
+                filter[6] = true;
+                System.out.println("Set: " + GREEN + "All Categories = true" + RESET);
+            }
+            case 8 -> {
+                System.out.print("Max Price: ");
+                float price = scanner.nextFloat();
+                filter[7] = price;
+                System.out.println("Max Price set to: " + GREEN + price + RESET);
+            }
+            case 9, 10 -> {
+                System.out.print("Rating (1-5): ");
+                int r = scanner.nextInt();
+                AccommodationRating rating = switch (r) {
+                    case 1 -> AccommodationRating.OneStar;
+                    case 2 -> AccommodationRating.TwoStar;
+                    case 3 -> AccommodationRating.ThreeStar;
+                    case 4 -> AccommodationRating.FourStar;
+                    case 5 -> AccommodationRating.FiveStar;
+                    default -> null;
+                };
+                filter[choice - 1] = rating;
+                if (rating != null)
+                    System.out.println(getMenuLabel(choice) + " set to: " + GREEN + rating + RESET);
+                else
+                    System.out.println(RED + "Invalid rating." + RESET);
+            }
+            case 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 -> {
+                filter[choice - 1] = true;
+                System.out.println(getMenuLabel(choice) + " set to: " + GREEN + "true" + RESET);
+            }
+            case 21 -> System.out.println("Exiting...");
+            case 22 -> showCurrentFilters(filter);
+            default -> System.out.println(RED + "Invalid choice." + RESET);
+        }
+    }
+
+    private static void showCurrentFilters(Object[] filter) {
+        System.out.println("\n--- CURRENT FILTERS ---");
+        for (int i = 1; i <= 20; i++) {
+            String label = getMenuLabel(i);
+            Object val = filter[i - 1];
+            String value;
+            if (val == null || (val instanceof Number num && num.doubleValue() == 0.0) || (val instanceof Boolean b && !b)) {
+                value = RED + "Not set" + RESET;
+            } else {
+                value = GREEN + val.toString() + RESET;
+            }
+            System.out.println(label + ": " + value);
+        }
+        System.out.println();
+    }
+
+    private static Object[] setFilterArray() {
+        Object[] array = new Object[20];
+        for (int i = 0; i < array.length; i++) {
+            if (i < 3 || i == 5 || i == 8 || i == 9) {
+                array[i] = null;
+            } else if (i == 3 || i == 4) {
+                array[i] = 0;
+            } else if (i == 7) {
+                array[i] = 0.0f;
+            } else {
+                array[i] = false;
+            }
+        }
+        return array;
+    }*/
 
     private static void profileMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class BookingDAO {
     private Connection connection;
@@ -111,10 +112,14 @@ public class BookingDAO {
                         State.valueOf(resultSet.getString("state"))
                 );
                 booking.setState(state);
-
-                // Aggiornare lo stato nel DB se è cambiato
-                if (!state.toString().equals(resultSet.getString("state"))) {
-                    updateBookingState(booking.getBookingID(), state);
+                if(state==State.Accommodation_Cancelled){
+                    UserDAO userDAO = new UserDAO();
+                    userDAO.updateFidPoints(user, -booking.getPrice());
+                }else {
+                    // Aggiornare lo stato nel DB se è cambiato
+                    if (!state.toString().equals(resultSet.getString("state"))) {
+                        updateBookingState(booking.getBookingID(), state);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -202,8 +207,9 @@ public class BookingDAO {
 
     public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
         PreparedStatement preparedStatement=null;
+
         try {
-            String query = "SELECT id, userId, price FROM bookings WHERE accommodationId = ?";
+            String query = "SELECT * FROM bookings WHERE accommodationId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             ResultSet resultSet = preparedStatement.executeQuery();

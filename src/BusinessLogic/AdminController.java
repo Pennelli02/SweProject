@@ -1,6 +1,7 @@
 package BusinessLogic;
 
 import DAO.AccommodationDAO;
+import DAO.BookingDAO;
 import DAO.ReviewDAO;
 import DAO.UserDAO;
 import DomainModel.*;
@@ -21,7 +22,9 @@ public class AdminController {
 
     public void deleteAccomodation(int idAccomodation){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
+        BookingDAO bookingDAO = new BookingDAO();
         accommodationDAO.deleteAccommodation(idAccomodation);
+        bookingDAO.updateBookingsAfterDeleteAccommodation(idAccomodation);
     }
 
 
@@ -49,7 +52,7 @@ public class AdminController {
         return userDAO.getUserById(idUser);
     }
 
-    public ArrayList<Accommodation> getAllAccomodation() throws SQLException, ClassNotFoundException {
+    public ArrayList<Accommodation> getAllAccomodation() {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAllAccommodation();
     }

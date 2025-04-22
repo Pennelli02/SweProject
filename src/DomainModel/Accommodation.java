@@ -297,6 +297,8 @@ public class Accommodation {
         modifiedFields.clear();
     }
 
+    //FixMe aggiungerei un altro metodo per mostrare a schermo perché così son troppi attributi a schermo magari se ci sono più di un alloggio diventa ingestibile
+    //FiXme lo terrei il toString per mostrare l'alloggio nel caso l'utente scelga di vedere tutte le informazioni
     @Override
     public String toString() {
         return "Accommodation{" +
@@ -323,7 +325,6 @@ public class Accommodation {
                 ", numberOfRoom=" + numberOfRoom +
                 ", welcomeAnimal=" + welcomeAnimal +
                 ", maxNumberOfPeople=" + maxNumberOfPeople +
-                ", modifiedFields=" + modifiedFields +
                 '}';
     }
 }

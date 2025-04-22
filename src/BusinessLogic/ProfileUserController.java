@@ -83,9 +83,6 @@ public class ProfileUserController {
     public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
         BookingDAO bookingDAO=new BookingDAO();
         UserDAO userDAO=new UserDAO();
-        if(booking.getState()==State.Accommodation_Cancelled) {
-            userDAO.updateFidPoints(user, -booking.getPrice()); // sarà meno pesante meno query però a livello di logica non torna
-        }
         bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
         user.removeBooking(booking);
     }
