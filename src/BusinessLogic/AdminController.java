@@ -38,8 +38,11 @@ public class AdminController {
     public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxPeople ){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         AccommodationRating rating= AccommodationRating.OneStar;
-        accommodationDAO.addAccommodation( name,  address,  place,  disponibility, type,  ratePrice,  availableFrom, availableEnd, description, rating, refundable,  freewifi,  haveSmokingArea, haveParking,  coffeMachine,  roomService, cleaningService,  haveSpa,  goodForKids, numberOfRoom,  welcomeAnimal, maxPeople);
-        
+        try {
+            accommodationDAO.addAccommodation(name, address, place, disponibility, type, ratePrice, availableFrom, availableEnd, description, rating, refundable, freewifi, haveSmokingArea, haveParking, coffeMachine, roomService, cleaningService, haveSpa, goodForKids, numberOfRoom, welcomeAnimal, maxPeople);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
     }
     
     public void removeUser(int idUser) throws SQLException, ClassNotFoundException {
@@ -81,15 +84,19 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    public boolean loginAdmin(String password) throws SQLException, ClassNotFoundException {
+    public boolean loginAdmin(String password) {
         UserDAO userDAO = new UserDAO();
         adminEmail = userDAO.getAdminByPassword(password);
         isLoggedIn = adminEmail != null;
         return isLoggedIn;
     }
 
-    public void changePassword(String newPassword) throws SQLException, ClassNotFoundException {
+    public void changePassword(String newPassword) {
         UserDAO userDAO = new UserDAO();
-        userDAO.updateAdminPassword(adminEmail, newPassword);
+        try {
+            userDAO.updateAdminPassword(adminEmail, newPassword);
+        }catch (IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
     }
 }

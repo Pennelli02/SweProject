@@ -25,10 +25,14 @@ public class ResearchController {
             BookingDAO bookingDAO = new BookingDAO();
             UserDAO userDAO = new UserDAO();
             AccommodationDAO accommodationDAO = new AccommodationDAO();
-            Booking booking=bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
-            user.addBooking(booking);
-            userDAO.updateFidPoints(user, price);
-            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility()-1);
+            try {
+                Booking booking = bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
+                user.addBooking(booking);
+                userDAO.updateFidPoints(user, price);
+                accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
+            }catch (RuntimeException e) {
+                System.err.println(e.getMessage());
+            }
         }else{
             System.out.println("You are not allowed to book this accommodation");
         }

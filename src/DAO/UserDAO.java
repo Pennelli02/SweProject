@@ -423,6 +423,9 @@ public class UserDAO {
 // si  suppone che un admin abbia un'email che non può modificare di tipo admin@apt.com
     public void updateAdminPassword(String adminEmail, String newPassword) {
         PreparedStatement ps=null;
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new IllegalArgumentException("La password non puo' essere vuota");
+        }
         try {
             String query = "UPDATE user SET password = ? WHERE email = ?";
             ps = connection.prepareStatement(query);

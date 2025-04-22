@@ -106,12 +106,16 @@ public class Main {
                 }
                 case 2:{
                     accommodations = researchAccommodation(registerUser);
-                    if(accommodations != null) {
+                    if(accommodations == null) {
+                        System.out.println("Something went wrong, try again");
+
+                    }else if (accommodations.isEmpty()){
+                        System.out.println("No accommodations found, try again");
+                    }else{
+                        System.out.println("Results: \n");
                         for (Accommodation accommodation : accommodations) {
                             System.out.println(accommodation.toString());
                         }
-                    }else{
-                        System.out.println("Something went wrong, try again");
                     }
                     break;
                 }

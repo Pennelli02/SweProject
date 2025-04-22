@@ -13,7 +13,11 @@ public class UserController {
 
     public RegisterUser register(String email, String password, String username, String name, String surname, Location favouriteLocation) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
-        userDAO.addUser(email, password, username, name, surname, favouriteLocation); // fornisce errore o comunque un messaggio di avviso se ci sono 2 email uguali...
+        try {
+            userDAO.addUser(email, password, username, name, surname, favouriteLocation); // fornisce errore o comunque un messaggio di avviso se ci sono 2 email uguali...
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
         return userDAO.getUserByEmailPassword(email, password);
     }
 

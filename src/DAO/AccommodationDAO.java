@@ -368,7 +368,6 @@ public class AccommodationDAO {
         return accommodations;
     }
 
-    //Fixme ci penso io faccio che nelle preference sia cascade e nel booking sia on set null
     public void deleteAccommodation(int idAccommodation){
         PreparedStatement preparedStatement = null;
         try {

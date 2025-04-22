@@ -51,7 +51,7 @@ public class ProfileUserController {
         user=null; // penso basti
     }
 
-    public void unRegister() throws SQLException, ClassNotFoundException {
+    public void unRegister() {
         UserDAO userDAO=new UserDAO();
         userDAO.removeUser(user.getId());
         user=null;
@@ -70,7 +70,7 @@ public class ProfileUserController {
         return reviewDAO.getReviewByUser(user);
     }
     // cancella una prenotazione ma non la rimuove e attiva tutte le funzioni del caso
-    public void cancelABooking(Booking booking) throws SQLException, ClassNotFoundException {
+    public void cancelABooking(Booking booking) {
         BookingDAO bookingDAO=new BookingDAO();
         bookingDAO.cancelBook(booking);
         AccommodationDAO accommodationDAO=new AccommodationDAO();
@@ -79,19 +79,23 @@ public class ProfileUserController {
         accommodationDAO.updateAccommodationDisponibility(booking.getAccommodation().getId(), booking.getAccommodation().getDisponibility()+1);
     }
 
-    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded, accommodation cancelled fixme mettere qui il update points?
-    public void removeBooking(Booking booking) throws SQLException, ClassNotFoundException {
+    // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded, accommodation cancelled
+    public void removeBooking(Booking booking) {
         BookingDAO bookingDAO=new BookingDAO();
         UserDAO userDAO=new UserDAO();
-        bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
-        user.removeBooking(booking);
+        try {
+            bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
+            user.removeBooking(booking);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
     }
-    public void removeReview(Review review) throws SQLException, ClassNotFoundException {
+    public void removeReview(Review review) {
         ReviewDAO reviewDAO=new ReviewDAO();
         reviewDAO.removeReview(review.getReviewID());
     }
 
-    public void unSaveAccommodation(Accommodation accommodation) throws SQLException, ClassNotFoundException {
+    public void unSaveAccommodation(Accommodation accommodation) {
         PreferenceDAO preferenceDAO=new PreferenceDAO();
         preferenceDAO.unSave(user.getId(), accommodation.getId());
         user.removePreference(accommodation);
