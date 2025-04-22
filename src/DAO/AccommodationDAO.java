@@ -98,41 +98,41 @@ public class AccommodationDAO {
 
             // Aggiunta condizioni in base ai parametri non nulli
             if (searchParameters.getPlace() != null && !searchParameters.getPlace().isEmpty()) {
-                queryBuilder.append(" AND place LIKE ?");
+                queryBuilder.append(" AND a.place LIKE ?");
                 parameters.add(searchParameters.getPlace());
             }
 
             if (searchParameters.getDateOfCheckIn() != null && searchParameters.getDateOfCheckOut() != null) {
                 queryBuilder.append(
-                        " AND AvailableFrom <= ? " +  // Disponibile prima del check-out
-                        " AND AvailableEnd >= ? "     // Disponibile dopo il check-in
+                        " AND a.availablefrom <= ? " +  // Disponibile prima del check-out
+                        " AND a.availableend >= ? "     // Disponibile dopo il check-in
                 );
                 parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckOut()));
                 parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckIn()));
             }
 
             if (searchParameters.getHowMuchRooms() > 0) {
-                queryBuilder.append(" AND numberOfRoom >= ?");
+                queryBuilder.append(" AND a.numberofroom >= ?");
                 parameters.add(searchParameters.getHowMuchRooms());
             }
 
             if (searchParameters.getHowMuchPeople() > 0) {
-                queryBuilder.append(" AND  maxPeople <= ?");
+                queryBuilder.append(" AND  a.maxpeople >= ?");
                 parameters.add(searchParameters.getHowMuchPeople());
             }
 
             if (!searchParameters.isAllCategories() && searchParameters.getCategory() != null) {
-                queryBuilder.append(" AND type = ?");
+                queryBuilder.append(" AND a.type = ?");
                 parameters.add(searchParameters.getCategory().name());
             }
 
             if (searchParameters.getMaxPrice() > 0) {
-                queryBuilder.append(" AND ratePrice <= ?");
+                queryBuilder.append(" AND a.rateprice <= ?");
                 parameters.add(searchParameters.getMaxPrice());
             }
 
             if (searchParameters.getMinAccommodationRating() != null) {
-                queryBuilder.append(" AND rating >= ?");
+                queryBuilder.append(" AND a.rating >= ?");
                 parameters.add(searchParameters.getMinAccommodationRating().getNumericValue());
             } else if (searchParameters.getSpecificAccommodationRating() != null) {
                 queryBuilder.append(" AND a.rating = ?");
@@ -149,35 +149,35 @@ public class AccommodationDAO {
             }
 
             if (searchParameters.isCanISmoke()) {
-                queryBuilder.append(" AND a.haveSmokingArea = TRUE");
+                queryBuilder.append(" AND a.havesmockingarea = TRUE");
             }
 
             if (searchParameters.isHaveParking()) {
-                queryBuilder.append(" AND a.haveParking = TRUE");
+                queryBuilder.append(" AND a.haveparking = TRUE");
             }
 
             if (searchParameters.isHaveCoffeeMachine()) {
-                queryBuilder.append(" AND a.coffeeMachine = TRUE");
+                queryBuilder.append(" AND a.coffeemachine = TRUE");
             }
 
             if (searchParameters.isHaveRoomService()) {
-                queryBuilder.append(" AND a.roomService = TRUE");
+                queryBuilder.append(" AND a.roomservice = TRUE");
             }
 
             if (searchParameters.isHaveCleaningService()) {
-                queryBuilder.append(" AND a.cleaningService = TRUE");
+                queryBuilder.append(" AND a.cleaningservice = TRUE");
             }
 
             if (searchParameters.isHaveSpa()) {
-                queryBuilder.append(" AND a.haveSpa = TRUE");
+                queryBuilder.append(" AND a.havespa = TRUE");
             }
 
             if (searchParameters.isGoodForKids()) {
-                queryBuilder.append(" AND a.goodForKids = TRUE");
+                queryBuilder.append(" AND a.goodforkids = TRUE");
             }
 
             if (searchParameters.isCanHaveAnimal()) {
-                queryBuilder.append(" AND a.welcomeAnimal = TRUE");
+                queryBuilder.append(" AND a.welcomeanimal = TRUE");
             }
 
             // Aggiunto ordinamento per rating (decrescente) e prezzo (crescente)

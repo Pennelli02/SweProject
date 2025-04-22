@@ -6,8 +6,8 @@ public final class SearchParametersBuilder {
     private final String place;
     private LocalDateTime dateOfCheckIn;
     private LocalDateTime dateOfCheckOut;
-    private int howMuchRooms;
-    private int howMuchPeople;
+    private Integer howMuchRooms;
+    private Integer howMuchPeople;
     private AccommodationType category;
     private boolean allCategories;
     private Float maxPrice;
@@ -34,12 +34,12 @@ public final class SearchParametersBuilder {
         return this;
     }
 
-    public SearchParametersBuilder setHowMuchRooms(int howMuchRooms) {
+    public SearchParametersBuilder setHowMuchRooms(Integer howMuchRooms) {
         this.howMuchRooms = howMuchRooms;
         return this;
     }
 
-    public SearchParametersBuilder setHowMuchPeople(int howMuchPeople) {
+    public SearchParametersBuilder setHowMuchPeople(Integer howMuchPeople) {
         this.howMuchPeople = howMuchPeople;
         return this;
     }
@@ -167,12 +167,12 @@ public final class SearchParametersBuilder {
     }
 
     private void validatePeopleAndRooms() {
-        if (howMuchPeople < 1) {
-            throw new IllegalArgumentException("Number of people must be at least 1.");
+        if ( howMuchPeople!= null && howMuchPeople < 1) {
+            throw  new RuntimeException("️Numero di persone non valido: deve essere almeno 1.");
         }
 
-        if (howMuchRooms < 1) {
-            throw new IllegalArgumentException("Number of rooms must be at least 1.");
+        if ( howMuchRooms!= null && howMuchRooms < 1) {
+            throw  new RuntimeException("Numero di stanze non valido: deve essere almeno 1.");
         }
     }
 

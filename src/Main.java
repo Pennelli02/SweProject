@@ -106,8 +106,12 @@ public class Main {
                 }
                 case 2:{
                     accommodations = rearchAccommodation(registerUser);
-                    for (Accommodation accommodation : accommodations) {
-                        System.out.println(accommodation.toString());
+                    if(accommodations != null) {
+                        for (Accommodation accommodation : accommodations) {
+                            System.out.println(accommodation.toString());
+                        }
+                    }else{
+                        System.out.println("Something went wrong, try again");
                     }
                     break;
                 }
@@ -407,15 +411,20 @@ public class Main {
                 System.out.println("Please, its important a place where you want to search for accommodations");
             }
         }while(!dativalidi);
-        SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0]).setDateOfCheckIn((LocalDateTime) filter[1])
-                .setDateOfCheckOut((LocalDateTime) filter[2]).setHowMuchRooms((int) filter[3]).setHowMuchPeople((int) filter[4])
-                .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((float)filter[7]))
-                .setMinRatingStars((AccommodationRating) filter[8]).setSpecificRatingStars((AccommodationRating) filter[9])
-                .setRefundable((boolean) filter[10]).setHaveFreeWifi((boolean) filter[11]).setCanISmoke((boolean) filter[12])
-                .setHaveParking((boolean) filter[13]).setHaveCoffeeMachine((boolean) filter[14]).setHaveRoomService((boolean) filter[15])
-                .setHaveCleaningService((boolean) filter[16]).setHaveSpa((boolean) filter[17]).setGoodForKids((boolean) filter[18])
-                .setCanHaveAnimal((boolean) filter[19]).build();
-        return rc.doResearch(sp);
+        try {
+            SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0]).setDateOfCheckIn((LocalDateTime) filter[1])
+                    .setDateOfCheckOut((LocalDateTime) filter[2]).setHowMuchRooms((Integer) filter[3]).setHowMuchPeople((Integer) filter[4])
+                    .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((float) filter[7]))
+                    .setMinRatingStars((AccommodationRating) filter[8]).setSpecificRatingStars((AccommodationRating) filter[9])
+                    .setRefundable((boolean) filter[10]).setHaveFreeWifi((boolean) filter[11]).setCanISmoke((boolean) filter[12])
+                    .setHaveParking((boolean) filter[13]).setHaveCoffeeMachine((boolean) filter[14]).setHaveRoomService((boolean) filter[15])
+                    .setHaveCleaningService((boolean) filter[16]).setHaveSpa((boolean) filter[17]).setGoodForKids((boolean) filter[18])
+                    .setCanHaveAnimal((boolean) filter[19]).build();
+            return rc.doResearch(sp);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     private static Object[] setFilterArray() {
@@ -424,7 +433,7 @@ public class Main {
             if(i < 3){
                 array[i] = null;
             }else if(i == 3 || i==4) {
-                array[i] = 0;
+                array[i] = null;
             }else if(i == 7){
                 array[i]=0.0f;
             }else if(i == 5 || i==8 || i==9){
