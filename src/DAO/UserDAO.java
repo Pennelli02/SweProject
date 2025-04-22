@@ -397,7 +397,9 @@ public class UserDAO {
         // Calcola la variazione punti
         int pointsVariation = calculatePointsVariation(transactionAmount);
         int newFidelityPoints = user.getFidelityPoints() + pointsVariation;
-
+        if (newFidelityPoints < 0) {
+            newFidelityPoints = 0;
+        }
         PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET fidelitypoints = ? WHERE id = ?";
@@ -433,6 +435,20 @@ public class UserDAO {
             ps.setString(2, adminEmail);
             ps.executeUpdate();
 
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
+        }
+    }
+
+    public void resetFidPoints(int id) {
+        PreparedStatement ps=null;
+        try {
+            String query = "UPDATE users SET fidelitypoints = 0 WHERE id = ?";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
         }catch (SQLException e){
             DBUtils.printSQLException(e);
         }finally {

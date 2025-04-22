@@ -19,8 +19,8 @@ public class ResearchController {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
-    //avvia una prenotazione con tutte le funzioni del caso
-    public void booking(Accommodation accommodation, LocalDateTime checkInDate, LocalDateTime checkOutDate, int numOfMembers, int price) {
+    //avvia una prenotazione con tutte le funzioni del caso tenere presente che lo sconto funziona con l'uso di un boolenao
+    public void booking(Accommodation accommodation, LocalDateTime checkInDate, LocalDateTime checkOutDate, int numOfMembers, int price, boolean applydiscount) {
         if(accommodation.getDisponibility()>0) { // controllo aggiuntivo per sicurezza teoricamente è gestito da addBooking
             BookingDAO bookingDAO = new BookingDAO();
             UserDAO userDAO = new UserDAO();
@@ -28,8 +28,12 @@ public class ResearchController {
             try {
                 Booking booking = bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
                 user.addBooking(booking);
-                userDAO.updateFidPoints(user, price);
-                accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
+                if(applydiscount) {
+                    userDAO.resetFidPoints(user.getId());
+                }else {
+                    userDAO.updateFidPoints(user, price);
+                    accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
+                }
             }catch (RuntimeException e) {
                 System.err.println(e.getMessage());
             }
@@ -47,6 +51,15 @@ public class ResearchController {
     public void writeReview(Accommodation accommodation, String content, AccommodationRating rating) {
         ReviewDAO reviewDAO = new ReviewDAO();
         reviewDAO.addReview(user, accommodation, content, rating);
+    }
+    //fixme vedere se è utile nel caso
+    public float applyDiscount(float originalPrice) {
+        UserDAO userDAO = new UserDAO();
+        if (originalPrice > 300) {
+            return originalPrice - 300;
+        }else{
+            throw new RuntimeException("you need to spend more than 300, discount not allowed");
+        }
     }
 
     public ArrayList<Review> getReviews(Accommodation accommodation) {
