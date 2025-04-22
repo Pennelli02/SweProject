@@ -105,7 +105,7 @@ public class Main {
                     break;
                 }
                 case 2:{
-                    accommodations = rearchAccommodation(registerUser);
+                    accommodations = researchAccommodation(registerUser);
                     if(accommodations != null) {
                         for (Accommodation accommodation : accommodations) {
                             System.out.println(accommodation.toString());
@@ -134,7 +134,7 @@ public class Main {
 
     }
 
-    private static ArrayList<Accommodation> rearchAccommodation(RegisterUser registerUser){
+    private static ArrayList<Accommodation> researchAccommodation(RegisterUser registerUser){
         Scanner scanner = new Scanner(System.in);
         Object [] filter = setFilterArray();
         boolean dativalidi = false;
@@ -433,7 +433,7 @@ public class Main {
             if(i < 3){
                 array[i] = null;
             }else if(i == 3 || i==4) {
-                array[i] = null;
+                array[i] = 0;
             }else if(i == 7){
                 array[i]=0.0f;
             }else if(i == 5 || i==8 || i==9){

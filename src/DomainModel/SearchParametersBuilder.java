@@ -6,8 +6,8 @@ public final class SearchParametersBuilder {
     private final String place;
     private LocalDateTime dateOfCheckIn;
     private LocalDateTime dateOfCheckOut;
-    private Integer howMuchRooms;
-    private Integer howMuchPeople;
+    private Integer howMuchRooms=0;
+    private Integer howMuchPeople=0;
     private AccommodationType category;
     private boolean allCategories;
     private Float maxPrice;
@@ -167,11 +167,11 @@ public final class SearchParametersBuilder {
     }
 
     private void validatePeopleAndRooms() {
-        if ( howMuchPeople!= null && howMuchPeople < 1) {
+        if ( howMuchPeople!=0 && howMuchPeople < 1) {
             throw  new RuntimeException("️Numero di persone non valido: deve essere almeno 1.");
         }
 
-        if ( howMuchRooms!= null && howMuchRooms < 1) {
+        if ( howMuchRooms!=0 && howMuchRooms < 1) {
             throw  new RuntimeException("Numero di stanze non valido: deve essere almeno 1.");
         }
     }
