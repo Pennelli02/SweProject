@@ -112,15 +112,11 @@ public class BookingDAO {
                         State.valueOf(resultSet.getString("state"))
                 );
                 booking.setState(state);
-                if(state==State.Accommodation_Cancelled){
-                    UserDAO userDAO = new UserDAO();
-                    userDAO.updateFidPoints(user, -booking.getPrice());
-                }else {
                     // Aggiornare lo stato nel DB se è cambiato
-                    if (!state.toString().equals(resultSet.getString("state"))) {
-                        updateBookingState(booking.getBookingID(), state);
-                    }
+                if (!state.toString().equals(resultSet.getString("state"))) {
+                    updateBookingState(booking.getBookingID(), state);
                 }
+
             }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
@@ -207,18 +203,18 @@ public class BookingDAO {
 
     public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
         PreparedStatement preparedStatement=null;
-
         try {
-            String query = "SELECT * FROM bookings WHERE accommodationId = ?";
+            String query = "SELECT id userId price FROM bookings WHERE accommodationId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 updateBookingState(resultSet.getInt("id"), State.Accommodation_Cancelled);
+                // ho deciso che dato non è colpa dell'utente non deve essere penalizzato quindi non tolgo i punti della prenotazione
             }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
-        }finally{
+        } finally{
             DBUtils.closeQuietly(preparedStatement);
         }
     }

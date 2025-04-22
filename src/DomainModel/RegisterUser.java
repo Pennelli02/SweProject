@@ -152,10 +152,28 @@ public class RegisterUser {
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }
 
+    //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene
     public void showMyBookings(){
         for (Booking myBooking : myBookings) {
+//            if (myBooking.getState() == State.Accommodation_Cancelled) {
+//                sendMessage(myBooking.getPrice(), myBooking.getAccommodation().getName());
+//            }
             System.out.println(myBooking.toString());
         }
+    }
+
+    private void sendMessage(float price, String name) {
+        String subject = "Siamo spiacenti per la cancellazione";
+        String message = "Ciao " + username + ",\n\n" +
+                "Purtroppo il tuo alloggio \"" + name + "\" è stato cancellato dalla struttura.\n" +
+                "Come gesto di scuse, le abbiamo rimborsato l'intero importo della prenotazione (" + price + "€),\n" +
+                "senza togliere i suoi punti fedeltà.\n\n" +
+                "Grazie per la comprensione e ci auguriamo di riaverla presto tra i nostri viaggiatori.\n\n" +
+                "Il Team";
+
+        // Qui puoi inviare il messaggio (es. via mail o notifica)
+        System.out.println("Oggetto: " + subject);
+        System.out.println("Messaggio:\n" + message);
     }
 
     public void showMyPreferences(){
