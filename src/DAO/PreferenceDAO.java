@@ -85,11 +85,16 @@ public class PreferenceDAO {
                     accommodation.setAvailableEnd(sqlAvailableEnd.toLocalDateTime());
                 }
 
-                // Enum (gestisci eventuali eccezioni se il valore è null o non valido)
-                accommodation.setType(AccommodationType.valueOf(
-                        resultSet.getString("type")
-                ));
-
+                // Gestione del tipo di alloggio (enum)
+                String typeString = resultSet.getString("type");
+                if (typeString != null) {
+                    try {
+                        AccommodationType type = AccommodationType.fromString(typeString);
+                        accommodation.setType(type);
+                    } catch (IllegalArgumentException ex) {
+                        System.err.println("Tipo di alloggio non riconosciuto: " + typeString);
+                    }
+                }
                 // Gestione rating con nuovo enum
                 int ratingValue = resultSet.getInt("rating");
                 AccommodationRating rating = AccommodationRating.OneStar; // Default
