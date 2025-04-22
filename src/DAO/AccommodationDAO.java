@@ -110,7 +110,7 @@ public class AccommodationDAO {
 
             // Aggiunta condizioni in base ai parametri non nulli
             if (searchParameters.getPlace() != null && !searchParameters.getPlace().isEmpty()) {
-                queryBuilder.append(" AND a.place LIKE ?");
+                queryBuilder.append(" AND a.place ILIKE ?");
                 parameters.add(searchParameters.getPlace());
             }
 
