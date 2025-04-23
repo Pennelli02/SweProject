@@ -1,6 +1,7 @@
 package DomainModel;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -301,6 +302,7 @@ public class Accommodation {
     //FiXme lo terrei il toString per mostrare l'alloggio nel caso l'utente scelga di vedere tutte le informazioni
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return "Accommodation{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
@@ -309,8 +311,8 @@ public class Accommodation {
                 ", disponibility=" + disponibility +
                 ", type=" + type +
                 ", ratePrice=" + ratePrice +
-                ", availableFrom=" + availableFrom +
-                ", availableEnd=" + availableEnd +
+                ", availableFrom=" + availableFrom.format(formatter) +
+                ", availableEnd=" + availableEnd.format(formatter) +
                 ", description='" + description + '\'' +
                 ", rating=" + rating +
                 ", refundable=" + refundable +

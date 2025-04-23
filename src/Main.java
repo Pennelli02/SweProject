@@ -138,319 +138,11 @@ public class Main {
 
     }
 
-    private static ArrayList<Accommodation> researchAccommodation(RegisterUser registerUser){
-        Scanner scanner = new Scanner(System.in);
-        Object [] filter = setFilterArray();
-        boolean dativalidi = false;
-        int choice;
-        ResearchController rc = new ResearchController(registerUser);
-        do{
-            do{
-                System.out.println("MENU FILTER RESEARCH ACCOMODATION:\n"
-                        + "PLEASE ENTER YOUR FILTER TO RESEARCH ACCOMODATIONS:\n"
-                        + "1. Place\n"
-                        + "2. Date of Check-In\n"
-                        + "3. Date of Check-Out\n"
-                        + "4. How Many Rooms\n"
-                        + "5. How Many People\n"
-                        + "6. Category\n"
-                        + "7. All Categories\n"
-                        + "8. Max Price\n"
-                        + "9. Min Accommodation Rating\n"
-                        + "10. Specific Accommodation Rating\n"
-                        + "11. Is Refundable\n"
-                        + "12. Have Free Wifi\n"
-                        + "13. Can I Smoke\n"
-                        + "14. Have Parking\n"
-                        + "15. Have Coffee Machine\n"
-                        + "16. Have Room Service\n"
-                        + "17. Have Cleaning Service\n"
-                        + "18. Have Spa\n"
-                        + "19. Good for Kids\n"
-                        + "20. Can Have Animal\n"
-                        + "21. Search\n"
-                        + "Please enter your choice: ");
-                choice = scanner.nextInt();
-                switch(choice) {
-                    case 1:{
-                        System.out.println("Enter the place where you want to search for accommodations: ");
-                        Scanner sc2 = new Scanner(System.in);
-                        filter[0] = sc2.nextLine();
-                        break;
-                    }
-                    case 2:{
-                        Scanner sc2 = new Scanner(System.in);
-                        System.out.println("Enter the check-in in the format 'yyyy-MM-dd':");
-                        System.out.print("Inserisci l'anno (es. 2025): ");
-                        int anno = sc2.nextInt();
-                        System.out.print("Inserisci il mese (1-12): ");
-                        int mese = sc2.nextInt();
-                        System.out.print("Inserisci il giorno (1-31): ");
-                        int giorno = sc2.nextInt();
 
-                        // Creazione della data locale con ora impostata alle 00:00:00
-                        try {
-                            LocalDateTime dateTime = LocalDateTime.of(anno, mese, giorno, 0, 0, 0);
-                            filter[1] = dateTime;
-                        } catch (Exception e) {
-                            System.out.println("Error: date not valid");
-                        }
-                        break;
-                    }
-                    case 3:{
-                        Scanner sc2 = new Scanner(System.in);
-                        System.out.println("Enter the check-out in the format 'yyyy-MM-dd':");
-                        System.out.print("Inserisci l'anno (es. 2025): ");
-                        int anno = sc2.nextInt();
-                        System.out.print("Inserisci il mese (1-12): ");
-                        int mese = sc2.nextInt();
-                        System.out.print("Inserisci il giorno (1-31): ");
-                        int giorno = sc2.nextInt();
 
-                        // Creazione della data locale con ora impostata alle 00:00:00
-                        try {
-                            LocalDateTime dateTime = LocalDateTime.of(anno, mese, giorno, 0, 0, 0);
-                            filter[2] = dateTime;
-                        } catch (Exception e) {
-                            System.out.println("Error: date not valid");
-                        }
-                        break;
-                    }
-                    case 4:{
-                        System.out.println("Enter the how Many Rooms: ");
-                        Scanner sc2 = new Scanner(System.in);
-                        filter[3] = sc2.nextInt();
-                        break;
-                    }
-                    case 5:{
-                        System.out.println("Enter the how Many People: ");
-                        Scanner sc2 = new Scanner(System.in);
-                        filter[4] = sc2.nextInt();
-                        break;
-                    }
-                    case 6:{
-                        boolean app = (boolean) filter[6];
-                        if(!app) {
-                            Scanner sc2 = new Scanner(System.in);
-                            int choice2;
-                            do{
-                                System.out.println("Please enter a category of accommodation \n"
-                                        + "1. Hotel\n"
-                                        + "2. B&B\n"
-                                        + "3. Apartment");
-                                choice2 = sc2.nextInt();
-                                switch(choice2) {
-                                    case 1:{
-                                        filter[5] = AccommodationType.Hotel;
-                                        break;
-                                    }
-                                    case 2:{
-                                        filter[5] = AccommodationType.BnB;
-                                        break;
-                                    }
-                                    case 3:{
-                                        filter[5] = AccommodationType.Apartment;
-                                        break;
-                                    }
-                                    default:{
-                                        System.out.println("Please enter a valid choice");
-                                    }
-                                }
-                            }while (choice2 < 1 || choice2 > 4);
-                        }else{
-                            System.out.println("All categories are already included");
-                        }
-                        break;
-                    }
-                    case 7:{
-                        filter[6] = true;
-                        System.out.println("All categories are set to search");
-                        break;
-                    }
-                    case 8:{
-                        System.out.println("Enter the maximum price for the accommodation search: ");
-                        Scanner sc2 = new Scanner(System.in);
-                        filter[7] = sc2.nextFloat();
-                        break;
-                    }
-                    case 9:{
-                        if(filter[9] == null){
-                            Scanner sc2 = new Scanner(System.in);
-                            int choice2;
-                            do{
-                                System.out.println("Please enter the minimum accommodation rating\n"
-                                                + "1. OneStar\n"
-                                                + "2. TwoStar\n"
-                                                + "3. ThreeStar\n"
-                                                + "4. FourStar\n"
-                                                + "5. FiveStar");
-
-                                choice2 = sc2.nextInt();
-                                switch(choice2) {
-                                    case 1:{
-                                        filter[8] = AccommodationRating.OneStar;
-                                        break;
-                                    }
-                                    case 2:{
-                                        filter[8] = AccommodationRating.TwoStar;
-                                        break;
-                                    }
-                                    case 3:{
-                                        filter[8] = AccommodationRating.ThreeStar;
-                                        break;
-                                    }
-                                    case 4:{
-                                        filter[8] = AccommodationRating.FourStar;
-                                        break;
-                                    }
-                                    case 5:{
-                                        filter[8] = AccommodationRating.FiveStar;
-                                        break;
-                                    }
-                                    default:{
-                                        System.out.println("Please enter a valid choice");
-                                    }
-                                }
-                            }while (choice2 < 1 || choice2 > 6);
-                        }else{
-                            System.out.println("You have already set up your specific rating");
-                        }
-                        break;
-                    }
-                    case 10:{
-                        if(filter[8] == null){
-                            Scanner sc2 = new Scanner(System.in);
-                            int choice2;
-                            do{
-                                System.out.println("Please enter the specific accommodation rating\n"
-                                        + "1. OneStar\n"
-                                        + "2. TwoStar\n"
-                                        + "3. ThreeStar\n"
-                                        + "4. FourStar\n"
-                                        + "5. FiveStar");
-
-                                choice2 = sc2.nextInt();
-                                switch(choice2) {
-                                    case 1:{
-                                        filter[9] = AccommodationRating.OneStar;
-                                        break;
-                                    }
-                                    case 2:{
-                                        filter[9] = AccommodationRating.TwoStar;
-                                        break;
-                                    }
-                                    case 3:{
-                                        filter[9] = AccommodationRating.ThreeStar;
-                                        break;
-                                    }
-                                    case 4:{
-                                        filter[9] = AccommodationRating.FourStar;
-                                        break;
-                                    }
-                                    case 5:{
-                                        filter[9] = AccommodationRating.FiveStar;
-                                        break;
-                                    }
-                                    default:{
-                                        System.out.println("Please enter a valid choice");
-                                    }
-                                }
-                            }while (choice2 < 1 || choice2 > 6);
-                        }else{
-                            System.out.println("You have already set the minimum rating");
-                        }
-                        break;
-                    }
-                    case 11:{
-                        filter[10] = true;
-                        break;
-                    }
-                    case 12:{
-                        filter[11] = true;
-                        break;
-                    }
-                    case 13:{
-                        filter[12] = true;
-                        break;
-                    }
-                    case 14:{
-                        filter[13] = true;
-                        break;
-                    }
-                    case 15:{
-                        filter[14] = true;
-                        break;
-                    }
-                    case 16:{
-                        filter[15] = true;
-                        break;
-                    }
-                    case 17:{
-                        filter[16] = true;
-                        break;
-                    }
-                    case 18:{
-                        filter[17] = true;
-                        break;
-                    }
-                    case 19:{
-                        filter[18] = true;
-                        break;
-                    }
-                    case 20:{
-                        filter[19] = true;
-                        break;
-                    }
-                    case 21:{
-                        break;
-                    }
-                    default: {
-                        System.out.println("Please enter a valid choice");
-                    }
-                }
-            }while (choice!=21);
-            if(filter[0] != null){
-                dativalidi = true;
-            }else{
-                System.out.println("Please, its important a place where you want to search for accommodations");
-            }
-        }while(!dativalidi);
-        try {
-            SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0]).setDateOfCheckIn((LocalDateTime) filter[1])
-                    .setDateOfCheckOut((LocalDateTime) filter[2]).setHowMuchRooms((Integer) filter[3]).setHowMuchPeople((Integer) filter[4])
-                    .setCategory((AccommodationType) filter[5]).setAllCategories((boolean) filter[6]).setMaxPrice(((float) filter[7]))
-                    .setMinRatingStars((AccommodationRating) filter[8]).setSpecificRatingStars((AccommodationRating) filter[9])
-                    .setRefundable((boolean) filter[10]).setHaveFreeWifi((boolean) filter[11]).setCanISmoke((boolean) filter[12])
-                    .setHaveParking((boolean) filter[13]).setHaveCoffeeMachine((boolean) filter[14]).setHaveRoomService((boolean) filter[15])
-                    .setHaveCleaningService((boolean) filter[16]).setHaveSpa((boolean) filter[17]).setGoodForKids((boolean) filter[18])
-                    .setCanHaveAnimal((boolean) filter[19]).build();
-            return rc.doResearch(sp);
-        } catch (RuntimeException e) {
-            System.err.println(e.getMessage());
-        }
-        return null;
-    }
-
-    private static Object[] setFilterArray() {
-        Object[] array = new Object[20];
-        for (int i = 0; i < array.length; i++) {
-            if(i < 3){
-                array[i] = null;
-            }else if(i == 3 || i==4) {
-                array[i] = 0;
-            }else if(i == 7){
-                array[i]=0.0f;
-            }else if(i == 5 || i==8 || i==9){
-                array[i] = null;
-            }else{
-                array[i] = false;
-            }
-        }
-        return array;
-    }
 
     // alternativa all'attuale ricerca con uso di colori per indicare ciò che si è scelto più un menu indicativo di cosa manca e cosa si è messo modulare e leggermente userfriendly
-   /* private static final String GREEN = "\u001B[32m";
+    private static final String GREEN = "\u001B[32m";
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
 
@@ -464,10 +156,10 @@ public class Main {
             printMenu(filter);
             choice = scanner.nextInt();
             handleUserChoice(choice, filter);
-            if (choice != 21 && filter[0] == null) {
+            if (filter[0] == null || ((String) filter[0]).trim().isEmpty()) {
                 System.out.println("\n" + RED + "You must specify a place to perform a search." + RESET + "\n");
             }
-        } while (choice != 21 || filter[0] == null);
+        } while (choice != 21 || filter[0] == null || ((String) filter[0]).trim().isEmpty());
 
         try {
             SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0])
@@ -533,7 +225,7 @@ public class Main {
             case 18 -> "Have Spa";
             case 19 -> "Good for Kids";
             case 20 -> "Can Have Animal";
-            case 21 -> "Exit";
+            case 21 -> "Search";
             case 22 -> "Show Current Filters";
             default -> "Invalid";
         };
@@ -588,11 +280,11 @@ public class Main {
                 System.out.println(getMenuLabel(choice) + " set to: " + GREEN + num + RESET);
             }
             case 6 -> {
-                System.out.println("Select category: 1. Hotel, 2. B&B, 3. Apartment");
+                System.out.println("Select category: \n 1. Hotel, \n 2. B&B,\n 3. Apartment");
                 int type = scanner.nextInt();
                 AccommodationType selected = switch (type) {
                     case 1 -> AccommodationType.Hotel;
-                    case 2 -> AccommodationType.BeB;
+                    case 2 -> AccommodationType.BnB;
                     case 3 -> AccommodationType.Apartment;
                     default -> null;
                 };
@@ -633,7 +325,7 @@ public class Main {
                 filter[choice - 1] = true;
                 System.out.println(getMenuLabel(choice) + " set to: " + GREEN + "true" + RESET);
             }
-            case 21 -> System.out.println("Exiting...");
+            case 21 -> System.out.println("Searching...");
             case 22 -> showCurrentFilters(filter);
             default -> System.out.println(RED + "Invalid choice." + RESET);
         }
@@ -645,7 +337,7 @@ public class Main {
             String label = getMenuLabel(i);
             Object val = filter[i - 1];
             String value;
-            if (val == null || (val instanceof Number num && num.doubleValue() == 0.0) || (val instanceof Boolean b && !b)) {
+            if (val == null || (val instanceof Number num && num.doubleValue() == 0.0) || (val instanceof Boolean b && !b) || (val instanceof String && ((String) val).trim().isEmpty())) {
                 value = RED + "Not set" + RESET;
             } else {
                 value = GREEN + val.toString() + RESET;
@@ -669,7 +361,7 @@ public class Main {
             }
         }
         return array;
-    }*/
+    }
 
     private static void profileMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);

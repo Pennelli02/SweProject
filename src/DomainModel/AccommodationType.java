@@ -13,5 +13,17 @@ public enum AccommodationType {
             default -> throw new IllegalArgumentException("Tipo di alloggio sconosciuto: " + value);
         };
     }
+
+    @Override
+    public String toString() {
+        if (this == Hotel) {
+            return "Hotel";
+        }else if (this == Apartment) {
+            return "Apartment";
+        }else if (this == BnB) {
+            return "B&B";
+        }
+        return null;
+    }
 }
 

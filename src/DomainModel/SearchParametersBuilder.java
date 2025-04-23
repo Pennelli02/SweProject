@@ -126,6 +126,9 @@ public final class SearchParametersBuilder {
     }
 
     public static SearchParametersBuilder newBuilder(String place){
+        if(place.trim().isEmpty()){
+            throw new IllegalArgumentException("Place cannot be empty");
+        }
         return new SearchParametersBuilder(place);
     }
 
