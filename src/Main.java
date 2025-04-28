@@ -44,7 +44,40 @@ public class Main {
 
                     RegisterUser registerUser = uc.login(email,password);
                     if(registerUser != null) {
-                        userMenu(registerUser);
+                        if (registerUser.getId() == -1) {
+                            // Correct email but wrong password
+                            System.out.println("The email is correct but the password is wrong.");
+                            System.out.println("Choose an option:");
+                            System.out.println("1. Try again");
+                            System.out.println("2. Retrieve password");
+
+                            int recoveryChoice = in1.nextInt();
+                            in1.nextLine(); // consume the newline
+
+                            if (recoveryChoice == 1) {
+                                // Let them try again
+                                System.out.println("Enter your password again: ");
+                                String newPassword = in1.nextLine();
+                                registerUser = uc.login(email, newPassword);
+                                if (registerUser != null && registerUser.getId() != -1) {
+                                    userMenu(registerUser);
+                                } else {
+                                    System.out.println("Still incorrect password.");
+                                }
+                            } else if (recoveryChoice == 2) {
+                                // Retrieve and display password
+                                String retrievedPassword = uc.getForgottenPassword(registerUser.getEmail());
+                                if (retrievedPassword != null) {
+                                    System.out.println("Your password is: " + retrievedPassword);
+
+                                } else {
+                                    System.out.println("Could not retrieve password.");
+                                }
+                            }
+                        }else {
+                            userMenu(registerUser);
+                        }
+
                     }else{
                         System.out.println("Invalid email or password, try again");
                     }
