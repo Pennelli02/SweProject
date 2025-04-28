@@ -410,7 +410,7 @@ public class Main {
                     "\n5. DELETE A REVIEW" +
                     "\n6. DELETE FAVOURITE LOCATION" +
                     "\n7. EXIT"+
-                    "\n8. REMOVE ACCOUNT"
+                    "\n8."+ RED+ " REMOVE ACCOUNT"+RESET
             );
 
             choice = scanner.nextInt();
@@ -453,7 +453,6 @@ public class Main {
                     switch(choice) {
                         case 1:{
                             removeAccount(registerUser.getId(), profileUserController);
-                            tag=false;
                             return;
                         }
                         case 2:{
@@ -532,6 +531,7 @@ public class Main {
                    username = sc.nextLine();
                    break;
                }
+               //FixMe rimane nel ciclo almeno che tu non prema 4 e a prescindere stampa a schermo invalid choice
                case 6:{
                    Scanner sc = new Scanner(System.in);
                    nfl = Location.Nothing;
