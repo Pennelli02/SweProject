@@ -84,12 +84,12 @@ public class ReviewDAO {
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
        PreparedStatement stmt = null;
         try {
-            String sql = "INSERT INTO reviews VALUES(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO reviews (userid, accommodationid, rating, commenttext) VALUES(?, ?, ?, ?)";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, user.getId());
-            stmt.setString(2, accommodation.getName());
-            stmt.setString(3, content);
-            stmt.setInt(4, rating.getNumericValue());
+            stmt.setInt(2, accommodation.getId());
+            stmt.setInt(3, rating.getNumericValue());
+            stmt.setString(4, content);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

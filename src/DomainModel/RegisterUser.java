@@ -152,12 +152,12 @@ public class RegisterUser {
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }
 
-    //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene
+    //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene. Risposta Lore: va benissimo
     public void showMyBookings(){
         for (Booking myBooking : myBookings) {
-//            if (myBooking.getState() == State.Accommodation_Cancelled) {
-//                sendMessage(myBooking.getPrice(), myBooking.getAccommodation().getName());
-//            }
+            if (myBooking.getState() == State.Accommodation_Cancelled) {
+                sendMessage(myBooking.getPrice(), myBooking.getAccommodation().getName());
+            }
             System.out.println(myBooking.toString());
         }
     }

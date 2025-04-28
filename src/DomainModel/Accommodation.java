@@ -298,35 +298,34 @@ public class Accommodation {
         modifiedFields.clear();
     }
 
-    //FixMe aggiungerei un altro metodo per mostrare a schermo perché così son troppi attributi a schermo magari se ci sono più di un alloggio diventa ingestibile
-    //FiXme lo terrei il toString per mostrare l'alloggio nel caso l'utente scelga di vedere tutte le informazioni
-    @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return "Accommodation{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", place='" + place + '\'' +
-                ", disponibility=" + disponibility +
-                ", type=" + type +
-                ", ratePrice=" + ratePrice +
-                ", availableFrom=" + availableFrom.format(formatter) +
-                ", availableEnd=" + availableEnd.format(formatter) +
-                ", description='" + description + '\'' +
-                ", rating=" + rating +
-                ", refundable=" + refundable +
-                ", freewifi=" + freewifi +
-                ", haveSmokingArea=" + haveSmokingArea +
-                ", haveParking=" + haveParking +
-                ", coffeMachine=" + coffeMachine +
-                ", roomService=" + roomService +
-                ", cleaningService=" + cleaningService +
-                ", haveSpa=" + haveSpa +
-                ", goodForKids=" + goodForKids +
-                ", numberOfRoom=" + numberOfRoom +
-                ", welcomeAnimal=" + welcomeAnimal +
-                ", maxNumberOfPeople=" + maxNumberOfPeople +
-                '}';
+        return "Id= " + id +
+                ", Name= " + name +
+                ", address= " + address +
+                ", place= " + place +
+                ", disponibility= " + disponibility +
+                ", type= " + type +
+                ", ratePrice= " + ratePrice +
+                ", availableFrom= " + availableFrom.format(formatter) +
+                ", availableEnd= " + availableEnd.format(formatter) +
+                ", rating= " + rating +
+                ", maxNumberOfPeople= " + maxNumberOfPeople;
+    }
+
+    public String toStringSpecific(){
+        return "Details for accommodation: " + name +
+                ", description= " + description +
+                ", refundable= " + refundable +
+                ", freewifi= " + freewifi +
+                ", haveSmokingArea= " + haveSmokingArea +
+                ", haveParking= " + haveParking +
+                ", coffeMachine= " + coffeMachine +
+                ", roomService= " + roomService +
+                ", cleaningService= " + cleaningService +
+                ", haveSpa= " + haveSpa +
+                ", goodForKids= " + goodForKids +
+                ", numberOfRoom= " + numberOfRoom +
+                ", welcomeAnimal= " + welcomeAnimal;
     }
 }
