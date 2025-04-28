@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         logInMenu();
     }
-    //TODO gestire l'eventualità che l'utente inserisca l'email giusta ma la password sbagliata 2 opzioni fargliela rimettere o richiedere la password.
     public static void logInMenu() throws SQLException, ClassNotFoundException {
         Scanner in = new Scanner(System.in);
         UserController uc = new UserController();
@@ -397,7 +396,9 @@ public class Main {
     }
 
     private static void profileMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
+        ProfileUserController profileUserController = new ProfileUserController(registerUser);
         Scanner scanner = new Scanner(System.in);
+        boolean tag = true;
         int choice;
 
         do{
@@ -408,7 +409,9 @@ public class Main {
                     "\n4. CHANGE PERSONAL INFORMATION"+
                     "\n5. DELETE A REVIEW" +
                     "\n6. DELETE FAVOURITE LOCATION" +
-                    "\n7. EXIT");
+                    "\n7. EXIT"+
+                    "\n8. REMOVE ACCOUNT"
+            );
 
             choice = scanner.nextInt();
 
@@ -426,7 +429,7 @@ public class Main {
                     break;
                 }
                 case 4:{
-                    changePersonalInformation(registerUser);
+                    changePersonalInformation(registerUser, profileUserController);
                     break;
                 }
                 case 5:{
@@ -439,6 +442,27 @@ public class Main {
                 }
                 case 7:{
                     System.out.println("successful exit.");
+                    tag=false;
+                    break;
+                }
+                case 8:{
+                    System.out.println("Are you sure you want to remove your account? You will lose everything");
+                    System.out.println("\n1. Yes"+
+                                        "\n2. No");
+                    choice = scanner.nextInt();
+                    switch(choice) {
+                        case 1:{
+                            removeAccount(registerUser.getId(), profileUserController);
+                            tag=false;
+                            return;
+                        }
+                        case 2:{
+                            break;
+                        }
+                        default:
+                            System.out.println(RED + "Invalid choice.");
+                            break;
+                    }
                     break;
                 }
                 default: {
@@ -446,11 +470,16 @@ public class Main {
                     break;
                 }
             }
-        }while (choice!=7);
+        }while (tag);
     }
 
-    private static void changePersonalInformation(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
-        ProfileUserController profileUserController = new ProfileUserController(registerUser);
+    private static void removeAccount(int id, ProfileUserController pc) throws SQLException, ClassNotFoundException {
+        pc.unRegister();
+        pc.exit();
+        logInMenu();
+    }
+
+    private static void changePersonalInformation(RegisterUser registerUser, ProfileUserController profileUserController) throws SQLException, ClassNotFoundException {
         int choice;
         String name = null;
         String surname = null;
