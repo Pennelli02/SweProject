@@ -452,14 +452,14 @@ public class Main {
                     choice = scanner.nextInt();
                     switch(choice) {
                         case 1:{
-                            removeAccount(registerUser.getId(), profileUserController);
+                            removeAccount(profileUserController);
                             return;
                         }
                         case 2:{
                             break;
                         }
                         default:
-                            System.out.println(RED + "Invalid choice.");
+                            System.out.println(RED + "Invalid choice." + RESET);
                             break;
                     }
                     break;
@@ -472,7 +472,7 @@ public class Main {
         }while (tag);
     }
 
-    private static void removeAccount(int id, ProfileUserController pc) throws SQLException, ClassNotFoundException {
+    private static void removeAccount(ProfileUserController pc) throws SQLException, ClassNotFoundException {
         pc.unRegister();
         pc.exit();
         logInMenu();
