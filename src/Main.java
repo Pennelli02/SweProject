@@ -2,9 +2,6 @@ import BusinessLogic.AdminController;
 import BusinessLogic.ProfileUserController;
 import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
-import DAO.BookingDAO;
-import DAO.PreferenceDAO;
-import DAO.ReviewDAO;
 import DomainModel.*;
 
 import java.sql.SQLException;
@@ -20,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         logInMenu();
     }
-    //TODO gestire l'eventualità che l'utente inserisca l'email giusta ma la password sbagliata 2 opzioni fargliela rimettere o richiedere la password.
+
     public static void logInMenu() throws SQLException, ClassNotFoundException {
         Scanner in = new Scanner(System.in);
         UserController uc = new UserController();
@@ -47,11 +44,41 @@ public class Main {
 
                     RegisterUser registerUser = uc.login(email,password);
                     if(registerUser != null) {
-                        userMenu(registerUser);
-                    }else{
-                        System.out.println("Invalid email or password, try again");
+                        if (registerUser.getId() == -1) {
+                            // Correct email but wrong password
+                            System.out.println("The email is correct but the password is wrong.");
+                            System.out.println("Choose an option:");
+                            System.out.println("1. Try again");
+                            System.out.println("2. Retrieve password");
+
+                            int recoveryChoice = in1.nextInt();
+                            in1.nextLine(); // consume the newline
+
+                            if (recoveryChoice == 1) {
+                                // Let them try again
+                                System.out.println("Enter your password again: ");
+                                String newPassword = in1.nextLine();
+                                registerUser = uc.login(email, newPassword);
+                                if (registerUser != null && registerUser.getId() != -1) {
+                                    userMenu(registerUser);
+                                } else {
+                                    System.out.println("Still incorrect password.");
+                                }
+                            } else if (recoveryChoice == 2) {
+                                // Retrieve and display password
+                                String retrievedPassword = uc.getForgottenPassword(registerUser.getEmail());
+                                if (retrievedPassword != null) {
+                                    System.out.println("Your password is: " + retrievedPassword);
+
+                                } else {
+                                    System.out.println("Could not retrieve password.");
+                                }
+                            }
+                        } else {
+                            userMenu(registerUser);
+                        }
                     }
-                    break;
+                        break;
                 }
                 case 2:{
                     Scanner in2 = new Scanner(System.in);
@@ -60,7 +87,7 @@ public class Main {
                     String passwordAdmin = in2.nextLine();
 
                     if(ac.loginAdmin(passwordAdmin)){
-                        adminMenu();
+                        adminMenu(ac);
                     }else{
                         System.out.println("Invalid password, try again");
                     }
@@ -91,7 +118,8 @@ public class Main {
 
     public static void userMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Accommodation> accommodations = new ArrayList<Accommodation>();
+        ArrayList<Accommodation> accommodations;
+        ProfileUserController puc= new ProfileUserController(registerUser);
         int choice;
         do{
             System.out.println("MENU USER: " +
@@ -103,11 +131,12 @@ public class Main {
 
             switch(choice) {
                 case 1:{
-                    profileMenu(registerUser);
+                    profileMenu(registerUser,puc);
                     break;
                 }
                 case 2:{
-                    accommodations = researchAccommodation(registerUser);
+                    ResearchController rc= new ResearchController(registerUser);
+                    accommodations = researchAccommodation(rc);
                     if(accommodations == null) {
                         System.out.println("Something went wrong, try again");
 
@@ -115,7 +144,7 @@ public class Main {
                         System.out.println("No accommodations found, try again");
                     }else{
                         System.out.println("Accommodations found, you can do some operations");
-                        operationSearchedAccommodations(registerUser,accommodations);
+                        operationSearchedAccommodations(rc, accommodations);
                     }
                     break;
                 }
@@ -131,12 +160,9 @@ public class Main {
         }while(choice != 3);
     }
 
-    private static void operationSearchedAccommodations(RegisterUser registerUser,ArrayList<Accommodation> accommodations) {
+    private static void operationSearchedAccommodations( ResearchController rc, ArrayList<Accommodation> accommodations) {
         Scanner scanner = new Scanner(System.in);
         int choice;
-        ReviewDAO reviewDAO = new ReviewDAO();
-        PreferenceDAO preferenceDAO = new PreferenceDAO();
-        BookingDAO bookingDAO = new BookingDAO();
         do{
             //TODO CHIEDERE A LORE: è meglio fargli vedere gli alloggi costantemente per le operazioni o va bene l'opzione di visionare gli alloggi ricercati con un operazione menu specifica
             //TODO CHIEDERE A LORE: Le informazioni in più dell'alloggio devo essere chiesta quando si visualizza tutti gli alloggi o si può creare una opzione aggiuntiva nel menù che possa farlo
@@ -183,7 +209,7 @@ public class Main {
                         System.out.println("Enter which accommodation you want to bookmark(start to 1): ");
                         choice2 = s2.nextInt();
                         choice2 = choice2 - 1;
-                        preferenceDAO.save(registerUser.getId(), accommodations.get(choice2).getId());
+                        rc.saveAccommodation(accommodations.get(choice2));
                         System.out.println("Preference successfully entered");
                     }catch (IndexOutOfBoundsException e){
                         System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
@@ -238,7 +264,7 @@ public class Main {
                                 }
                             }
                         }while(choice3 < 1 || choice3 > 5);
-                        reviewDAO.addReview(registerUser, accommodations.get(choice2),description,rate);
+                        rc.writeReview(accommodations.get(choice2),description,rate);
                         System.out.println("Review successfully entered");
                     }catch (IndexOutOfBoundsException e){
                         System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
@@ -253,7 +279,7 @@ public class Main {
                         choice2 = s2.nextInt();
                         choice2 = choice2 - 1;
 
-                        //bookingDAO.addBooking()
+                        // usa direttamente i controller fanno tutto loro
                         System.out.println("Preference successfully entered");
                     }catch (IndexOutOfBoundsException e){
                         System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
@@ -275,20 +301,19 @@ public class Main {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
 
-    private static ArrayList<Accommodation> researchAccommodation(RegisterUser registerUser) {
+    private static ArrayList<Accommodation> researchAccommodation(ResearchController rc) {
         Scanner scanner = new Scanner(System.in);
         Object[] filter = setFilterArray();
-        ResearchController rc = new ResearchController(registerUser);
         int choice;
 
         do {
             printMenu(filter);
             choice = scanner.nextInt();
             handleUserChoice(choice, filter);
-            if (choice != 21 && filter[0] == null) {
+            if (filter[0] == null || ((String) filter[0]).trim().isEmpty()) {
                 System.out.println("\n" + RED + "You must specify a place to perform a search." + RESET + "\n");
             }
-        } while (choice != 21 || filter[0] == null);
+        } while (choice != 21 || filter[0] == null || ((String) filter[0]).trim().isEmpty());
 
         try {
             SearchParameters sp = SearchParametersBuilder.newBuilder((String) filter[0])
@@ -354,7 +379,7 @@ public class Main {
             case 18 -> "Have Spa";
             case 19 -> "Good for Kids";
             case 20 -> "Can Have Animal";
-            case 21 -> "Exit";
+            case 21 -> "Search";
             case 22 -> "Show Current Filters";
             default -> "Invalid";
         };
@@ -362,7 +387,7 @@ public class Main {
 
     private static boolean isFilterSet(Object[] filter, int option) {
         return switch (option) {
-            case 1 -> filter[0] != null;
+            case 1 -> filter[0] != null && filter[0].toString().trim().isEmpty();
             case 2 -> filter[1] != null;
             case 3 -> filter[2] != null;
             case 4 -> (int) filter[3] > 0;
@@ -454,7 +479,7 @@ public class Main {
                 filter[choice - 1] = true;
                 System.out.println(getMenuLabel(choice) + " set to: " + GREEN + "true" + RESET);
             }
-            case 21 -> System.out.println("Exiting...");
+            case 21 -> System.out.println("Searching...");
             case 22 -> showCurrentFilters(filter);
             default -> System.out.println(RED + "Invalid choice." + RESET);
         }
@@ -466,7 +491,7 @@ public class Main {
             String label = getMenuLabel(i);
             Object val = filter[i - 1];
             String value;
-            if (val == null || (val instanceof Number num && num.doubleValue() == 0.0) || (val instanceof Boolean b && !b)) {
+            if (val == null || (val instanceof Number num && num.doubleValue() == 0.0) || (val instanceof Boolean b && !b) || (val instanceof String && ((String) val).trim().isEmpty())) {
                 value = RED + "Not set" + RESET;
             } else {
                 value = GREEN + val.toString() + RESET;
@@ -492,10 +517,10 @@ public class Main {
         return array;
     }
 
-    private static void profileMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
+    private static void profileMenu(RegisterUser registerUser, ProfileUserController puc) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
         int choice;
-
+        boolean tag=true;
         do{
             System.out.println("MENU PROFILE USER: " +
                     "\n1. SEE PERSONAL INFORMATION" +
@@ -504,9 +529,12 @@ public class Main {
                     "\n4. CHANGE PERSONAL INFORMATION"+
                     "\n5. DELETE A REVIEW" +
                     "\n6. DELETE FAVOURITE LOCATION" +
-                    "\n7. EXIT");
+                    "\n7. EXIT"+
+                    "\n8."+ RED+ " REMOVE ACCOUNT"+RESET
+            );
 
-            choice = scanner.nextInt();
+
+                    choice = scanner.nextInt();
 
             switch(choice) {
                 case 1:{
@@ -523,7 +551,7 @@ public class Main {
                     break;
                 }
                 case 4:{
-                    changePersonalInformation(registerUser);
+                    changePersonalInformation(puc);
                     break;
                 }
                 case 5:{
@@ -536,6 +564,26 @@ public class Main {
                 }
                 case 7:{
                     System.out.println("successful exit.");
+                     tag = false;
+                    break;
+                }
+                case 8: {
+                    System.out.println("Are you sure you want to remove your account? You will lose everything");
+                    System.out.println("\n1. Yes" +
+                            "\n2. No");
+                    choice = scanner.nextInt();
+                    switch (choice) {
+                        case 1: {
+                            removeAccount(puc);
+                            return;
+                        }
+                        case 2: {
+                            break;
+                        }
+                        default:
+                            System.out.println(RED + "Invalid choice." + RESET);
+                            break;
+                    }
                     break;
                 }
                 default: {
@@ -543,11 +591,16 @@ public class Main {
                     break;
                 }
             }
-        }while (choice!=7);
+        }while (tag);
     }
 
-    private static void changePersonalInformation(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
-        ProfileUserController profileUserController = new ProfileUserController(registerUser);
+    private static void removeAccount(ProfileUserController pc) throws SQLException, ClassNotFoundException {
+        pc.unRegister();
+        pc.exit();
+        logInMenu();
+    }
+
+    private static void changePersonalInformation(ProfileUserController puc) throws SQLException, ClassNotFoundException {
         int choice;
         String name = null;
         String surname = null;
@@ -644,15 +697,15 @@ public class Main {
                }
            }
         }while(choice!=7);
-        profileUserController.updateProfile(name,surname,email,password,username,nfl);
+        puc.updateProfile(name,surname,email,password,username,nfl);
     }
 
-    public static void adminMenu() throws SQLException, ClassNotFoundException {
+    public static void adminMenu(AdminController ac) throws SQLException, ClassNotFoundException {
         //todo
     }
 
     public static RegisterUser registerModule(UserController uc) throws SQLException, ClassNotFoundException {
-        ArrayList<String> stringAttributes = new ArrayList<String>();
+        ArrayList<String> stringAttributes = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         System.out.println("MENU REGISTRATION APARTMENT: ");
         System.out.println("Enter your email: ");

@@ -529,4 +529,24 @@ public class AccommodationDAO {
    }
 
 
+    public ArrayList<Accommodation> getAccommodationFromUser(int id) {
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT accommodationId FROM booking WHERE userId = ?";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Accommodation> accommodations = new ArrayList<>();
+            while (rs.next()) {
+                Accommodation accommodation = getAccommodationByID(rs.getInt("accommodationId"));
+                accommodations.add(accommodation);
+            }
+            return accommodations;
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
+        return null;
+    }
 }

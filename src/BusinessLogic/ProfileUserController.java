@@ -53,6 +53,11 @@ public class ProfileUserController {
 
     public void unRegister() {
         UserDAO userDAO=new UserDAO();
+        AccommodationDAO accommodationDAO=new AccommodationDAO();
+        ArrayList <Accommodation> accommodations=accommodationDAO.getAccommodationFromUser(user.getId());
+        for(Accommodation accommodation:accommodations) {
+            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility()+1);
+        }
         userDAO.removeUser(user.getId());
         user=null;
     }
