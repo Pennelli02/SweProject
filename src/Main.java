@@ -387,7 +387,7 @@ public class Main {
 
     private static boolean isFilterSet(Object[] filter, int option) {
         return switch (option) {
-            case 1 -> filter[0] != null && filter[0].toString().trim().isEmpty();
+            case 1 -> filter[0] != null && !filter[0].toString().trim().isEmpty();
             case 2 -> filter[1] != null;
             case 3 -> filter[2] != null;
             case 4 -> (int) filter[3] > 0;

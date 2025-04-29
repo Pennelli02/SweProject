@@ -69,12 +69,12 @@ public class PreferenceDAO {
                 accommodation.setPlace(resultSet.getString("place"));
                 accommodation.setAddress(resultSet.getString("address"));
                 accommodation.setDisponibility(resultSet.getInt("disponibility"));
-                accommodation.setRatePrice(resultSet.getFloat("ratePrice")); // Usa getFloat per decimali
+                accommodation.setRatePrice(resultSet.getFloat("rateprice")); // Usa getFloat per decimali
 
                 // Date
                 // Get timestamps from ResultSet
-                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availableFrom");
-                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableEnd");
+                java.sql.Timestamp sqlAvailableFrom = resultSet.getTimestamp("availablefrom");
+                java.sql.Timestamp sqlAvailableEnd = resultSet.getTimestamp("availableend");
 
                 // Convert to LocalDateTime (handling null values)
                 if (sqlAvailableFrom != null) {
@@ -110,17 +110,17 @@ public class PreferenceDAO {
                 // Boolean (usa getBoolean o verifica valori come 1/0 se necessario)
                 accommodation.setRefundable(resultSet.getBoolean("refundable"));
                 accommodation.setFreewifi(resultSet.getBoolean("freewifi"));
-                accommodation.setHaveSmokingArea(resultSet.getBoolean("haveSmokingArea"));
-                accommodation.setHaveParking(resultSet.getBoolean("haveParking"));
-                accommodation.setCoffeMachine(resultSet.getBoolean("coffeMachine"));
-                accommodation.setRoomService(resultSet.getBoolean("roomService"));
-                accommodation.setCleaningService(resultSet.getBoolean("cleaningService"));
-                accommodation.setHaveSpa(resultSet.getBoolean("haveSpa"));
-                accommodation.setGoodForKids(resultSet.getBoolean("goodForKids"));
-                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeAnimal"));
+                accommodation.setHaveSmokingArea(resultSet.getBoolean("havesmockingarea"));
+                accommodation.setHaveParking(resultSet.getBoolean("haveparking"));
+                accommodation.setCoffeMachine(resultSet.getBoolean("coffeemachine"));
+                accommodation.setRoomService(resultSet.getBoolean("roomservice"));
+                accommodation.setCleaningService(resultSet.getBoolean("cleaningservice"));
+                accommodation.setHaveSpa(resultSet.getBoolean("havespa"));
+                accommodation.setGoodForKids(resultSet.getBoolean("goodforkids"));
+                accommodation.setWelcomeAnimal(resultSet.getBoolean("welcomeanimal"));
 
-                accommodation.setNumberOfRoom(resultSet.getInt("numberOfRoom"));
-                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxPeople"));
+                accommodation.setNumberOfRoom(resultSet.getInt("numberofroom"));
+                accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
 
                 favourites.add(accommodation);
             }
