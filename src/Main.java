@@ -4,10 +4,10 @@ import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
 import DomainModel.*;
 
+import javax.management.InvalidAttributeValueException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -144,7 +144,7 @@ public class Main {
                         System.out.println("No accommodations found, try again");
                     }else{
                         System.out.println("Accommodations found, you can do some operations");
-                        operationSearchedAccommodations(rc, accommodations);
+                        operationSearchedAccommodations(registerUser,rc, accommodations);
                     }
                     break;
                 }
@@ -160,7 +160,7 @@ public class Main {
         }while(choice != 3);
     }
 
-    private static void operationSearchedAccommodations( ResearchController rc, ArrayList<Accommodation> accommodations) {
+    private static void operationSearchedAccommodations(RegisterUser registerUser,ResearchController rc, ArrayList<Accommodation> accommodations) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do{
@@ -181,24 +181,6 @@ public class Main {
                     System.out.println("----ALL ACCOMMODATIONS---------");
                     for (Accommodation accommodation : accommodations) {
                         System.out.println(accommodation.toString());
-                        Scanner s2 = new Scanner(System.in);
-                        int choice2;
-                        do{
-                            System.out.println("do you want to see additional information?(1 yes, 2 no)");
-                            choice2 = s2.nextInt();
-                            switch(choice2) {
-                                case 1:{
-                                    System.out.println(accommodation.toStringSpecific());
-                                    break;
-                                }
-                                case 2:{
-                                    break;
-                                }
-                                default:{
-                                    System.out.println("Please enter a valid choice");
-                                }
-                            }
-                        }while (choice2 < 1 || choice2 > 2);
                     }
                     break;
                 }
@@ -275,25 +257,86 @@ public class Main {
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
-                        System.out.println("Enter the accommodation you want to book(start to 1): ");
+                        System.out.println("Enter the accommodation that you want to book(start to 1): ");
                         choice2 = s2.nextInt();
                         choice2 = choice2 - 1;
-
-                        // usa direttamente i controller fanno tutto loro
-                        System.out.println("Preference successfully entered");
+                        LocalDateTime checkin = getDate("Enter the check-in date");
+                        LocalDateTime checkout = getDate("Enter the check-out date");
+                        validateDates(checkin,checkout, accommodations.get(choice2));
+                        float daysBetween = ChronoUnit.DAYS.between(checkin.toLocalDate(), checkout.toLocalDate());
+                        float rateprice = accommodations.get(choice2).getRatePrice();
+                        int price = (int)(rateprice * daysBetween);
+                        System.out.println("Enter the number of people");
+                        int numPersone = s2.nextInt();
+                        if (numPersone < 1 || numPersone > accommodations.get(choice2).getMaxNumberOfPeople()) {
+                            throw new InvalidAttributeValueException("Number of people entered is negative or 0 or over");
+                        }
+                        boolean applydiscont = rc.applyDiscount(registerUser, price);
+                        rc.booking(accommodations.get(choice2),checkin,checkout,numPersone,price,applydiscont);
                     }catch (IndexOutOfBoundsException e){
                         System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
+                    } catch (Exception e) {
+                        System.out.println("invalid something");
                     }
                     break;
                 }
                 case 5:{
                     break;
                 }
+                case 6:{
+                    break;
+                }
                 default: {
                     System.out.println("Please enter a valid choice");
                 }
             }
-        }while (choice != 5);
+        }while (choice != 6);
+    }
+
+    private static void validateDates(LocalDateTime checkin, LocalDateTime checkout, Accommodation accommodation) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime checkinAcc = accommodation.getAvailableFrom();
+        LocalDateTime checkoutAcc = accommodation.getAvailableEnd();
+
+        if (checkin != null && checkout != null) {
+            // Verifica che le date non siano nel passato
+            if (checkin.isBefore(now)) {
+                throw new IllegalArgumentException("Check-in date cannot be in the past.");
+            }
+
+            if (checkout.isBefore(now)) {
+                throw new IllegalArgumentException("Check-out date cannot be in the past.");
+            }
+
+            // Verifica che la data di check-out sia dopo il check-in
+            if (!checkout.isAfter(checkin)) {
+                throw new IllegalArgumentException("Check-out date must be after check-in date.");
+            }
+
+            if(checkin.isBefore(checkinAcc)) {
+                throw new IllegalArgumentException("Check-in date cannot be before check-in date of accommodation.");
+            }
+
+            if(checkout.isAfter(checkoutAcc)) {
+                throw new IllegalArgumentException("Check-out date cannot be after check-out date of accommodation.");
+            }
+
+        } else if (checkin != null || checkout != null) {
+            // Se solo una delle due date è specificata
+            throw new IllegalArgumentException("Both check-in and check-out dates must be provided or both must be null.");
+        }
+    }
+
+    private static LocalDateTime getDate(String incipit) {
+        Scanner s2 = new Scanner(System.in);
+        System.out.println(incipit);
+        System.out.print("Year (e.g., 2025): ");
+        int year = s2.nextInt();
+        System.out.print("Month (1-12): ");
+        int month = s2.nextInt();
+        System.out.print("Day (1-31): ");
+        int day = s2.nextInt();
+        return LocalDateTime.of(year, month, day, 0, 0);
     }
 
     // alternativa all'attuale ricerca con uso di colori per indicare ciò che si è scelto più un menu indicativo di cosa manca e cosa si è messo modulare e leggermente userfriendly

@@ -5,6 +5,7 @@ import DomainModel.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class ResearchController {
@@ -54,13 +55,27 @@ public class ResearchController {
     }
 
     //fixme vedere se è utile nel caso
-    public float applyDiscount(float originalPrice) {
-        UserDAO userDAO = new UserDAO();
-        if (originalPrice > 300) {
-            return originalPrice - 300;
-        }else{
-            throw new RuntimeException("you need to spend more than 300, discount not allowed");
+    public boolean applyDiscount(RegisterUser registerUser, float originalPrice) {
+        if (originalPrice > 300 && registerUser.getFidelityPoints() >= 10) {
+            Scanner scanner = new Scanner(System.in);
+            int choice;
+            do{
+                System.out.println("You have a lot of points, do you want to apply discount?(1 yes, 2 no): ");
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:{
+                        return true;
+                    }
+                    case 2:{
+                        return false;
+                    }
+                    default:{
+                        System.out.println("Invalid choice");
+                    }
+                }
+            }while (choice < 1 || choice > 2);
         }
+        return false;
     }
 
     public ArrayList<Review> getReviews(Accommodation accommodation) {

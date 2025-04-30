@@ -47,14 +47,14 @@ public class BookingDAO {
             }
             PreparedStatement preparedStatement=null;
         try {
-            String query="insert into bookings values(?,?,?,?,?) RETURNING id";
+            String query="insert into booking (userid,accommodationid,checkin,checkout,price,numpeople) values(?,?,?,?,?,?) RETURNING id";
             preparedStatement=connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, accommodation.getId());
-            preparedStatement.setTimestamp(7, java.sql.Timestamp.valueOf(datein));
-            preparedStatement.setTimestamp(8, java.sql.Timestamp.valueOf(dateout));
-            preparedStatement.setInt(5, nPeople);
-            preparedStatement.setInt(6, price);
+            preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(datein));
+            preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(dateout));
+            preparedStatement.setInt(5, price);
+            preparedStatement.setInt(6, nPeople);
             ResultSet rs = preparedStatement.executeQuery();
             if(rs.next()) {
                 return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, dateout, State.Booking_Confirmed);
