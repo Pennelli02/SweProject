@@ -27,6 +27,9 @@ public class ResearchController {
             UserDAO userDAO = new UserDAO();
             AccommodationDAO accommodationDAO = new AccommodationDAO();
             try {
+                if (applydiscount){
+                    price = (int)(price * 0.7);
+                }
                 Booking booking = bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
                 user.addBooking(booking);
                 if(applydiscount) {
@@ -54,7 +57,6 @@ public class ResearchController {
         reviewDAO.addReview(user, accommodation, content, rating);
     }
 
-    //fixme vedere se è utile nel caso
     public boolean applyDiscount(RegisterUser registerUser, float originalPrice) {
         if (originalPrice > 300 && registerUser.getFidelityPoints() >= 10) {
             Scanner scanner = new Scanner(System.in);

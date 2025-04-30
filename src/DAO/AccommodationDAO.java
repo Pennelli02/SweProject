@@ -22,7 +22,7 @@ public class AccommodationDAO {
     public Accommodation getAccommodationByID(int accommodationID) {
         PreparedStatement preparedStatement = null;
         try {
-            String query = "SELECT * FROM accommodation WHERE accommodationId = ?";
+            String query = "SELECT * FROM accommodation WHERE id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accommodationID);
             ResultSet resultSet = preparedStatement.executeQuery();

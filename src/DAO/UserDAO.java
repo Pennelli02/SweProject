@@ -60,7 +60,6 @@ public class UserDAO {
                     // gestire le mie prenotazioni
                     BookingDAO bookingDAO = new BookingDAO();
                     bookingDAO.getBookingsFromUser(user);
-
                     // gestire i miei preferiti
                     PreferenceDAO preferenceDAO = new PreferenceDAO();
                     ArrayList<Accommodation> mySavings;

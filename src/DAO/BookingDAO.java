@@ -47,7 +47,7 @@ public class BookingDAO {
             }
             PreparedStatement preparedStatement=null;
         try {
-            String query="insert into booking (userid,accommodationid,checkin,checkout,price,numpeople) values(?,?,?,?,?,?) RETURNING id";
+            String query="insert into booking (userid,accommodationid,checkin,checkout,price,numpeople, state) values(?,?,?,?,?,?,?) RETURNING id";
             preparedStatement=connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, accommodation.getId());
@@ -55,6 +55,7 @@ public class BookingDAO {
             preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(dateout));
             preparedStatement.setInt(5, price);
             preparedStatement.setInt(6, nPeople);
+            preparedStatement.setString(7,State.Booking_Confirmed.name());
             ResultSet rs = preparedStatement.executeQuery();
             if(rs.next()) {
                 return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, dateout, State.Booking_Confirmed);
@@ -71,7 +72,7 @@ public class BookingDAO {
     public void getBookingsFromUser(RegisterUser user) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "SELECT * FROM booking WHERE userId=?";
+            String query = "SELECT * FROM booking WHERE userId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -95,7 +96,7 @@ public class BookingDAO {
                     booking.setCheckOutDate(sqlAvailableEnd.toLocalDateTime());
                 }
 
-                int accID = resultSet.getInt("accommodationId");
+                int accID = resultSet.getInt("accommodationid");
                 Accommodation accommodation = null;
                 if(!resultSet.wasNull()) { //on delete set NULL
                     AccommodationDAO accommodationDAO = new AccommodationDAO();

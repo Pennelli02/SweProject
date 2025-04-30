@@ -90,4 +90,16 @@ public class Booking {
     }
 
     public Booking() {}
+
+    @Override
+    public String toString() {
+        return "bookingID=" + bookingID +
+                ", customer=" + customer.getUsername() +
+                ", accommodation=" + accommodation.getName() +
+                ", price=" + price +
+                ", numPeople=" + numPeople +
+                ", checkInDate=" + checkInDate +
+                ", checkOutDate=" + checkOutDate +
+                ", state=" + state;
+    }
 }

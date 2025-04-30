@@ -154,11 +154,12 @@ public class RegisterUser {
 
     //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene. Risposta Lore: va benissimo
     public void showMyBookings(){
+        System.out.println("ALL BOOKINGS");
         for (Booking myBooking : myBookings) {
             if (myBooking.getState() == State.Accommodation_Cancelled) {
                 sendMessage(myBooking.getPrice(), myBooking.getAccommodation().getName());
             }
-            System.out.println(myBooking.toString());
+            System.out.println(myBooking);
         }
     }
 

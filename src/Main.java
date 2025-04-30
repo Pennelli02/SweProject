@@ -164,14 +164,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do{
-            //TODO CHIEDERE A LORE: è meglio fargli vedere gli alloggi costantemente per le operazioni o va bene l'opzione di visionare gli alloggi ricercati con un operazione menu specifica
-            //TODO CHIEDERE A LORE: Le informazioni in più dell'alloggio devo essere chiesta quando si visualizza tutti gli alloggi o si può creare una opzione aggiuntiva nel menù che possa farlo
             System.out.println("MENU OPERATION ON SEARCHED ACCOMMODATION: " +
                     "\n 1. See all sought-after accommodations" +
                     "\n 2. Add accommodation to your preferred accommodation (the choice of accommodation is based on the list of accommodations searched)" +
                     "\n 3. Enter a review for an accommodation (the choice of accommodation is based on the list of accommodations searched)" +
                     "\n 4. Booking a sought-after accommodation (the choice of accommodation is based on the list of accommodations searched)" +
-                    "\n 5. Exit "
+                    "\n 5. View reviews of a specific accommodation (the choice of accommodation is based on the list of accommodations searched)" +
+                    "\n 6. See more information for a specific accommodation" +
+                    "\n 7. Exit"
             );
 
             choice = scanner.nextInt();
@@ -269,28 +269,61 @@ public class Main {
                         System.out.println("Enter the number of people");
                         int numPersone = s2.nextInt();
                         if (numPersone < 1 || numPersone > accommodations.get(choice2).getMaxNumberOfPeople()) {
-                            throw new InvalidAttributeValueException("Number of people entered is negative or 0 or over");
+                            throw new InvalidAttributeValueException("Number of people entered is negative or 0 or or more than the maximum number of people in the accommodation");
                         }
                         boolean applydiscont = rc.applyDiscount(registerUser, price);
+                        System.out.println(applydiscont);
                         rc.booking(accommodations.get(choice2),checkin,checkout,numPersone,price,applydiscont);
+                        System.out.println("Booking successfully entered");
                     }catch (IndexOutOfBoundsException e){
                         System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
-                    } catch (Exception e) {
-                        System.out.println("invalid something");
+                    }catch (InvalidAttributeValueException | IllegalArgumentException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
                 }
                 case 5:{
+                    try{
+                        Scanner s2 = new Scanner(System.in);
+                        int choice2;
+                        System.out.println("Enter the accommodation you want to see reviews for(start to 1): ");
+                        choice2 = s2.nextInt();
+                        choice2 = choice2 - 1;
+                        ArrayList<Review> reviews = rc.getReviews(accommodations.get(choice2));
+                        if(reviews.isEmpty()){
+                            System.out.println("No reviews found for this accommodation");
+                        }else{
+                            System.out.println("Reviews found for the accommodation: "+accommodations.get(choice2).getName());
+                            for (Review review : reviews) {
+                                System.out.println(review.toStringAccommodation());
+                            }
+                        }
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
+                    }
                     break;
                 }
                 case 6:{
+                    try{
+                        Scanner s2 = new Scanner(System.in);
+                        int choice2;
+                        System.out.println("Enter the accommodation you want to see the overall information for(start to 1): ");
+                        choice2 = s2.nextInt();
+                        choice2 = choice2 - 1;
+                        System.out.println(accommodations.get(choice2).toStringSpecific());
+                    }catch (IndexOutOfBoundsException e){
+                        System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
+                    }
+                    break;
+                }
+                case 7:{
                     break;
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
                 }
             }
-        }while (choice != 6);
+        }while (choice != 7);
     }
 
     private static void validateDates(LocalDateTime checkin, LocalDateTime checkout, Accommodation accommodation) {

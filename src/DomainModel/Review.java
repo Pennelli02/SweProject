@@ -58,4 +58,18 @@ public class Review {
     }
 
     public void removeReview(int id){}
+
+    public String toStringUser() {
+        return "ReviewID= " + ReviewID +
+                ", reviewedItem= " + reviewedItem +
+                ", reviewText= " + reviewText +
+                ", vote= " + vote;
+    }
+
+    public String toStringAccommodation() {
+        return "ReviewID= " + ReviewID +
+                ", author= " + author.getUsername() +
+                ", reviewText= " + reviewText +
+                ", vote= " + vote;
+    }
 }
