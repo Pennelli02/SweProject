@@ -86,10 +86,7 @@ public class ResearchController {
         return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
-    public ArrayList<Review> getReviewsByUser() {
-        ReviewDAO reviewDAO = new ReviewDAO();
-        return reviewDAO.getReviewByUser(user);
-    }
+
 
     public RegisterUser getUser(){
         return user;

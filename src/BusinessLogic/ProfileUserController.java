@@ -104,4 +104,9 @@ public class ProfileUserController {
         PreferenceDAO preferenceDAO=new PreferenceDAO();
         preferenceDAO.unSave(user.getId(), accommodation.getId());
     }
+
+    public ArrayList<Review> getReviewsByUser() {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        return reviewDAO.getReviewByUser(user);
+    }
 }

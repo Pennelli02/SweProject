@@ -210,6 +210,9 @@ public class Main {
                         System.out.println("Enter the accommodation where you want to write a review(start to 1): ");
                         choice2 = s2.nextInt();
                         choice2 = choice2 - 1;
+                        if(choice2 < 0 || choice2>accommodations.size()){
+                            throw new IndexOutOfBoundsException("Added an index that goes beyond the length of the list of searched accommodations, Try again");
+                        }
                         System.out.println("Enter the description of the accommodation where you want to write a review: ");
                         description = s3.nextLine();
                         do{
@@ -250,7 +253,7 @@ public class Main {
                         rc.writeReview(accommodations.get(choice2),description,rate);
                         System.out.println("Review successfully entered");
                     }catch (IndexOutOfBoundsException e){
-                        System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
+                        System.out.println(e.getMessage());
                     }
                     break;
                 }
@@ -595,6 +598,7 @@ public class Main {
     }
 
     private static void profileMenu(RegisterUser registerUser, ProfileUserController puc) throws SQLException, ClassNotFoundException {
+        //FIXME RICHIESTA LORE, SI TIENE LA LISTA DELLE RECENSIONI RECUPERABILE DAL DAO O CONVIENE AVERLO COME ATTRIBUTO NELLO RegisterUser
         Scanner scanner = new Scanner(System.in);
         int choice;
         boolean tag=true;
@@ -603,7 +607,7 @@ public class Main {
                     "\n1. SEE PERSONAL INFORMATION" +
                     "\n2. SEE ALL FAVOURITE LOCATION" +
                     "\n3. SEE ALL BOOKINGS" +
-                    "\n4. SEE ALL YOUR VIEWS"+
+                    "\n4. SEE ALL YOUR REVIEWS"+
                     "\n5. CHANGE PERSONAL INFORMATION"+
                     "\n6. DELETE A REVIEW" +
                     "\n7. DELETE FAVOURITE LOCATION" +
@@ -628,8 +632,7 @@ public class Main {
                     break;
                 }
                 case 4:{
-                    ResearchController rc = new ResearchController(registerUser);
-                    registerUser.showMyReviews(rc.getReviewsByUser());
+                    registerUser.showMyReviews(puc.getReviewsByUser());
                     break;
                 }
                 case 5:{
@@ -639,7 +642,7 @@ public class Main {
                 case 6:{
                     try {
                         ResearchController rc = new ResearchController(registerUser);
-                        ArrayList<Review> reviews = rc.getReviewsByUser();
+                        ArrayList<Review> reviews = puc.getReviewsByUser();
                         Scanner sc = new Scanner(System.in);
                         System.out.println("Enter the review you want to delete from the list of reviews written by you (start from 1)");
                         int choice2 = sc.nextInt();
