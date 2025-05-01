@@ -103,6 +103,5 @@ public class ProfileUserController {
     public void unSaveAccommodation(Accommodation accommodation) {
         PreferenceDAO preferenceDAO=new PreferenceDAO();
         preferenceDAO.unSave(user.getId(), accommodation.getId());
-        user.removePreference(accommodation);
     }
 }

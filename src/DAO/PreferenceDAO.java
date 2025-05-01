@@ -24,7 +24,7 @@ public class PreferenceDAO {
     public void unSave(int userID, int AccommodationID) {
         PreparedStatement preparedStatement = null;
         try {
-            String query = "DELETE FROM preferences WHERE userId = ? AND accommodationId = ?";
+            String query = "DELETE FROM favourites WHERE userId = ? AND accommodationId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, AccommodationID);

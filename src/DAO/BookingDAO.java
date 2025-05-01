@@ -70,8 +70,9 @@ public class BookingDAO {
         return null;
     }
 
-    public void getBookingsFromUser(RegisterUser user) {
+    public ArrayList<Booking> getBookingsFromUser(RegisterUser user) {
         PreparedStatement preparedStatement=null;
+        ArrayList<Booking> bookings = new ArrayList<Booking>();
         try {
             String query = "SELECT * FROM booking WHERE userId = ?";
             preparedStatement = connection.prepareStatement(query);
@@ -118,13 +119,15 @@ public class BookingDAO {
                 if (!state.toString().equals(resultSet.getString("state"))) {
                     updateBookingState(booking.getBookingID(), state);
                 }
-
+                bookings.add(booking);
             }
+            return bookings;
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }finally{
             DBUtils.closeQuietly(preparedStatement);
         }
+        return null;
     }
 
     private void updateBookingState(int bookingId, State newState) {

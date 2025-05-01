@@ -61,7 +61,7 @@ public class Review {
 
     public String toStringUser() {
         return "ReviewID= " + ReviewID +
-                ", reviewedItem= " + reviewedItem +
+                ", Accommodation= " + reviewedItem.getName() +
                 ", reviewText= " + reviewText +
                 ", vote= " + vote;
     }

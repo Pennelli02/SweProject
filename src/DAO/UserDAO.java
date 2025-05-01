@@ -59,7 +59,9 @@ public class UserDAO {
                     RegisterUser user = new RegisterUser(id, username, password, email, fidelityPoints, name, surname, location);
                     // gestire le mie prenotazioni
                     BookingDAO bookingDAO = new BookingDAO();
-                    bookingDAO.getBookingsFromUser(user);
+                    ArrayList<Booking> bookings = new ArrayList<Booking>();
+                    bookings = bookingDAO.getBookingsFromUser(user);
+                    user.setMyBookings(bookings);
                     // gestire i miei preferiti
                     PreferenceDAO preferenceDAO = new PreferenceDAO();
                     ArrayList<Accommodation> mySavings;

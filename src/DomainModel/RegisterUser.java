@@ -1,5 +1,7 @@
 package DomainModel;
 
+import DAO.ReviewDAO;
+
 import java.util.ArrayList;
 
 public class RegisterUser {
@@ -178,9 +180,16 @@ public class RegisterUser {
     }
 
     public void showMyPreferences(){
+        System.out.println("ALL FAVOURITE ACCOMMODATIONS");
         for (Accommodation myPreference : myPreferences) {
             System.out.println(myPreference.toString());
         }
     }
 
+    public void showMyReviews(ArrayList<Review> myReviews){
+        System.out.println("ALL MY REVIEWS");
+        for (Review myReview : myReviews) {
+            System.out.println(myReview.toStringUser());
+        }
+    }
 }

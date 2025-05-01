@@ -603,11 +603,12 @@ public class Main {
                     "\n1. SEE PERSONAL INFORMATION" +
                     "\n2. SEE ALL FAVOURITE LOCATION" +
                     "\n3. SEE ALL BOOKINGS" +
-                    "\n4. CHANGE PERSONAL INFORMATION"+
-                    "\n5. DELETE A REVIEW" +
-                    "\n6. DELETE FAVOURITE LOCATION" +
-                    "\n7. EXIT"+
-                    "\n8."+ RED+ " REMOVE ACCOUNT"+RESET
+                    "\n4. SEE ALL YOUR VIEWS"+
+                    "\n5. CHANGE PERSONAL INFORMATION"+
+                    "\n6. DELETE A REVIEW" +
+                    "\n7. DELETE FAVOURITE LOCATION" +
+                    "\n8. EXIT"+
+                    "\n9."+ RED+ " REMOVE ACCOUNT"+RESET
             );
 
 
@@ -619,7 +620,6 @@ public class Main {
                     break;
                 }
                 case 2:{
-                    System.out.println("ALL FAVOURITE ACCOMMODATIONS");
                     registerUser.showMyPreferences();
                     break;
                 }
@@ -628,23 +628,56 @@ public class Main {
                     break;
                 }
                 case 4:{
-                    changePersonalInformation(puc);
+                    ResearchController rc = new ResearchController(registerUser);
+                    registerUser.showMyReviews(rc.getReviewsByUser());
                     break;
                 }
                 case 5:{
-                    //todo
+                    changePersonalInformation(puc);
                     break;
                 }
                 case 6:{
-                    //todo
+                    try {
+                        ResearchController rc = new ResearchController(registerUser);
+                        ArrayList<Review> reviews = rc.getReviewsByUser();
+                        Scanner sc = new Scanner(System.in);
+                        System.out.println("Enter the review you want to delete from the list of reviews written by you (start from 1)");
+                        int choice2 = sc.nextInt();
+                        choice2 = choice2 - 1;
+                        if(choice2<0 || choice2>reviews.size()) {
+                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
+                        }
+                        puc.removeReview(reviews.get(choice2));
+                        System.out.println("You have successfully deleted the review");
+                    }catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 7:{
+                    try {
+                        ArrayList<Accommodation> myPreferences = registerUser.getMyPreferences();
+                        Scanner sc = new Scanner(System.in);
+                        System.out.println("Enter the review you want to delete from the list of favourite accommodation (start from 1)");
+                        int choice2 = sc.nextInt();
+                        choice2 = choice2 - 1;
+                        if(choice2<0 || choice2>myPreferences.size()) {
+                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
+                        }
+                        puc.unSaveAccommodation(myPreferences.get(choice2));
+                        registerUser.removePreference(myPreferences.get(choice2));
+                        System.out.println("You have successfully deleted the favourite accommodation");
+                    }catch (IndexOutOfBoundsException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case 8:{
                     System.out.println("successful exit.");
                      tag = false;
                     break;
                 }
-                case 8: {
+                case 9: {
                     System.out.println("Are you sure you want to remove your account? You will lose everything");
                     System.out.println("\n1. Yes" +
                             "\n2. No");
