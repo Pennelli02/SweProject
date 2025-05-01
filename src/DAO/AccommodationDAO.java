@@ -18,6 +18,7 @@ public class AccommodationDAO {
         }
     }
 
+
     // manca la gestione dei casi in cui sono nulli
     public Accommodation getAccommodationByID(int accommodationID) {
         PreparedStatement preparedStatement = null;

@@ -87,6 +87,7 @@ public class UserDAO {
         return null;
     }
 
+
     //supponiamo che l'email sia unica non teniamo conto della sicurezza
     public String getPassword(String email) {
         PreparedStatement ps=null;

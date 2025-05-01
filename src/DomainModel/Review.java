@@ -72,4 +72,5 @@ public class Review {
                 ", reviewText= " + reviewText +
                 ", vote= " + vote;
     }
+
 }

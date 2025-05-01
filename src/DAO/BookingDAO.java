@@ -41,6 +41,7 @@ public class BookingDAO {
         }
     }
 
+
     public Booking addBooking(RegisterUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
             if(accommodation.getDisponibility()==0){
                 throw new RuntimeException("This accommodation is not disponible");

@@ -46,6 +46,7 @@ public class ResearchController {
         }
     }
 
+
     public void saveAccommodation(Accommodation accommodation) {
         PreferenceDAO preferenceDAO = new PreferenceDAO();
         preferenceDAO.save(user.getId(), accommodation.getId());

@@ -116,6 +116,7 @@ public class Main {
         }while (true);
     }
 
+
     public static void userMenu(RegisterUser registerUser) throws SQLException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Accommodation> accommodations;

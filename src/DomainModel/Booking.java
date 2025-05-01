@@ -102,4 +102,5 @@ public class Booking {
                 ", checkOutDate=" + checkOutDate +
                 ", state=" + state;
     }
+
 }
