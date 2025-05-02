@@ -33,11 +33,11 @@ public class ResearchController {
                 Booking booking = bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
                 user.addBooking(booking);
                 if(applydiscount) {
-                    userDAO.resetFidPoints(user.getId());
+                    userDAO.resetFidPoints(user.getId(), user.getFidelityPoints()-10);
                 }else {
                     userDAO.updateFidPoints(user, price);
-                    accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
                 }
+                accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
             }catch (RuntimeException e) {
                 System.err.println(e.getMessage());
             }
@@ -58,12 +58,13 @@ public class ResearchController {
         reviewDAO.addReview(user, accommodation, content, rating);
     }
 
-    public boolean applyDiscount(RegisterUser registerUser, float originalPrice) {
-        if (originalPrice > 300 && registerUser.getFidelityPoints() >= 10) {
+    public boolean applyDiscount(float originalPrice) {
+        if (originalPrice > 300 && user.getFidelityPoints() >= 10) {
+            float discountPrice = (float)(originalPrice * 0.7);
             Scanner scanner = new Scanner(System.in);
             int choice;
             do{
-                System.out.println("You have a lot of points, do you want to apply discount?(1 yes, 2 no): ");
+                System.out.println("You have a lot of points,your future price will be"+discountPrice+" do you want to apply discount? (1 yes, 2 no): ");
                 choice = scanner.nextInt();
                 switch (choice) {
                     case 1:{

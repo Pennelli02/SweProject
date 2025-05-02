@@ -59,7 +59,7 @@ public class UserDAO {
                     RegisterUser user = new RegisterUser(id, username, password, email, fidelityPoints, name, surname, location);
                     // gestire le mie prenotazioni
                     BookingDAO bookingDAO = new BookingDAO();
-                    ArrayList<Booking> bookings = new ArrayList<Booking>();
+                    ArrayList<Booking> bookings;
                     bookings = bookingDAO.getBookingsFromUser(user);
                     user.setMyBookings(bookings);
                     // gestire i miei preferiti
@@ -444,12 +444,13 @@ public class UserDAO {
         }
     }
 
-    public void resetFidPoints(int id) {
+    public void resetFidPoints(int id, int resetValue) {
         PreparedStatement ps=null;
         try {
-            String query = "UPDATE users SET fidelitypoints = 0 WHERE id = ?";
+            String query = "UPDATE users SET fidelitypoints = ? WHERE id = ?";
             ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setInt(1, resetValue);
+            ps.setInt(2, id);
             ps.executeUpdate();
         }catch (SQLException e){
             DBUtils.printSQLException(e);

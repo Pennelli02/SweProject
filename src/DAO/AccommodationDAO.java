@@ -384,7 +384,6 @@ public class AccommodationDAO {
         }
     }
 
-
     // si può fare con un trigger nel db
     public void updateRating(int accommodationID) {}
 
@@ -528,7 +527,6 @@ public class AccommodationDAO {
             DBUtils.printSQLException(e);
         }
    }
-
 
     public ArrayList<Accommodation> getAccommodationFromUser(int id) {
         PreparedStatement stmt = null;

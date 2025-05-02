@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+
 public class BookingDAO {
     private Connection connection;
     public BookingDAO() {
@@ -72,7 +73,7 @@ public class BookingDAO {
 
     public ArrayList<Booking> getBookingsFromUser(RegisterUser user) {
         PreparedStatement preparedStatement=null;
-        ArrayList<Booking> bookings = new ArrayList<Booking>();
+        ArrayList<Booking> bookings = new ArrayList<>();
         try {
             String query = "SELECT * FROM booking WHERE userId = ?";
             preparedStatement = connection.prepareStatement(query);
@@ -97,7 +98,7 @@ public class BookingDAO {
                 if (sqlAvailableEnd != null) {
                     booking.setCheckOutDate(sqlAvailableEnd.toLocalDateTime());
                 }
-
+                user.addBooking(booking);
                 int accID = resultSet.getInt("accommodationid");
                 Accommodation accommodation = null;
                 if(!resultSet.wasNull()) { //on delete set NULL

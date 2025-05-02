@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         logInMenu();
     }
+    private static SearchParameters mySearchParameters;
 
     public static void logInMenu() throws SQLException, ClassNotFoundException {
         Scanner in = new Scanner(System.in);
@@ -145,7 +146,7 @@ public class Main {
                         System.out.println("No accommodations found, try again");
                     }else{
                         System.out.println("Accommodations found, you can do some operations");
-                        operationSearchedAccommodations(registerUser,rc, accommodations);
+                        operationSearchedAccommodations(rc, accommodations);
                     }
                     break;
                 }
@@ -161,7 +162,7 @@ public class Main {
         }while(choice != 3);
     }
 
-    private static void operationSearchedAccommodations(RegisterUser registerUser,ResearchController rc, ArrayList<Accommodation> accommodations) {
+    private static void operationSearchedAccommodations(ResearchController rc, ArrayList<Accommodation> accommodations) {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do{
@@ -257,31 +258,41 @@ public class Main {
                     }
                     break;
                 }
-                case 4:{
+                case 4:{ //FIXME richiesta LOre scegli tra i due metodi proposti nell'audio
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
                         System.out.println("Enter the accommodation that you want to book(start to 1): ");
                         choice2 = s2.nextInt();
                         choice2 = choice2 - 1;
-                        LocalDateTime checkin = getDate("Enter the check-in date");
-                        LocalDateTime checkout = getDate("Enter the check-out date");
-                        validateDates(checkin,checkout, accommodations.get(choice2));
+                        LocalDateTime checkin;
+                        LocalDateTime checkout;
+                        if(mySearchParameters.getDateOfCheckIn() == null && mySearchParameters.getDateOfCheckOut() == null) {
+                             checkin = getDate("Enter the check-in date");
+                             checkout = getDate("Enter the check-out date");
+                            validateDates(checkin,checkout, accommodations.get(choice2));
+                        }else{
+                             checkin= mySearchParameters.getDateOfCheckIn();
+                             checkout = mySearchParameters.getDateOfCheckOut();
+                        }
                         float daysBetween = ChronoUnit.DAYS.between(checkin.toLocalDate(), checkout.toLocalDate());
                         float rateprice = accommodations.get(choice2).getRatePrice();
                         int price = (int)(rateprice * daysBetween);
-                        System.out.println("Enter the number of people");
-                        int numPersone = s2.nextInt();
-                        if (numPersone < 1 || numPersone > accommodations.get(choice2).getMaxNumberOfPeople()) {
-                            throw new InvalidAttributeValueException("Number of people entered is negative or 0 or or more than the maximum number of people in the accommodation");
+                        int numPersone;
+                        if (mySearchParameters.getHowMuchPeople()==0) {
+                            System.out.println("Enter the number of people");
+                            numPersone = s2.nextInt();
+                            if (numPersone < 1 || numPersone > accommodations.get(choice2).getMaxNumberOfPeople()) {
+                                throw new InvalidAttributeValueException("Number of people entered is negative or 0 or or more than the maximum number of people in the accommodation");
+                            }
+                        }else{
+                            numPersone=mySearchParameters.getHowMuchPeople();
                         }
-                        boolean applydiscont = rc.applyDiscount(registerUser, price);
+                        boolean applydiscont = rc.applyDiscount(price);
                         System.out.println(applydiscont);
                         rc.booking(accommodations.get(choice2),checkin,checkout,numPersone,price,applydiscont);
                         System.out.println("Booking successfully entered");
-                    }catch (IndexOutOfBoundsException e){
-                        System.out.println("Added an index that goes beyond the length of the list of searched accommodations, Try again");
-                    }catch (InvalidAttributeValueException | IllegalArgumentException e){
+                    }catch (IndexOutOfBoundsException| InvalidAttributeValueException | IllegalArgumentException e){
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -364,6 +375,7 @@ public class Main {
         }
     }
 
+
     private static LocalDateTime getDate(String incipit) {
         Scanner s2 = new Scanner(System.in);
         System.out.println(incipit);
@@ -375,7 +387,6 @@ public class Main {
         int day = s2.nextInt();
         return LocalDateTime.of(year, month, day, 0, 0);
     }
-
     // alternativa all'attuale ricerca con uso di colori per indicare ciò che si è scelto più un menu indicativo di cosa manca e cosa si è messo modulare e leggermente userfriendly
     private static final String GREEN = "\u001B[32m";
     private static final String RESET = "\u001B[0m";
@@ -417,6 +428,7 @@ public class Main {
                     .setGoodForKids((boolean) filter[18])
                     .setCanHaveAnimal((boolean) filter[19])
                     .build();
+            mySearchParameters =sp;
             return rc.doResearch(sp);
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
@@ -598,7 +610,6 @@ public class Main {
     }
 
     private static void profileMenu(RegisterUser registerUser, ProfileUserController puc) throws SQLException, ClassNotFoundException {
-        //FIXME RICHIESTA LORE, SI TIENE LA LISTA DELLE RECENSIONI RECUPERABILE DAL DAO O CONVIENE AVERLO COME ATTRIBUTO NELLO RegisterUser
         Scanner scanner = new Scanner(System.in);
         int choice;
         boolean tag=true;
@@ -641,7 +652,6 @@ public class Main {
                 }
                 case 6:{
                     try {
-                        ResearchController rc = new ResearchController(registerUser);
                         ArrayList<Review> reviews = puc.getReviewsByUser();
                         Scanner sc = new Scanner(System.in);
                         System.out.println("Enter the review you want to delete from the list of reviews written by you (start from 1)");

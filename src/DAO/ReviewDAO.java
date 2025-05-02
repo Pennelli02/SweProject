@@ -80,7 +80,6 @@ public class ReviewDAO {
         }
     }
     ///  rating di accommodation si attiva grazie a un trigger
-    // utile tener conto di quando è stata pubblicata?
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
        PreparedStatement stmt = null;
         try {
