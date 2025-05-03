@@ -166,27 +166,23 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do{
+            System.out.println("----ALL ACCOMMODATIONS---------");
+            for (int i=0; i<accommodations.size(); i++) {
+                System.out.println((i+1)+") "+accommodations.get(i).toString());
+            }
             System.out.println("MENU OPERATION ON SEARCHED ACCOMMODATION: " +
-                    "\n 1. See all sought-after accommodations" +
-                    "\n 2. Add accommodation to your preferred accommodation (the choice of accommodation is based on the list of accommodations searched)" +
-                    "\n 3. Enter a review for an accommodation (the choice of accommodation is based on the list of accommodations searched)" +
-                    "\n 4. Booking a sought-after accommodation (the choice of accommodation is based on the list of accommodations searched)" +
-                    "\n 5. View reviews of a specific accommodation (the choice of accommodation is based on the list of accommodations searched)" +
-                    "\n 6. See more information for a specific accommodation" +
-                    "\n 7. Exit"
+                    "\n 1. Add accommodation to your preferred accommodation (the choice of accommodation is based on the list of accommodations searched)" +
+                    "\n 2. Enter a review for an accommodation (the choice of accommodation is based on the list of accommodations searched)" +
+                    "\n 3. Booking a sought-after accommodation (the choice of accommodation is based on the list of accommodations searched)" +
+                    "\n 4. View reviews of a specific accommodation (the choice of accommodation is based on the list of accommodations searched)" +
+                    "\n 5. See more information for a specific accommodation" +
+                    "\n 6. Exit"
             );
 
             choice = scanner.nextInt();
 
             switch(choice) {
                 case 1:{
-                    System.out.println("----ALL ACCOMMODATIONS---------");
-                    for (Accommodation accommodation : accommodations) {
-                        System.out.println(accommodation.toString());
-                    }
-                    break;
-                }
-                case 2:{
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
@@ -200,7 +196,7 @@ public class Main {
                     }
                     break;
                 }
-                case 3:{
+                case 2:{
                     try{
                         Scanner s2 = new Scanner(System.in);
                         Scanner s3 = new Scanner(System.in);
@@ -258,7 +254,7 @@ public class Main {
                     }
                     break;
                 }
-                case 4:{ //FIXME richiesta LOre scegli tra i due metodi proposti nell'audio
+                case 3:{
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
@@ -297,7 +293,7 @@ public class Main {
                     }
                     break;
                 }
-                case 5:{
+                case 4:{
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
@@ -318,7 +314,7 @@ public class Main {
                     }
                     break;
                 }
-                case 6:{
+                case 5:{
                     try{
                         Scanner s2 = new Scanner(System.in);
                         int choice2;
@@ -331,7 +327,7 @@ public class Main {
                     }
                     break;
                 }
-                case 7:{
+                case 6:{
                     break;
                 }
                 default: {
@@ -616,34 +612,170 @@ public class Main {
         do{
             System.out.println("MENU PROFILE USER: " +
                     "\n1. SEE PERSONAL INFORMATION" +
-                    "\n2. SEE ALL FAVOURITE LOCATION" +
-                    "\n3. SEE ALL BOOKINGS" +
-                    "\n4. SEE ALL YOUR REVIEWS"+
+                    "\n2. MANAGE YOUR FAVOURITE ACCOMMODATIONS" +
+                    "\n3. MANAGE YOUR BOOKINGS" +
+                    "\n4. MANAGE YOUR REVIEWS"+
                     "\n5. CHANGE PERSONAL INFORMATION"+
-                    "\n6. DELETE A REVIEW" +
-                    "\n7. DELETE FAVOURITE LOCATION" +
-                    "\n8. EXIT"+
-                    "\n9."+ RED+ " REMOVE ACCOUNT"+RESET
+                    "\n6. EXIT"+
+                    "\n7."+ RED+ " REMOVE ACCOUNT"+RESET
             );
 
-
-                    choice = scanner.nextInt();
+            choice = scanner.nextInt();
 
             switch(choice) {
                 case 1:{
-                    registerUser.showMyPersonalInfo();
+                    puc.seeProfile();
                     break;
                 }
                 case 2:{
+                    Scanner sc = new Scanner(System.in);
                     registerUser.showMyPreferences();
+                    int choice3;
+                    do{
+                        System.out.println("Want to delete a favourite accommodation? (1 yes,2 no)");
+                        choice3 = scanner.nextInt();
+                        switch(choice3) {
+                            case 1:{
+                                try {
+                                    ArrayList<Accommodation> myPreferences = registerUser.getMyPreferences();
+                                    if(!myPreferences.isEmpty()) {
+                                        System.out.println("Enter the review you want to delete from the list of favourite accommodation (start from 1)");
+                                        int choice2 = sc.nextInt();
+                                        choice2 = choice2 - 1;
+                                        if(choice2<0 || choice2>myPreferences.size()) {
+                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
+                                        }
+                                        puc.unSaveAccommodation(myPreferences.get(choice2));
+                                        registerUser.removePreference(myPreferences.get(choice2));
+                                        System.out.println("You have successfully deleted the favourite accommodation");
+                                    }else{
+                                        System.out.println("No favourite accommodation");
+                                    }
+                                }catch (IndexOutOfBoundsException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            }
+                            case 2:{
+                                break;
+                            }
+                            default:{
+                                System.out.println("Invalid choice.");
+                                break;
+                            }
+                        }
+                    }while(choice3 < 1 || choice3 > 2);
                     break;
                 }
                 case 3:{
+                    Scanner sc = new Scanner(System.in);
                     registerUser.showMyBookings();
+                    int choice3;
+                    do {
+                        System.out.println("Want to remove a booking (Checking out, Cancelled, Refunded, accommodation cancelled)? (1 yes,2 no)");
+                        choice3 = sc.nextInt();
+                        switch(choice3) {
+                            case 1:{
+                                try{
+                                    ArrayList<Booking> booking = puc.viewMyBookings();
+                                    if(!booking.isEmpty()) {
+                                        System.out.println("Enter the booking that you want to delete to get a better view(start from 1)");
+                                        int choice2 = sc.nextInt();
+                                        choice2 = choice2 - 1;
+                                        if(choice2<0 || choice2>booking.size()) {
+                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the booking list ");
+                                        }
+                                        puc.removeBooking(booking.get(choice2));
+                                        System.out.println("You have successfully delete the booking");
+                                        registerUser.showMyBookings();
+                                    }else{
+                                        System.out.println("No booking");
+                                    }
+                                }catch (IndexOutOfBoundsException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            }
+                            case 2:{
+                                break;
+                            }
+                            default:{
+                                System.out.println("Invalid choice.");
+                            }
+                        }
+                    }while (choice3<1 || choice3>2);
+                    do{
+                        System.out.println("Want to cancel a booking? (1 yes,2 no)");
+                        choice3 = sc.nextInt();
+                        switch(choice3) {
+                            case 1:{
+                                try{
+                                    ArrayList<Booking> booking = puc.viewMyBookings();
+                                    if(!booking.isEmpty()) {
+                                        System.out.println("Enter the booking that you want to cancel (start from 1)");
+                                        int choice2 = sc.nextInt();
+                                        choice2 = choice2 - 1;
+                                        if(choice2<0 || choice2>booking.size()) {
+                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the booking list ");
+                                        }
+                                        puc.cancelABooking(booking.get(choice2));
+                                        System.out.println("You have successfully cancel the booking");
+                                    }else{
+                                        System.out.println("No booking");
+                                    }
+                                }catch (IndexOutOfBoundsException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            }
+                            case 2:{
+                                break;
+                            }
+                            default:{
+                                System.out.println("Invalid choice.");
+                                break;
+                            }
+                        }
+                    }while (choice3<1 || choice3>2);
                     break;
                 }
                 case 4:{
+                    Scanner sc = new Scanner(System.in);
                     registerUser.showMyReviews(puc.getReviewsByUser());
+                    int choice3;
+                    do{
+                        System.out.println("Want to delete a review? (1 yes,2 no)");
+                        choice3 = sc.nextInt();
+                        switch(choice3) {
+                            case 1:{
+                                try {
+                                    ArrayList<Review> reviews = puc.getReviewsByUser();
+                                    if(!reviews.isEmpty()) {
+                                        System.out.println("Enter the review you want to delete from the list of reviews written by you (start from 1)");
+                                        int choice2 = sc.nextInt();
+                                        choice2 = choice2 - 1;
+                                        if(choice2<0 || choice2>reviews.size()) {
+                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
+                                        }
+                                        puc.removeReview(reviews.get(choice2));
+                                        System.out.println("You have successfully deleted the review");
+                                    }else{
+                                     System.out.println("No reviews");
+                                    }
+                                }catch (IndexOutOfBoundsException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            }
+                            case 2:{
+                                break;
+                            }
+                            default:{
+                                System.out.println("Invalid choice.");
+                                break;
+                            }
+                        }
+                    }while (choice3<1 || choice3>2);
                     break;
                 }
                 case 5:{
@@ -651,46 +783,11 @@ public class Main {
                     break;
                 }
                 case 6:{
-                    try {
-                        ArrayList<Review> reviews = puc.getReviewsByUser();
-                        Scanner sc = new Scanner(System.in);
-                        System.out.println("Enter the review you want to delete from the list of reviews written by you (start from 1)");
-                        int choice2 = sc.nextInt();
-                        choice2 = choice2 - 1;
-                        if(choice2<0 || choice2>reviews.size()) {
-                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
-                        }
-                        puc.removeReview(reviews.get(choice2));
-                        System.out.println("You have successfully deleted the review");
-                    }catch (IndexOutOfBoundsException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-                }
-                case 7:{
-                    try {
-                        ArrayList<Accommodation> myPreferences = registerUser.getMyPreferences();
-                        Scanner sc = new Scanner(System.in);
-                        System.out.println("Enter the review you want to delete from the list of favourite accommodation (start from 1)");
-                        int choice2 = sc.nextInt();
-                        choice2 = choice2 - 1;
-                        if(choice2<0 || choice2>myPreferences.size()) {
-                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the review list ");
-                        }
-                        puc.unSaveAccommodation(myPreferences.get(choice2));
-                        registerUser.removePreference(myPreferences.get(choice2));
-                        System.out.println("You have successfully deleted the favourite accommodation");
-                    }catch (IndexOutOfBoundsException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-                }
-                case 8:{
                     System.out.println("successful exit.");
                      tag = false;
                     break;
                 }
-                case 9: {
+                case 7: {
                     System.out.println("Are you sure you want to remove your account? You will lose everything");
                     System.out.println("\n1. Yes" +
                             "\n2. No");

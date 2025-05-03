@@ -157,11 +157,11 @@ public class RegisterUser {
     //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene. Risposta Lore: va benissimo
     public void showMyBookings(){
         System.out.println("ALL BOOKINGS");
-        for (Booking myBooking : myBookings) {
-            if (myBooking.getState() == State.Accommodation_Cancelled) {
-                sendMessage(myBooking.getPrice(), myBooking.getAccommodation().getName());
+        for (int i=0;i<myBookings.size();i++) {
+            if (myBookings.get(i).getState() == State.Accommodation_Cancelled) {
+                sendMessage(myBookings.get(i).getPrice(), myBookings.get(i).getAccommodation().getName());
             }
-            System.out.println(myBooking);
+            System.out.println((i+1)+") "+myBookings.get(i));
         }
     }
 
@@ -181,15 +181,15 @@ public class RegisterUser {
 
     public void showMyPreferences(){
         System.out.println("ALL FAVOURITE ACCOMMODATIONS");
-        for (Accommodation myPreference : myPreferences) {
-            System.out.println(myPreference.toString());
+        for (int i=0;i<myPreferences.size();i++) {
+            System.out.println((i+1)+") "+myPreferences.get(i).toString());
         }
     }
 
     public void showMyReviews(ArrayList<Review> myReviews){
         System.out.println("ALL MY REVIEWS");
-        for (Review myReview : myReviews) {
-            System.out.println(myReview.toStringUser());
+        for (int i=0;i<myReviews.size();i++) {
+            System.out.println((i+1)+") "+myReviews.get(i).toStringUser());
         }
     }
 }
