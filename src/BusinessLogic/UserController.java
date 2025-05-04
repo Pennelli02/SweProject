@@ -15,10 +15,11 @@ public class UserController {
         UserDAO userDAO = new UserDAO();
         try {
             userDAO.addUser(email, password, username, name, surname, favouriteLocation); // fornisce errore o comunque un messaggio di avviso se ci sono 2 email uguali...
+            return login(email, password);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-        return userDAO.getUserByEmailPassword(email, password);
+        return null;
     }
 
     public String getForgottenPassword(String email) throws SQLException, ClassNotFoundException {

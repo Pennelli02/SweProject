@@ -373,6 +373,7 @@ public class Main {
 
 
     private static LocalDateTime getDate(String incipit) {
+      try{
         Scanner s2 = new Scanner(System.in);
         System.out.println(incipit);
         System.out.print("Year (e.g., 2025): ");
@@ -382,6 +383,10 @@ public class Main {
         System.out.print("Day (1-31): ");
         int day = s2.nextInt();
         return LocalDateTime.of(year, month, day, 0, 0);
+    }catch (IndexOutOfBoundsException e){
+      System.out.println(e.getMessage());
+      return null;
+      }
     }
     // alternativa all'attuale ricerca con uso di colori per indicare ciò che si è scelto più un menu indicativo di cosa manca e cosa si è messo modulare e leggermente userfriendly
     private static final String GREEN = "\u001B[32m";
