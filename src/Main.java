@@ -285,7 +285,6 @@ public class Main {
                             numPersone=mySearchParameters.getHowMuchPeople();
                         }
                         boolean applydiscont = rc.applyDiscount(price);
-                        System.out.println(applydiscont);
                         rc.booking(accommodations.get(choice2),checkin,checkout,numPersone,price,applydiscont);
                         System.out.println("Booking successfully entered");
                     }catch (IndexOutOfBoundsException| InvalidAttributeValueException | IllegalArgumentException e){
@@ -328,13 +327,14 @@ public class Main {
                     break;
                 }
                 case 6:{
+                    System.out.println("Go back to Menu User");
                     break;
                 }
                 default: {
                     System.out.println("Please enter a valid choice");
                 }
             }
-        }while (choice != 7);
+        }while (choice != 6);
     }
 
     private static void validateDates(LocalDateTime checkin, LocalDateTime checkout, Accommodation accommodation) {
@@ -672,78 +672,50 @@ public class Main {
                     }while(choice3 < 1 || choice3 > 2);
                     break;
                 }
-                case 3:{
+                case 3: {
                     Scanner sc = new Scanner(System.in);
+                    ArrayList<Booking> bookings = puc.viewMyBookings();
+
+                    if (bookings.isEmpty()) {
+                        System.out.println("You have no bookings.");
+                        break;
+                    }
+
                     registerUser.showMyBookings();
-                    int choice3;
-                    do {
-                        System.out.println("Want to remove a booking (Checking out, Cancelled, Refunded, accommodation cancelled)? (1 yes,2 no)");
-                        choice3 = sc.nextInt();
-                        switch(choice3) {
-                            case 1:{
-                                try{
-                                    ArrayList<Booking> booking = puc.viewMyBookings();
-                                    if(!booking.isEmpty()) {
-                                        System.out.println("Enter the booking that you want to delete to get a better view(start from 1)");
-                                        int choice2 = sc.nextInt();
-                                        choice2 = choice2 - 1;
-                                        if(choice2<0 || choice2>booking.size()) {
-                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the booking list ");
-                                        }
-                                        puc.removeBooking(booking.get(choice2));
-                                        System.out.println("You have successfully delete the booking");
-                                        registerUser.showMyBookings();
-                                    }else{
-                                        System.out.println("No booking");
-                                    }
-                                }catch (IndexOutOfBoundsException e) {
-                                    System.out.println(e.getMessage());
-                                }
-                                break;
-                            }
-                            case 2:{
-                                break;
-                            }
-                            default:{
-                                System.out.println("Invalid choice.");
-                            }
+
+                    // Prima parte: Rimozione di prenotazioni concluse o cancellate
+                    System.out.println("\nDo you want to remove a concluded/cancelled booking from your list?");
+                    System.out.println("1. Yes\n2. No");
+                    int removeChoice = sc.nextInt();
+
+                    if (removeChoice == 1) {
+                        int indexToRemove = chooseBookingIndex(sc, bookings, "remove");
+                        if (indexToRemove != -1) {
+                            Booking selected = bookings.get(indexToRemove);
+                            puc.removeBooking(selected);
+                            System.out.println("Booking successfully removed.");
+                            break;
                         }
-                    }while (choice3<1 || choice3>2);
-                    do{
-                        System.out.println("Want to cancel a booking? (1 yes,2 no)");
-                        choice3 = sc.nextInt();
-                        switch(choice3) {
-                            case 1:{
-                                try{
-                                    ArrayList<Booking> booking = puc.viewMyBookings();
-                                    if(!booking.isEmpty()) {
-                                        System.out.println("Enter the booking that you want to cancel (start from 1)");
-                                        int choice2 = sc.nextInt();
-                                        choice2 = choice2 - 1;
-                                        if(choice2<0 || choice2>booking.size()) {
-                                            throw new IndexOutOfBoundsException("The index cannot be less than zero or the index is beyond the size of the booking list ");
-                                        }
-                                        puc.cancelABooking(booking.get(choice2));
-                                        System.out.println("You have successfully cancel the booking");
-                                    }else{
-                                        System.out.println("No booking");
-                                    }
-                                }catch (IndexOutOfBoundsException e) {
-                                    System.out.println(e.getMessage());
-                                }
-                                break;
-                            }
-                            case 2:{
-                                break;
-                            }
-                            default:{
-                                System.out.println("Invalid choice.");
-                                break;
-                            }
+                    }
+                    // Seconda parte: Cancellazione di prenotazioni attive
+                    System.out.println("\nDo you want to cancel an active booking?");
+                    System.out.println("1. Yes\n2. No");
+                    int cancelChoice = sc.nextInt();
+
+                    if (cancelChoice == 1) {
+                        int indexToCancel = chooseBookingIndex(sc, bookings, "cancel");
+                        if (indexToCancel != -1) {
+                            Booking selected = bookings.get(indexToCancel);
+
+                            puc.cancelABooking(selected);
+                            System.out.println("Booking successfully cancelled.");
+
+                            System.out.println("Only confirmed bookings can be cancelled.");
                         }
-                    }while (choice3<1 || choice3>2);
+                    }
                     break;
                 }
+
                 case 4:{
                     Scanner sc = new Scanner(System.in);
                     registerUser.showMyReviews(puc.getReviewsByUser());
@@ -818,6 +790,20 @@ public class Main {
             }
         }while (tag);
     }
+
+    private static int chooseBookingIndex(Scanner sc, ArrayList<Booking> bookings, String action) {
+        System.out.println("Enter the booking number you want to " + action + " (start from 1): ");
+        int choice = sc.nextInt();
+        int index = choice - 1;
+
+        if (index < 0 || index >= bookings.size()) {
+            System.out.println("Invalid booking number.");
+            return -1;
+        }
+
+        return index;
+    }
+
 
     private static void removeAccount(ProfileUserController pc) throws SQLException, ClassNotFoundException {
         pc.unRegister();
