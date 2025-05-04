@@ -271,6 +271,7 @@ public class Main {
                              checkin= mySearchParameters.getDateOfCheckIn();
                              checkout = mySearchParameters.getDateOfCheckOut();
                         }
+
                         float daysBetween = ChronoUnit.DAYS.between(checkin.toLocalDate(), checkout.toLocalDate());
                         float rateprice = accommodations.get(choice2).getRatePrice();
                         int price = (int)(rateprice * daysBetween);
