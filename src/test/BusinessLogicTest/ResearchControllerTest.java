@@ -51,8 +51,17 @@ class ResearchControllerTest {
     @AfterEach
     void tearDown() {
         if (registerUser!=null){
+            ArrayList<Integer> ids=new ArrayList<>();
+            if(profileUserController.viewMyBookings()!=null){
+                ArrayList<Accommodation>accommodations=accommodationDAO.getAccommodationFromUser(registerUser.getId());
+                for(Accommodation accommodation:accommodations){
+                    ids.add(accommodation.getId());
+                }
+            }
             profileUserController.unRegister();
-            userDAO.removeUser(registerUser.getId());
+            for(Integer id : ids){
+                accommodationDAO.deleteAccommodation(id);
+            }
         }
         researchController=null;
     }
@@ -60,16 +69,37 @@ class ResearchControllerTest {
     @Test
     void doResearch() {
 
-        //fixme vedere se posso scinderlo di più dal mio db
 
         // suppongo che ci siano già delle Accommodation nel db
-        Accommodation accommodation=accommodationDAO.getAccommodationByID(3);
-
         LocalDateTime now = LocalDateTime.now();
+        accommodationDAO.addAccommodation(
+                "Test Apartment",
+                "Via Test 123",
+                "Milano",
+                4,
+                AccommodationType.Apartment,
+                100.0f,
+                now.minusDays(1),
+                now.plusDays(30),
+                "Appartamento di test",
+                AccommodationRating.FiveStar,
+                true,
+                true,
+                false,
+                true,
+                true,
+                true,
+                true,
+                false,
+                true,
+                5,
+                true,
+                4
+        );
 
 
         // proviamo a vedere utilizzando solo il luogo
-        testSearchParametersBuilder= SearchParametersBuilder.newBuilder(accommodation.getPlace());
+        testSearchParametersBuilder= SearchParametersBuilder.newBuilder("Milano");
 
         // avviamo la ricerca
         ArrayList<Accommodation> accommodations= researchController.doResearch(testSearchParametersBuilder.build());
@@ -79,7 +109,7 @@ class ResearchControllerTest {
 
         //controlliamo che per i risultati ottenuti abbiano tutti lo stesso luogo
         for (Accommodation value : accommodations) {
-            assertEquals(value.getPlace(), accommodation.getPlace());
+            assertEquals("Milano", value.getPlace());
         }
         // controlliamo che se non c'è niente restituisce niente
         testSearchParametersBuilder= SearchParametersBuilder.newBuilder("Bangkok"); // non c'è nel db
@@ -91,7 +121,8 @@ class ResearchControllerTest {
         accommodations= researchController.doResearch(testSearchParametersBuilder.build());
         assertNotNull(accommodations);
         for (Accommodation value : accommodations) {
-            assertEquals(value.getPlace(), accommodation.getPlace());
+            assertEquals("Milano", value.getPlace());
+            accommodationDAO.deleteAccommodation(value.getId());
         }
 
         // aggiungiamo dei test per la ricerca
@@ -273,52 +304,107 @@ class ResearchControllerTest {
     @Test
     void booking() throws SQLException, ClassNotFoundException {
 
-        Accommodation accommodation=accommodationDAO.getAccommodationByID(2);
-        int disponibilityBefore=accommodation.getDisponibility();
+        LocalDateTime now = LocalDateTime.now();
+        // Creazione dinamica di un alloggio di test
+        accommodationDAO.addAccommodation(
+                "Test Hotel",
+                "Via Test Booking 1",
+                "Test",
+                10,
+                AccommodationType.Hotel,
+                200.0f,
+                now.plusDays(1),
+                now.plusDays(10),
+                "Hotel di test per booking",
+                AccommodationRating.FourStar,
+                true,  // refundable
+                true,  // freewifi
+                false, // smoking
+                true,  // parking
+                false, // coffee
+                true,  // room service
+                true,  // cleaning
+                false, // spa
+                true,  // kids
+                5,
+                true,
+                3
+        );
+        SearchParameters SPM=SearchParametersBuilder.newBuilder("Test").build();
+        ArrayList<Accommodation> accommodations= researchController.doResearch(SPM);
+        int disponibilityBefore=accommodations.getFirst().getDisponibility();
 
         //senza sconto
-        researchController.booking(accommodation, accommodation.getAvailableFrom(), accommodation.getAvailableEnd(), 3, 300, false);
+        researchController.booking(accommodations.getFirst(), accommodations.getFirst().getAvailableFrom(), accommodations.getFirst().getAvailableEnd(), 3, 300, false);
         assertNotEquals(0, researchController.getUser().getFidelityPoints());
-        assertEquals(disponibilityBefore-1, accommodation.getDisponibility());
+        assertEquals(disponibilityBefore-1, accommodations.getFirst().getDisponibility());
 
         registerUser=userController.login(testEmail, testPassword);
         ProfileUserController puc=new ProfileUserController(registerUser);
         var MyBookings= puc.viewMyBookings();
         assertEquals(1, MyBookings.size());
         for (Booking booking : MyBookings) {
-            assertEquals(booking.getAccommodation().getId(), accommodation.getId());
+            assertEquals(booking.getAccommodation().getId(), accommodations.getFirst().getId());
             assertEquals(booking.getCustomer().getId(), registerUser.getId());
-            assertEquals(booking.getCheckInDate(), accommodation.getAvailableFrom());
-            assertEquals(booking.getCheckOutDate(), accommodation.getAvailableEnd());
+            assertEquals(booking.getCheckInDate(), accommodations.getFirst().getAvailableFrom());
+            assertEquals(booking.getCheckOutDate(), accommodations.getFirst().getAvailableEnd());
             assertEquals(3, booking.getNumPeople());
             assertEquals(300, booking.getPrice());
         }
-        accommodation=accommodationDAO.getAccommodationByID(2);
-        disponibilityBefore=accommodation.getDisponibility();
+
+        disponibilityBefore=accommodations.getFirst().getDisponibility();
 
         //con sconto
-        researchController.booking(accommodation, accommodation.getAvailableFrom(), accommodation.getAvailableEnd(), 3, 300, true);
+        researchController.booking(accommodations.getFirst(), accommodations.getFirst().getAvailableFrom(), accommodations.getFirst().getAvailableEnd(), 3, 300, true);
         assertEquals(0, researchController.getUser().getFidelityPoints());
-        assertEquals(disponibilityBefore-1, accommodation.getDisponibility());
+        assertEquals(disponibilityBefore-1, accommodations.getFirst().getDisponibility());
 
         registerUser=userController.login(testEmail, testPassword);
         puc=new ProfileUserController(registerUser);
         MyBookings= puc.viewMyBookings();
         assertEquals(2, MyBookings.size());
         for (Booking booking : MyBookings) {
-            assertEquals(booking.getAccommodation().getId(), accommodation.getId());
+            assertEquals(booking.getAccommodation().getId(), accommodations.getFirst().getId());
             assertEquals(booking.getCustomer().getId(), registerUser.getId());
-            assertEquals(booking.getCheckInDate(), accommodation.getAvailableFrom());
-            assertEquals(booking.getCheckOutDate(), accommodation.getAvailableEnd());
+            assertEquals(booking.getCheckInDate(), accommodations.getFirst().getAvailableFrom());
+            assertEquals(booking.getCheckOutDate(), accommodations.getFirst().getAvailableEnd());
             assertEquals(3, booking.getNumPeople());
         }
         assertEquals( (int)(300 * 0.7), MyBookings.getLast().getPrice());
+
     }
 
     @Test
     void saveAccommodation() throws SQLException, ClassNotFoundException {
-        Accommodation accommodation=accommodationDAO.getAccommodationByID(2);
-        researchController.saveAccommodation(accommodation);
+        LocalDateTime now = LocalDateTime.now();
+        // Creazione dinamica di un alloggio di test
+        accommodationDAO.addAccommodation(
+                "Test Hotel",
+                "Via Test Booking 1",
+                "Test",
+                10,
+                AccommodationType.Hotel,
+                200.0f,
+                now.plusDays(1),
+                now.plusDays(10),
+                "Hotel di test per booking",
+                AccommodationRating.FourStar,
+                true,  // refundable
+                true,  // freewifi
+                false, // smoking
+                true,  // parking
+                false, // coffee
+                true,  // room service
+                true,  // cleaning
+                false, // spa
+                true,  // kids
+                5,
+                true,
+                3
+        );
+        SearchParameters SPM=SearchParametersBuilder.newBuilder("Test").build();
+        ArrayList<Accommodation> accommodations= researchController.doResearch(SPM);
+        researchController.saveAccommodation(accommodations.getFirst());
 
         ProfileUserController puc=new ProfileUserController(registerUser);
         var MySavings= puc.viewMySavings();
@@ -328,7 +414,9 @@ class ResearchControllerTest {
         puc=new ProfileUserController(registerUser);
         MySavings= puc.viewMySavings();
         assertEquals(1, MySavings.size());
-        assertEquals(accommodation.getId(), MySavings.getFirst().getId());
+        assertEquals(accommodations.getFirst().getId(), MySavings.getFirst().getId());
+
+        accommodationDAO.deleteAccommodation(accommodations.getFirst().getId());
     }
 
     @Test
@@ -381,7 +469,6 @@ class ResearchControllerTest {
 
         for (Accommodation accommodation : accommodations) {
             accommodationDAO.deleteAccommodation(accommodation.getId());
-
         }
     }
 
