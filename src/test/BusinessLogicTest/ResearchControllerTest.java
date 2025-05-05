@@ -59,6 +59,9 @@ class ResearchControllerTest {
 
     @Test
     void doResearch() {
+
+        //fixme vedere se posso scinderlo di più dal mio db
+
         // suppongo che ci siano già delle Accommodation nel db
         Accommodation accommodation=accommodationDAO.getAccommodationByID(3);
 

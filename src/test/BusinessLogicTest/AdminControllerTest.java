@@ -406,6 +406,7 @@ class AdminControllerTest {
 
     @Test
     void getAllAccommodation() {
+        //fixme scindere dal db
         adminController = new AdminController();
 
         ArrayList<Accommodation> allAccommodations = adminController.getAllAccommodation();
@@ -416,6 +417,7 @@ class AdminControllerTest {
 
     @Test
     void getAllUser() throws SQLException, ClassNotFoundException {
+        //fixme scindere dal db
         adminController = new AdminController();
 
         ArrayList<RegisterUser> allUsers= adminController.getAllUser();

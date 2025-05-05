@@ -117,8 +117,8 @@ public class AccommodationDAO {
 
             if (searchParameters.getDateOfCheckIn() != null && searchParameters.getDateOfCheckOut() != null) {
                 queryBuilder.append(
-                        " AND a.availablefrom <= ? " +  // Disponibile dopo del check-out
-                        " AND a.availableend >= ? "     // Disponibile dopo il check-in
+                        " AND a.availablefrom <= ? " +   // L'alloggio è disponibile già alla data di check-in
+                        " AND a.availableend >= ? "     // L'alloggio è disponibile almeno fino alla data di check-out
                 );
                 parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckIn()));
                 parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckOut()));
