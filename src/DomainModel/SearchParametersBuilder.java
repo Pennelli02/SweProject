@@ -10,7 +10,7 @@ public final class SearchParametersBuilder {
     private Integer howMuchPeople=0;
     private AccommodationType category;
     private boolean allCategories;
-    private Float maxPrice;
+    private Float maxPrice=0.0f;
     private AccommodationRating minAccommodationRating;
     private AccommodationRating specificAccommodationRating;
     private boolean isRefundable;

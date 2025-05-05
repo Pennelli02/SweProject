@@ -20,7 +20,7 @@ public class Accommodation {
     private AccommodationRating rating;
     private boolean refundable;
     private boolean freewifi;
-    private boolean haveSmokingArea;
+    private boolean haveSmockingArea;
     private boolean haveParking;
     private boolean coffeMachine;
     private boolean roomService;
@@ -167,14 +167,14 @@ public class Accommodation {
     }
 
     public boolean isHaveSmokingArea() {
-        return haveSmokingArea;
+        return haveSmockingArea;
     }
 
-    public void setHaveSmokingArea(boolean haveSmokingArea) {
-        if (!Objects.equals(this.haveSmokingArea, haveSmokingArea)) {
+    public void setHaveSmokingArea(boolean haveSmockingArea) {
+        if (!Objects.equals(this.haveSmockingArea, haveSmockingArea)) {
             modifiedFields.add("haveSmokingArea");
         }
-        this.haveSmokingArea = haveSmokingArea;
+        this.haveSmockingArea = haveSmockingArea;
     }
 
     public boolean isHaveParking() {
@@ -318,7 +318,7 @@ public class Accommodation {
                 ", description= " + description +
                 ", refundable= " + refundable +
                 ", freewifi= " + freewifi +
-                ", haveSmokingArea= " + haveSmokingArea +
+                ", haveSmokingArea= " + haveSmockingArea +
                 ", haveParking= " + haveParking +
                 ", coffeMachine= " + coffeMachine +
                 ", roomService= " + roomService +

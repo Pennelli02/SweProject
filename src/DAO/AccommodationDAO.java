@@ -117,11 +117,11 @@ public class AccommodationDAO {
 
             if (searchParameters.getDateOfCheckIn() != null && searchParameters.getDateOfCheckOut() != null) {
                 queryBuilder.append(
-                        " AND a.availablefrom <= ? " +  // Disponibile prima del check-out
+                        " AND a.availablefrom <= ? " +  // Disponibile dopo del check-out
                         " AND a.availableend >= ? "     // Disponibile dopo il check-in
                 );
-                parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckOut()));
                 parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckIn()));
+                parameters.add(java.sql.Timestamp.valueOf(searchParameters.getDateOfCheckOut()));
             }
 
             if (searchParameters.getHowMuchRooms() > 0) {
@@ -394,7 +394,7 @@ public class AccommodationDAO {
         }
         PreparedStatement preparedStatement = null;
         try {
-            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rateprice, availablefrom, availableend, description, rating, refundable, freewifi, havesmokingarea, parking, coffeemachine, roomservice, cleaningservice, havespa, goodforkids, numberofrooms, welcomeanimals, maxPeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
+            String query="INSERT INTO accommodation (name, address, place, disponibility, type, rateprice, availablefrom, availableend, description, rating, refundable, freewifi, havesmockingarea, haveparking, coffeemachine, roomservice, cleaningservice, havespa, goodforkids, numberofroom, welcomeanimal, maxpeople) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  ";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, address);

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import DomainModel.*;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -215,7 +214,6 @@ class ProfileUserControllerTest {
         profileUserController = new ProfileUserController(registerUser);
         var savingsAfter = registerUser.getMyPreferences();
         assertTrue(savingsAfter.isEmpty());
-
 
     }
 

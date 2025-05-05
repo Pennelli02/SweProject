@@ -34,10 +34,12 @@ public class ResearchController {
                 user.addBooking(booking);
                 if(applydiscount) {
                     userDAO.resetFidPoints(user.getId(), user.getFidelityPoints()-10);
+                    user.setFidelityPoints(user.getFidelityPoints()-10);
                 }else {
                     userDAO.updateFidPoints(user, price);
                 }
                 accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() - 1);
+                accommodation.setDisponibility(accommodation.getDisponibility() - 1);
             }catch (RuntimeException e) {
                 System.err.println(e.getMessage());
             }
