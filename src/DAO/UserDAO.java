@@ -431,7 +431,7 @@ public class UserDAO {
             throw new IllegalArgumentException("La password non puo' essere vuota");
         }
         try {
-            String query = "UPDATE user SET password = ? WHERE email = ?";
+            String query = "UPDATE users SET password = ? WHERE email = ?";
             ps = connection.prepareStatement(query);
             ps.setString(1, newPassword);
             ps.setString(2, adminEmail);

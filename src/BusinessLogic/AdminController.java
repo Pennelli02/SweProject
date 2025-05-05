@@ -14,6 +14,11 @@ import java.util.Objects;
 
 public class AdminController {
     private boolean isLoggedIn;
+    //testing
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
     private String adminEmail=null;
 
     public AdminController() {

@@ -326,7 +326,6 @@ class AdminControllerTest {
 
         // Aggiungi una accommodation per l’utente
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        LocalDateTime now = LocalDateTime.now();
         accommodationDAO.addAccommodation(
                 "Test House", "Via Test 1", "test", 3,
                 AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
@@ -409,33 +408,163 @@ class AdminControllerTest {
 
     @Test
     void getAllAccommodation() {
+        adminController = new AdminController();
+
+        ArrayList<Accommodation> allAccommodations = adminController.getAllAccommodation();
+
+        assertNotNull(allAccommodations, "La lista degli alloggi non dovrebbe essere null");
+        assertEquals(5, allAccommodations.size(), "Ci dovrebbero essere esattamente 5 alloggi nel sistema");
     }
 
     @Test
-    void getAllUser() {
+    void getAllUser() throws SQLException, ClassNotFoundException {
+        adminController = new AdminController();
+
+        ArrayList<RegisterUser> allUsers= adminController.getAllUser();
+
+        assertNotNull(allUsers);
+        assertEquals(3, allUsers.size(), "Ci dovrebbero essere esattamente 3 utenti nel sistema");
     }
 
     @Test
-    void getReviewByUser() {
+    void getReviewByUser() throws SQLException, ClassNotFoundException {
+        UserController userController = new UserController();
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+
+        int userId = regUser.getId();
+
+        // Aggiungi una accommodation per l’utente
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(regUser);
+        List<Accommodation> results = rc.doResearch(params);
+
+        rc.writeReview(results.getFirst(), "bi bi bi", AccommodationRating.OneStar);
+        rc.writeReview(results.getFirst(), "abi abi abi", AccommodationRating.TwoStar);
+
+
+        ArrayList<Review> reviews= adminController.getReviewByUser(regUser);
+
+        //controlliamo che le recensioni siano state scritte sullo stesso alloggio e dallo stesso utente come dovrebbe essere
+        for (Review review : reviews) {
+            assertEquals(review.getReviewedItem().getId(), results.getFirst().getId());
+            assertEquals(review.getAuthor().getId(), regUser.getId());
+        }
+        // controlliamo il testo notando che non sono la stessa recensione
+        assertEquals("bi bi bi", reviews.getFirst().getReviewText());
+        assertEquals("abi abi abi", reviews.get(1).getReviewText());
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
+        UserDAO userDAO = new UserDAO();
+        userDAO.removeUser(userId);
+
+
     }
 
     @Test
-    void getReviewByAccommodation() {
+    void getReviewByAccommodation() throws SQLException, ClassNotFoundException {
+        UserController userController = new UserController();
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+
+        int userId = regUser.getId();
+
+        // Aggiungi una accommodation per l’utente
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(regUser);
+        List<Accommodation> results = rc.doResearch(params);
+
+        rc.writeReview(results.getFirst(), "bi bi bi", AccommodationRating.OneStar);
+        rc.writeReview(results.getFirst(), "abi abi abi", AccommodationRating.TwoStar);
+
+
+        ArrayList<Review> reviews= adminController.getReviewByAccommodation(results.getFirst());
+
+        //controlliamo che le recensioni siano state scritte sullo stesso alloggio e dallo stesso utente come dovrebbe essere
+        for (Review review : reviews) {
+            assertEquals(review.getReviewedItem().getId(), results.getFirst().getId());
+            assertEquals(review.getAuthor().getId(), regUser.getId());
+        }
+        // controlliamo il testo notando che non sono la stessa recensione
+        assertEquals("bi bi bi", reviews.getFirst().getReviewText());
+        assertEquals("abi abi abi", reviews.get(1).getReviewText());
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
+        UserDAO userDAO = new UserDAO();
+        userDAO.removeUser(userId);
     }
 
     @Test
     void getAccommodationById() {
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(new RegisterUser());
+        List<Accommodation> results = rc.doResearch(params);
+        assertNotNull(results);
+        int accommodationId = results.getFirst().getId();
+
+        Accommodation founder= adminController.getAccommodationById(accommodationId);
+        assertNotNull(founder);
+        assertEquals(founder.getId(), accommodationId);
+        assertEquals(founder.getName(), results.getFirst().getName());
+        assertEquals(founder.getAddress(), results.getFirst().getAddress());
+
+        accommodationDAO.deleteAccommodation(accommodationId);
     }
 
-    @Test
-    void exit() {
-    }
+//    @Test
+//    void exit() { non so se testarlo
+//    }
 
     @Test
     void loginAdmin() {
+        UserDAO userDAO = new UserDAO();
+        int adminId= userDAO.createTestAdmin(testAdminEmail, testAdminPassword, testAdminFirstName, testAdminLastName, testAdminUsername);
+
+        assertTrue(adminController.loginAdmin(testAdminPassword));
+        assertNotNull(adminController.getAdminEmail());
+
+        userDAO.removeUser(adminId);
     }
 
     @Test
     void changePassword() {
+        UserDAO userDAO = new UserDAO();
+        int adminId= userDAO.createTestAdmin(testAdminEmail, testAdminPassword, testAdminFirstName, testAdminLastName, testAdminUsername);
+
+        assertTrue(adminController.loginAdmin(testAdminPassword));
+        assertNotNull(adminController.getAdminEmail());
+
+        String newPassword = "newTestPassword";
+
+        adminController.changePassword(newPassword);
+        assertNotNull(adminController.getAdminEmail());
+
+        assertFalse(adminController.loginAdmin(testAdminPassword));
+
+        assertTrue(adminController.loginAdmin(newPassword));
+
+        userDAO.removeUser(adminId);
     }
 }
