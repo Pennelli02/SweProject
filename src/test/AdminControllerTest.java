@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdminControllerTest {
     private AdminController adminController;
 
-    private int idAdmin;
 
     private final String testAdminEmail="admin@apt.com";
     private final String testAdminPassword="adminPassword";

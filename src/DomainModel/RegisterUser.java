@@ -155,7 +155,6 @@ public class RegisterUser {
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }
 
-    //FIXME (richiesta lore) magari da espandere in modo che in base alo stato faccia uscire un messaggio? l'ho già aggiunto io dimmi se va bene. Risposta Lore: va benissimo
     public void showMyBookings(){
         System.out.println("ALL BOOKINGS");
         for (int i=0;i<myBookings.size();i++) {
