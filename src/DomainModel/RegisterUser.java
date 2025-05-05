@@ -45,7 +45,8 @@ public class RegisterUser {
     public RegisterUser(int errorID, String email) {
         this.id = errorID; this.email = email;
     }
-
+    //solo per testing
+    public RegisterUser() {}
     public int getId() {
         return id;
     }

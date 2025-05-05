@@ -92,9 +92,13 @@ public class Booking {
 
     @Override
     public String toString() {
+        String accommodationInfo = (accommodation != null) ?
+                ", accommodation=" + accommodation.getName() :
+                ", accommodation= ELIMINATA";
+
         return "bookingID=" + bookingID +
                 ", customer=" + customer.getUsername() +
-                ", accommodation=" + accommodation.getName() +
+                accommodationInfo +
                 ", price=" + price +
                 ", numPeople=" + numPeople +
                 ", checkInDate=" + checkInDate +

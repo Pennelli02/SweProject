@@ -511,9 +511,9 @@ public class AccommodationDAO {
         }
     }
 
-   // Esegue un singolo update (riutilizzabile) dirty flag
-   private void updateField(int id, String field, Object value){
-        String sql = "UPDATE accommodations SET " + field + " = ? WHERE id = ?";
+    // Esegue un singolo update (riutilizzabile) dirty flag
+    private void updateField(int id, String field, Object value) {
+        String sql = "UPDATE accommodation SET " + field + " = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Gestione speciale per LocalDateTime
             if (value instanceof LocalDateTime) {
@@ -526,7 +526,7 @@ public class AccommodationDAO {
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }
-   }
+    }
 
     public ArrayList<Accommodation> getAccommodationFromUser(int id) {
         PreparedStatement stmt = null;

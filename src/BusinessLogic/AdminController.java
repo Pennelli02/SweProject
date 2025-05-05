@@ -20,11 +20,12 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    public void deleteAccomodation(int idAccomodation){
+    public void deleteAccommodation(int idAccomodation){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         BookingDAO bookingDAO = new BookingDAO();
-        accommodationDAO.deleteAccommodation(idAccomodation);
         bookingDAO.updateBookingsAfterDeleteAccommodation(idAccomodation);
+        accommodationDAO.deleteAccommodation(idAccomodation);
+
     }
 
 
@@ -47,6 +48,11 @@ public class AdminController {
     
     public void removeUser(int idUser) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        ArrayList <Accommodation> accommodations=accommodationDAO.getAccommodationFromUser(idUser);
+        for(Accommodation accommodation:accommodations) {
+            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility()+1);
+        }
         userDAO.removeUser(idUser);
     }
     
@@ -55,7 +61,7 @@ public class AdminController {
         return userDAO.getUserById(idUser);
     }
 
-    public ArrayList<Accommodation> getAllAccomodation() {
+    public ArrayList<Accommodation> getAllAccommodation() {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAllAccommodation();
     }
@@ -70,12 +76,12 @@ public class AdminController {
         return reviewDAO.getReviewByUser(user);
     }
 
-    public ArrayList<Review> getReviewByAccomodation(Accommodation accommodation){
+    public ArrayList<Review> getReviewByAccommodation(Accommodation accommodation){
         ReviewDAO reviewDAO = new ReviewDAO();
         return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
-    public Accommodation getAccomodationById(int id){
+    public Accommodation getAccommodationById(int id){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByID(id);
     }

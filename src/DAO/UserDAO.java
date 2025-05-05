@@ -458,4 +458,27 @@ public class UserDAO {
             DBUtils.closeQuietly(ps);
         }
     }
+    // metodo per testare l'admin
+    public int createTestAdmin(String adminEmail, String adminPassword, String adminName, String adminSurname, String adminUsername) {
+        PreparedStatement ps=null;
+        try {
+            String sql="INSERT INTO users (email, password, name, surname, username, isadmin) VALUES (?,?,?,?,?, TRUE) RETURNING id";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, adminEmail);
+            ps.setString(2, adminPassword);
+            ps.setString(3, adminName);
+            ps.setString(4, adminSurname);
+            ps.setString(5, adminUsername);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }catch (SQLException e){
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
+        }
+        return -1;
+
+    }
 }

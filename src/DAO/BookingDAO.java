@@ -210,7 +210,7 @@ public class BookingDAO {
     public void updateBookingsAfterDeleteAccommodation(int idAccommodation) {
         PreparedStatement preparedStatement=null;
         try {
-            String query = "SELECT id userId price FROM bookings WHERE accommodationId = ?";
+            String query = "SELECT id FROM booking WHERE accommodationId = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
             ResultSet resultSet = preparedStatement.executeQuery();
