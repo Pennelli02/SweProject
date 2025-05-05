@@ -60,7 +60,7 @@ class ResearchControllerTest {
     @Test
     void doResearch() {
         // suppongo che ci siano già delle Accommodation nel db
-        Accommodation accommodation=accommodationDAO.getAccommodationByID(1);
+        Accommodation accommodation=accommodationDAO.getAccommodationByID(3);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -84,7 +84,7 @@ class ResearchControllerTest {
         assertTrue(accommodations.isEmpty());
 
         // testiamo gli errori di sintassi
-        testSearchParametersBuilder= SearchParametersBuilder.newBuilder("rOmA"); // troverà lo stesso
+        testSearchParametersBuilder= SearchParametersBuilder.newBuilder("miLanO"); // troverà lo stesso
         accommodations= researchController.doResearch(testSearchParametersBuilder.build());
         assertNotNull(accommodations);
         for (Accommodation value : accommodations) {
@@ -314,7 +314,7 @@ class ResearchControllerTest {
 
     @Test
     void saveAccommodation() throws SQLException, ClassNotFoundException {
-        Accommodation accommodation=accommodationDAO.getAccommodationByID(1);
+        Accommodation accommodation=accommodationDAO.getAccommodationByID(2);
         researchController.saveAccommodation(accommodation);
 
         ProfileUserController puc=new ProfileUserController(registerUser);
