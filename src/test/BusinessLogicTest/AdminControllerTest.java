@@ -1,4 +1,4 @@
-package test;
+package test.BusinessLogicTest;
 
 import BusinessLogic.AdminController;
 import BusinessLogic.ProfileUserController;
@@ -8,7 +8,6 @@ import DAO.AccommodationDAO;
 import DAO.BookingDAO;
 import DAO.UserDAO;
 import DomainModel.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

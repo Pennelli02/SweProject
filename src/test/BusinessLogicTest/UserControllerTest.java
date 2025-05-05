@@ -1,4 +1,4 @@
-package test;
+package test.BusinessLogicTest;
 
 import BusinessLogic.UserController;
 import DAO.UserDAO;
