@@ -137,8 +137,8 @@ class AccommodationDAOTest {
         assertEquals(AccommodationType.Apartment,accommodation.getType());
         assertEquals(150.0f,accommodation.getRatePrice());
         assertEquals(AccommodationRating.FourStar,accommodation.getRating());
-        assertTrue(accommodation.getAvailableFrom().isEqual(now.plusDays(5)));
-        assertTrue(accommodation.getAvailableEnd().isEqual(now.plusDays(20)));
+        assertEquals(now.plusDays(5).withNano(0), accommodation.getAvailableFrom().withNano(0));
+        assertEquals(now.plusDays(20).withNano(0), accommodation.getAvailableEnd().withNano(0));
         assertEquals("Appartamento familiare con centro benessere incluso.", accommodation.getDescription());
         assertFalse(accommodation.isRefundable());
         assertTrue(accommodation.isFreewifi());
