@@ -1,26 +1,34 @@
 package test.DAOTest;
 
+import DAO.DatabaseConnection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseConnectionTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
+    @Test
+    void testSingletonInstanceNotNull() {
+        DatabaseConnection instance = assertDoesNotThrow(DatabaseConnection::getInstance);
+        assertNotNull(instance);
     }
 
     @Test
-    void getInstance() {
+    void testSingletonIsSameInstance() {
+        DatabaseConnection instance1 = DatabaseConnection.getInstance();
+        DatabaseConnection instance2 = DatabaseConnection.getInstance();
+        assertSame(instance1, instance2, "Le istanze dovrebbero essere le stesse (singleton)");
     }
 
     @Test
-    void getConnection() {
+    void testConnectionIsValid() throws SQLException {
+        Connection connection = assertDoesNotThrow(() -> DatabaseConnection.getInstance().getConnection());
+        assertNotNull(connection);
+        assertFalse(connection.isClosed(), "La connessione non dovrebbe essere chiusa");
     }
 }
