@@ -144,13 +144,13 @@ public class RegisterUser {
     }
 
     public void showMyPersonalInfo(){
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        System.out.println("Email: " + email);
-        System.out.println("Fidelity Points: " + fidelityPoints);
-        System.out.println("Name: " + name);
-        System.out.println("Surname: " + surname);
-        System.out.println("Favourite Location: " + favouriteLocation);
+        System.out.print("Username: " + username);
+        System.out.print(", Password: " + password);
+        System.out.print(", Email: " + email);
+        System.out.print(", Fidelity Points: " + fidelityPoints);
+        System.out.print(", Name: " + name);
+        System.out.print(", Surname: " + surname);
+        System.out.print(", Favourite Location: " + favouriteLocation + "\n");
 //        System.out.println("My Bookings: " + myBookings);
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }

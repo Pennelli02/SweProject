@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class UserDAO {
     private Connection connection;
     public UserDAO() {
-       try{
+        try{
             this.connection=DatabaseConnection.getInstance().getConnection();
-      }catch (Exception e){
-           System.err.println("Error: " + e.getMessage());
-      }
+        }catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     public RegisterUser getUserByEmailPassword(String email, String password) {
@@ -93,19 +93,19 @@ public class UserDAO {
     //supponiamo che l'email sia unica non teniamo conto della sicurezza
     public String getPassword(String email) {
         PreparedStatement ps=null;
-         try {
-             String pswdQuery = "SELECT password FROM users WHERE email = ?";
-             ps = connection.prepareStatement(pswdQuery);
-             ps.setString(1, email);
-             ResultSet passwordRs = ps.executeQuery();
-             if(passwordRs.next()){
-                 return passwordRs.getString("password");
-             }
-         } catch (SQLException SQLe) {
-             DBUtils.printSQLException(SQLe);
-         }finally {
-             DBUtils.closeQuietly(ps);
-         }
+        try {
+            String pswdQuery = "SELECT password FROM users WHERE email = ?";
+            ps = connection.prepareStatement(pswdQuery);
+            ps.setString(1, email);
+            ResultSet passwordRs = ps.executeQuery();
+            if(passwordRs.next()){
+                return passwordRs.getString("password");
+            }
+        } catch (SQLException SQLe) {
+            DBUtils.printSQLException(SQLe);
+        }finally {
+            DBUtils.closeQuietly(ps);
+        }
         return null;
     }
 
@@ -161,6 +161,7 @@ public class UserDAO {
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
+            System.out.println("Removed the user");
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }finally {
@@ -180,7 +181,7 @@ public class UserDAO {
                 return rs.next(); // True se esiste già
             }
         }catch (SQLException SQLe) {
-           DBUtils.printSQLException(SQLe);
+            DBUtils.printSQLException(SQLe);
         }finally {
             DBUtils.closeQuietly(ps);
         }
@@ -208,19 +209,19 @@ public class UserDAO {
     public ArrayList<RegisterUser> getAllUsers() throws ClassNotFoundException {
         ArrayList<RegisterUser> users = new ArrayList<>();
         PreparedStatement ps=null;
-       try {
-           String query = "SELECT id FROM users";
-           ps = connection.prepareStatement(query);
-           ResultSet rs = ps.executeQuery();
-           while (rs.next()) {
-               RegisterUser user=getUserById(rs.getInt("id"));
-               users.add(user);
-           }
-       } catch (SQLException e) {
-           DBUtils.printSQLException(e);
-       }finally {
-           DBUtils.closeQuietly(ps);
-       }
+        try {
+            String query = "SELECT id FROM users";
+            ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                RegisterUser user=getUserById(rs.getInt("id"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }finally {
+            DBUtils.closeQuietly(ps);
+        }
 
         return users;
     }
@@ -369,13 +370,13 @@ public class UserDAO {
     }
 
     public void updateEmail(int userId, String newEmail) {
-            if (newEmail == null || newEmail.trim().isEmpty()) {
-                throw new IllegalArgumentException("La nuova email non può essere vuota");
-            }
-            if (checkEmail(newEmail)) {
-                throw new IllegalArgumentException("Email già registrata: " + newEmail);
-            }
-            PreparedStatement ps=null;
+        if (newEmail == null || newEmail.trim().isEmpty()) {
+            throw new IllegalArgumentException("La nuova email non può essere vuota");
+        }
+        if (checkEmail(newEmail)) {
+            throw new IllegalArgumentException("Email già registrata: " + newEmail);
+        }
+        PreparedStatement ps=null;
         try {
             String query = "UPDATE users SET email = ? WHERE id = ?";
             ps = connection.prepareStatement(query);
@@ -424,7 +425,7 @@ public class UserDAO {
         // Per resi (amount negativo), la variazione sarà negativa
         return (int)(amount / 30);
     }
-// si  suppone che un admin abbia un'email che non può modificare di tipo admin@apt.com
+    // si  suppone che un admin abbia un'email che non può modificare di tipo admin@apt.com
     public void updateAdminPassword(String adminEmail, String newPassword) {
         PreparedStatement ps=null;
         if (newPassword == null || newPassword.trim().isEmpty()) {

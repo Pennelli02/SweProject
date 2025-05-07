@@ -14,18 +14,19 @@ import java.util.Objects;
 
 public class AdminController {
     private boolean isLoggedIn;
+
     //testing
     public String getAdminEmail() {
         return adminEmail;
     }
 
-    private String adminEmail=null;
+    private String adminEmail = null;
 
     public AdminController() {
         isLoggedIn = false;
     }
 
-    public void deleteAccommodation(int idAccomodation){
+    public void deleteAccommodation(int idAccomodation) {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         BookingDAO bookingDAO = new BookingDAO();
         bookingDAO.updateBookingsAfterDeleteAccommodation(idAccomodation);
@@ -33,34 +34,33 @@ public class AdminController {
 
     }
 
-    //puoi modificare tutto eccetto il valore disponibility
-    public void updateAccommodation(Accommodation accommodation){
+    public void updateAccommodation(Accommodation accommodation) {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         accommodationDAO.updateAccommodationDirty(accommodation);
         accommodation.clearModifiedFields();
     }
 
- // teniamo conto che se la disponibilità è uguale a zero allora darà errore inoltre quando creo un accommodation di default avrà una stella
-    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxPeople ){
+    // teniamo conto che se la disponibilità è uguale a zero allora darà errore inoltre quando creo un accommodation di default avrà una stella
+    public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, String description, LocalDateTime availableFrom, LocalDateTime availableEnd, boolean coffeMachine, boolean roomService, boolean welcomeAnimal, int numberOfRoom, boolean goodForKids, boolean haveSpa, boolean cleaningService, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, int maxPeople) {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        AccommodationRating rating= AccommodationRating.OneStar;
+        AccommodationRating rating = AccommodationRating.OneStar;
         try {
             accommodationDAO.addAccommodation(name, address, place, disponibility, type, ratePrice, availableFrom, availableEnd, description, rating, refundable, freewifi, haveSmokingArea, haveParking, coffeMachine, roomService, cleaningService, haveSpa, goodForKids, numberOfRoom, welcomeAnimal, maxPeople);
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public void removeUser(int idUser) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        ArrayList <Accommodation> accommodations=accommodationDAO.getAccommodationFromUser(idUser);
-        for(Accommodation accommodation:accommodations) {
-            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility()+1);
+        ArrayList<Accommodation> accommodations = accommodationDAO.getAccommodationFromUser(idUser);
+        for (Accommodation accommodation : accommodations) {
+            accommodationDAO.updateAccommodationDisponibility(accommodation.getId(), accommodation.getDisponibility() + 1);
         }
         userDAO.removeUser(idUser);
     }
-    
+
     public RegisterUser searchUser(int idUser) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         return userDAO.getUserById(idUser);
@@ -76,22 +76,32 @@ public class AdminController {
         return userDAO.getAllUsers();
     }
 
-    public ArrayList<Review> getReviewByUser(RegisterUser user){
+    public ArrayList<Review> getAllReview() throws SQLException, ClassNotFoundException {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        return reviewDAO.getAllReview();
+    }
+
+    public void removeReview(int idReview) {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        reviewDAO.removeReview(idReview);
+    }
+
+    public ArrayList<Review> getReviewByUser(RegisterUser user) {
         ReviewDAO reviewDAO = new ReviewDAO();
         return reviewDAO.getReviewByUser(user);
     }
 
-    public ArrayList<Review> getReviewByAccommodation(Accommodation accommodation){
+    public ArrayList<Review> getReviewByAccommodation(Accommodation accommodation) {
         ReviewDAO reviewDAO = new ReviewDAO();
         return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
-    public Accommodation getAccommodationById(int id){
+    public Accommodation getAccommodationById(int id) {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByID(id);
     }
 
-    public void exit(){
+    public void exit() {
         isLoggedIn = false;
     }
 
@@ -106,8 +116,10 @@ public class AdminController {
         UserDAO userDAO = new UserDAO();
         try {
             userDAO.updateAdminPassword(adminEmail, newPassword);
-        }catch (IllegalArgumentException e){
+            System.out.println("Password changed");
+        } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 }
+

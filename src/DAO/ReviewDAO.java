@@ -1,9 +1,6 @@
 package DAO;
 
-import DomainModel.Accommodation;
-import DomainModel.AccommodationRating;
-import DomainModel.RegisterUser;
-import DomainModel.Review;
+import DomainModel.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -75,8 +72,9 @@ public class ReviewDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, reviewID);
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            DBUtils.printSQLException(e);
+            System.out.println("Successfully deleted review");
+        } catch (Exception e) {
+            System.out.println("Error something went wrong: " + e.getMessage());
         }
     }
     ///  rating di accommodation si attiva grazie a un trigger
@@ -133,4 +131,40 @@ public class ReviewDAO {
         return reviews;
     }
 
+    public ArrayList<Review> getAllReview() {
+        ArrayList<Review> reviews = new ArrayList<>();
+        PreparedStatement stmt = null;
+        try {
+            String sql = "SELECT * FROM reviews";
+            stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            UserDAO userDAO = new UserDAO();
+            AccommodationDAO accommodationDAO = new AccommodationDAO();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String content = rs.getString("commenttext");
+                int authorID = rs.getInt("userId");
+                RegisterUser author=userDAO.getUserById(authorID);
+                int accommodationid = rs.getInt("accommodationId");
+                Accommodation accommodation=accommodationDAO.getAccommodationByID(accommodationid);
+                int rating = rs.getInt("rating");
+                AccommodationRating accRating = AccommodationRating.OneStar;
+                for (AccommodationRating ar : AccommodationRating.values()) {
+                    if (ar.getNumericValue() == rating) {
+                        accRating = ar;
+                        break;
+                    }
+                }
+                Review review= new Review(id, author, accommodation, content, accRating);
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            DBUtils.printSQLException(e);
+        }catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }finally {
+            DBUtils.closeQuietly(stmt);
+        }
+        return reviews;
+    }
 }
