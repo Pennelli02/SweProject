@@ -407,24 +407,133 @@ class AdminControllerTest {
     // vedere se ha senso testare questi metodi dipendono troppo dal db
     @Test
     void getAllAccommodation() {
-        //fixme scindere dal db
+        // aggiungiamo tre alloggi e si suppone nel caso che ci siano dei valori nel db non si sa
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+
+        accommodationDAO.addAccommodation(
+                "Family Spa Apartment",
+                "Via delle Terme 12",
+                "Test",
+                2,
+                AccommodationType.Apartment,
+                150.0f,
+                now.plusDays(5),
+                now.plusDays(20),
+                "Appartamento familiare con centro benessere incluso.",
+                AccommodationRating.FourStar,
+                false,
+                true,
+                false,
+                false,
+                true,
+                true,
+                true,
+                true,
+                true,
+                3,
+                true,
+                4
+        );
+
+        accommodationDAO.addAccommodation(
+                "Hotel Roma Centro",
+                "Via Roma 1",
+                "Test",
+                5,
+                AccommodationType.Hotel,
+                99.99f,
+                now.plusDays(1),
+                now.plusDays(10),
+                "Hotel economico in centro a Roma con WiFi.",
+                AccommodationRating.ThreeStar,
+                true,  // refundable
+                true,  // freewifi
+                false, // smoking
+                true,  // parking
+                false, // coffee
+                true,  // room service
+                true,  // cleaning
+                false, // spa
+                true,  // kids
+                10,
+                true,
+                2
+        );
+
+        accommodationDAO.addAccommodation(
+                "Student Hostel Rome",
+                "Via Studenti 99",
+                "Test",
+                20,
+                AccommodationType.BnB,
+                35.5f,
+                now.plusDays(3),
+                now.plusDays(30),
+                "Ostello per studenti vicino all'università.",
+                AccommodationRating.OneStar,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                15,
+                false,
+                1
+        );
+
         adminController = new AdminController();
 
         ArrayList<Accommodation> allAccommodations = adminController.getAllAccommodation();
 
         assertNotNull(allAccommodations, "La lista degli alloggi non dovrebbe essere null");
-        assertEquals(4, allAccommodations.size(), "Ci dovrebbero essere esattamente 5 alloggi nel sistema");
+        assertFalse(allAccommodations.isEmpty(), "La lista non dovrebbe essere vuota");
+        assertTrue(allAccommodations.size()>=3, "La lista deve essere almeno 3 elementi perché ne ho aggiunti 3 io, non sapendo se non ci sono già elementi nel db");
+
+        SearchParameters msp= SearchParametersBuilder.newBuilder("Test").build();
+        ArrayList<Accommodation> accommodations=accommodationDAO.getAccommodationByParameter(msp);
+        for (Accommodation accommodation : accommodations) {
+            accommodationDAO.deleteAccommodation(accommodation.getId());
+        }
     }
 
     @Test
     void getAllUser() throws SQLException, ClassNotFoundException {
-        //fixme scindere dal db
         adminController = new AdminController();
+        UserController userController = new UserController();
+        UserDAO userDAO = new UserDAO();
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
+        RegisterUser regUser2 = userController.register(
+                "second.user@example.com",  // email diversa
+                "Second123!",               // password
+                "seconduser",               // username diverso
+                "Second",                   // nome
+                "User",                     // cognome
+                Location.Nothing            // location
+        );
+
+        RegisterUser regUser3 = userController.register(
+                "third.user@example.com",   // email diversa
+                "Third123!",                // password
+                "thirduser",                // username diverso
+                "Third",                    // nome
+                "User",                     // cognome
+                Location.Nothing            // location
+        );
         ArrayList<RegisterUser> allUsers= adminController.getAllUser();
 
         assertNotNull(allUsers);
-        assertEquals(3, allUsers.size(), "Ci dovrebbero essere esattamente 3 utenti nel sistema");
+        assertFalse(allUsers.isEmpty(), "La lista non dovrebbe essere vuota");
+        assertTrue(allUsers.size()>=3, "La lista deve essere almeno 3 elementi perché ne ho aggiunti 3 io, non sapendo se ci sono già alementi nel db");
+
+        //rimozione per  mantenere il db pulito
+        userDAO.removeUser(regUser.getId());
+        userDAO.removeUser(regUser2.getId());
+        userDAO.removeUser(regUser3.getId());
     }
 
     @Test

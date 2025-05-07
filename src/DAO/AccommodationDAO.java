@@ -504,6 +504,9 @@ public class AccommodationDAO {
             if (accommodation.isFieldModified("maxNumberOfPeople")) {
                 updateField(accommodation.getId(), "maxpeople", accommodation.getMaxNumberOfPeople());
             }
+            if (accommodation.isFieldModified("refundable")){
+                updateField(accommodation.getId(), "refundable", accommodation.isRefundable());
+            }
 
 
         } catch (Exception e) {

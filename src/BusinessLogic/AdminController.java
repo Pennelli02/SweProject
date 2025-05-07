@@ -33,7 +33,7 @@ public class AdminController {
 
     }
 
-
+    //puoi modificare tutto eccetto il valore disponibility
     public void updateAccommodation(Accommodation accommodation){
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         accommodationDAO.updateAccommodationDirty(accommodation);

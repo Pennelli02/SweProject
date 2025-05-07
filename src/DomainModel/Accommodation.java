@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 // setter modificati per tener conto del dirty flag
+/// utilizzato il design pattern dirty flag per l'update
 public class Accommodation {
     private int id;
     private String name;
@@ -71,14 +72,6 @@ public class Accommodation {
             modifiedFields.add("place");
         }
         this.place = place;
-    }
-
-    public Integer getDisponibility() {
-        return disponibility;
-    }
-
-    public void setDisponibility(Integer disponibility) {
-        this.disponibility = disponibility;
     }
 
     public AccommodationType getType() {
@@ -152,6 +145,9 @@ public class Accommodation {
     }
 
     public void setRefundable(boolean refundable) {
+        if (!Objects.equals(this.refundable, refundable)) {
+            modifiedFields.add("refundable");
+        }
         this.refundable = refundable;
     }
 
@@ -243,7 +239,6 @@ public class Accommodation {
         this.goodForKids = goodForKids;
     }
 
-
     public void setNumberOfRoom(int numberOfRoom) {
         if (!Objects.equals(this.numberOfRoom, numberOfRoom)) {
             modifiedFields.add("numberOfRoom");
@@ -264,6 +259,10 @@ public class Accommodation {
 
     public void setDisponibility(int disponibility) {
         this.disponibility = disponibility;
+    }
+
+    public int getDisponibility() {
+        return disponibility;
     }
 
     public int getNumberOfRoom() {
