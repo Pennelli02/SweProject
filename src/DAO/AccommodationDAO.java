@@ -27,7 +27,7 @@ public class AccommodationDAO {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, accommodationID);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if(resultSet.next()) {
                 Accommodation accommodation = new Accommodation();
                 // Set degli attributi base
                 accommodation.setId(resultSet.getInt("id"));
@@ -93,8 +93,6 @@ public class AccommodationDAO {
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
                 accommodation.clearModifiedFields();
                 return accommodation;
-            }else{
-                throw new IndexOutOfBoundsException("There is no Accommodation with that ID");
             }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
