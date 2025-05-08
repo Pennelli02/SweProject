@@ -71,10 +71,14 @@ public class ReviewDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, reviewID);
-            stmt.executeUpdate();
-            System.out.println("Successfully deleted review");
-        } catch (Exception e) {
-            System.out.println("Error something went wrong: " + e.getMessage());
+            int rowsAffected=stmt.executeUpdate();
+            if (rowsAffected>0) {
+                System.out.println("Successfully deleted review");
+            }else{
+                System.out.println("Failed to delete review");
+            }
+        } catch (SQLException e) {
+           DBUtils.printSQLException(e);
         }
     }
     //  rating di accommodation si attiva grazie a un trigger nel db

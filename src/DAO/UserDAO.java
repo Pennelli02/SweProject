@@ -163,8 +163,12 @@ public class UserDAO {
             String query = "DELETE FROM users WHERE id = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println("Removed the user");
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Removed the user");
+            } else {
+                System.out.println("No user found with the given ID");
+            }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }finally {
@@ -241,18 +245,18 @@ public class UserDAO {
                 String surname = rs.getString("surname");
                 String username = rs.getString("username");
                 int fidelityPoints = rs.getInt("fidelitypoints");
-                String mail =rs.getString("email");
+                String mail = rs.getString("email");
                 String pass = rs.getString("password");
                 // gestione enumerazione
                 String locationString = rs.getString("favouritelocation");
                 Location location;
                 if (locationString == null) {
-                    location=Location.Nothing;
-                }else {
+                    location = Location.Nothing;
+                } else {
                     try {
                         location = Location.valueOf(locationString);
-                    }catch (IllegalArgumentException e){
-                        location=Location.Nothing;
+                    } catch (IllegalArgumentException e) {
+                        location = Location.Nothing;
                     }
                 }
                 RegisterUser user = new RegisterUser(id, username, pass, mail, fidelityPoints, name, surname, location);
@@ -263,7 +267,7 @@ public class UserDAO {
                 // gestire i miei preferiti
                 PreferenceDAO preferenceDAO = new PreferenceDAO();
                 ArrayList<Accommodation> mySavings;
-                mySavings=preferenceDAO.getFavouritesByUser(id);
+                mySavings = preferenceDAO.getFavouritesByUser(id);
                 user.setMyPreferences(mySavings);
 
                 return user;

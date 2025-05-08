@@ -745,8 +745,8 @@ class AdminControllerTest {
     void removeReview() throws SQLException, ClassNotFoundException {
         ReviewDAO reviewDAO = new ReviewDAO();
         UserController userController = new UserController();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
         // Aggiungi una accommodation per l’utente
         AccommodationDAO accommodationDAO = new AccommodationDAO();

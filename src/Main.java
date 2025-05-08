@@ -650,7 +650,7 @@ public class Main {
                                 try {
                                     ArrayList<Accommodation> myPreferences = registerUser.getMyPreferences();
                                     if(!myPreferences.isEmpty()) {
-                                        System.out.println("Enter the review you want to delete from the list of favourite accommodation (start from 1)");
+                                        System.out.println("Enter the number you want to delete from the list of favourite accommodation (start from 1)");
                                         int choice2 = sc.nextInt();
                                         choice2 = choice2 - 1;
                                         if(choice2<0 || choice2>myPreferences.size()) {
@@ -715,8 +715,7 @@ public class Main {
 
                             puc.cancelABooking(selected);
                             System.out.println("Booking successfully cancelled.");
-
-                            System.out.println("Only confirmed bookings can be cancelled.");
+                            System.out.println(" Remember! Only confirmed bookings can be cancelled.");
                         }
                     }
                     break;
@@ -955,21 +954,10 @@ public class Main {
                 }
                 case 3:{
                     Scanner scanner = new Scanner(System.in);
-                    ArrayList<Accommodation> accommodations = ac.getAllAccommodation();
                     System.out.println("Enter the id of the accommodation that you want to delete: ");
                     int choise2 = scanner.nextInt();
-                    boolean control = false;
                     try{
-                        for (Accommodation accommodation : accommodations) {
-                            if (accommodation.getId() == choise2) {
-                                control = true;
-                                ac.deleteAccommodation(accommodation.getId());
-                                break;
-                            }
-                        }
-                        if (!control) {
-                            throw new IndexOutOfBoundsException("There is no accommodation with that ID");
-                        }
+                       ac.deleteAccommodation(choise2);
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -977,21 +965,10 @@ public class Main {
                 }
                 case 4:{
                     Scanner scanner = new Scanner(System.in);
-                    ArrayList<RegisterUser> registerusers = ac.getAllUser();
                     System.out.println("Enter the id of the user that you want to remove: ");
                     int choise2 = scanner.nextInt();
-                    boolean control = false;
                     try{
-                        for (RegisterUser registerUser : registerusers) {
-                            if (registerUser.getId() == choise2) {
-                                control = true;
-                                ac.removeUser(registerUser.getId());
-                                break;
-                            }
-                        }
-                        if (!control) {
-                            throw new IndexOutOfBoundsException("There is no user with that ID");
-                        }
+                        ac.removeUser(choise2);
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -999,21 +976,14 @@ public class Main {
                 }
                 case 5:{
                     Scanner scanner = new Scanner(System.in);
-                    ArrayList<RegisterUser> registerusers = ac.getAllUser();
                     System.out.println("Enter the id of the user that you want to search: ");
                     int choise2 = scanner.nextInt();
-                    boolean control = false;
                     try{
-                        for (RegisterUser registerUser : registerusers) {
-                            if (registerUser.getId() == choise2) {
-                                control = true;
-                                RegisterUser ru = ac.searchUser(registerUser.getId());
-                                ru.showMyPersonalInfo();
-                                break;
-                            }
-                        }
-                        if (!control) {
-                            throw new IndexOutOfBoundsException("There is no user with that ID");
+                        RegisterUser searched=ac.searchUser(choise2);
+                        if(searched!=null){
+                            searched.showMyPersonalInfo();
+                        }else{
+                            System.out.println("User with id: "+choise2+" does not exist");
                         }
                     }catch (Exception e){
                         System.out.println(e.getMessage());
@@ -1039,7 +1009,11 @@ public class Main {
                         System.out.println("Enter the id of the accommodation that you want to see in detail: ");
                         choise2 = scanner.nextInt();
                         Accommodation acc = ac.getAccommodationById(choise2);
-                        System.out.println(acc.toStringSpecific());
+                        if(acc!=null) {
+                            System.out.println(acc.toStringSpecific());
+                        }else{
+                            System.out.println("There is an error");
+                        }
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -1059,29 +1033,25 @@ public class Main {
                 }
                 case 9:{
                     Scanner scanner = new Scanner(System.in);
-                    ArrayList<RegisterUser> registerusers = ac.getAllUser();
                     System.out.println("Enter the ID of the user whose reviews you want to see written by him: ");
                     int choise2 = scanner.nextInt();
-                    boolean control = false;
                     try{
-                        for (RegisterUser registerUser : registerusers) {
-                            if (registerUser.getId() == choise2) {
-                                control = true;
-                                ArrayList<Review> reviews = ac.getReviewByUser(ac.searchUser(registerUser.getId()));
-                                System.out.println("ALL REVIEWS BY "+registerUser.getUsername()+" :");
-                                if(!reviews.isEmpty()){
-                                    for (Review review : reviews) {
-                                        System.out.println(review.toStringUser());
+                                RegisterUser searched=ac.searchUser(choise2);
+                                if(searched!=null) {
+                                    ArrayList<Review> reviews = ac.getReviewByUser(searched);
+                                    System.out.println("ALL REVIEWS BY " + searched.getUsername() + " :");
+                                    if (!reviews.isEmpty()) {
+                                        for (Review review : reviews) {
+                                            System.out.println(review.toStringUser());
+                                        }
+                                    } else {
+                                        System.out.println("There is no review");
                                     }
-                                }else{
-                                    System.out.println("There is no review");
+                                }else {
+                                    System.out.println("There is no user with given ID");
                                 }
                                 break;
-                            }
-                        }
-                        if (!control) {
-                            throw new IndexOutOfBoundsException("There is no user with that ID");
-                        }
+
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -1091,17 +1061,21 @@ public class Main {
                     Scanner scanner = new Scanner(System.in);
                     int choise2;
                     try {
-                        System.out.println("Enter the ID of the accommodation you want to see reviews for2: ");
+                        System.out.println("Enter the ID of the accommodation you want to see reviews for: ");
                         choise2 = scanner.nextInt();
                         Accommodation acc = ac.getAccommodationById(choise2);
-                        ArrayList<Review> reviews = ac.getReviewByAccommodation(acc);
-                        System.out.println("ALL REVIEWS OF "+acc.getName()+" :");
-                        if(!reviews.isEmpty()){
-                            for (Review review : reviews) {
-                                System.out.println(review.toStringUser());
+                        if(acc!=null) {
+                            ArrayList<Review> reviews = ac.getReviewByAccommodation(acc);
+                            System.out.println("ALL REVIEWS OF " + acc.getName() + " :");
+                            if (!reviews.isEmpty()) {
+                                for (Review review : reviews) {
+                                    System.out.println(review.toStringUser());
+                                }
+                            } else {
+                                System.out.println("There is no review");
                             }
                         }else{
-                            System.out.println("There is no review");
+                            System.out.println("There is no accommodation with given ID");
                         }
                     }catch (Exception e){
                         System.out.println(e.getMessage());
@@ -1114,7 +1088,11 @@ public class Main {
                         System.out.println("Enter the id of the accommodation that you want to search: ");
                         int choise2 = scanner.nextInt();
                         Accommodation a = ac.getAccommodationById(choise2);
-                        System.out.println(a.toString());
+                        if(a!=null){
+                            System.out.println(a.toString());
+                        }else{
+                            System.out.println("There is with this id: "+choise2+ "no accommodation");
+                        }
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
@@ -1129,21 +1107,10 @@ public class Main {
                 }
                 case 13:{
                     Scanner scanner = new Scanner(System.in);
-                    ArrayList<Review> reviews = ac.getAllReview();
-                    System.out.println("Enter the id of the user that you want to remove: ");
+                    System.out.println("Enter the id of the review that you want to remove: ");
                     int choise2 = scanner.nextInt();
-                    boolean control = false;
                     try{
-                        for (Review review : reviews) {
-                            if (review.getReviewID()== choise2) {
-                                control = true;
-                                ac.removeReview(review.getReviewID());
-                                break;
-                            }
-                        }
-                        if (!control) {
-                            throw new IndexOutOfBoundsException("There is no review with that ID");
-                        }
+                        ac.removeReview(choise2);
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }

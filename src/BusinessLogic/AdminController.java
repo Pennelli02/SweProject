@@ -26,11 +26,11 @@ public class AdminController {
         isLoggedIn = false;
     }
 
-    public void deleteAccommodation(int idAccomodation) {
+    public void deleteAccommodation(int idAccommodation) {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         BookingDAO bookingDAO = new BookingDAO();
-        bookingDAO.updateBookingsAfterDeleteAccommodation(idAccomodation);
-        accommodationDAO.deleteAccommodation(idAccomodation);
+        bookingDAO.updateBookingsAfterDeleteAccommodation(idAccommodation);
+        accommodationDAO.deleteAccommodation(idAccommodation);
 
     }
 

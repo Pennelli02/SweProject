@@ -93,6 +93,8 @@ public class AccommodationDAO {
                 accommodation.setMaxNumberOfPeople(resultSet.getInt("maxpeople"));
                 accommodation.clearModifiedFields();
                 return accommodation;
+            }else{
+                throw new IndexOutOfBoundsException("There is no Accommodation with that ID");
             }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
@@ -375,8 +377,12 @@ public class AccommodationDAO {
             String query = "DELETE FROM accommodation WHERE id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAccommodation);
-            preparedStatement.executeUpdate();
-            System.out.println("Accommodation deleted successfully");
+            int rowsAffected=preparedStatement.executeUpdate();
+            if (rowsAffected>0) {
+                System.out.println("Accommodation deleted successfully");
+            }else{
+                System.out.println("Accommodation Id not found");
+            }
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }finally {
