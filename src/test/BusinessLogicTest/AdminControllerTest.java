@@ -6,6 +6,7 @@ import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
 import DAO.AccommodationDAO;
 import DAO.BookingDAO;
+import DAO.ReviewDAO;
 import DAO.UserDAO;
 import DomainModel.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -232,19 +233,19 @@ class AdminControllerTest {
                 5,
                 AccommodationType.Hotel,
                 50.0f,
+                "Hotel di test",
                 now.plusDays(1),
                 now.plusDays(10),
-                "Hotel di test",
                 true,
                 true,
                 false,
-                true,
-                true,
-                false,
-                false,
-                false,
-                true,
                 3,
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
                 true,
                 2
         );
@@ -277,26 +278,26 @@ class AdminControllerTest {
         System.setErr(new PrintStream(errContent));
 
         adminController.addAccommodation(
-                "Hotel Fallimento",
-                "Via Zero 1",
-                "Torino",
-                0, // disponibilità zero, errore atteso
+                "Test Add Hotel",
+                "Via Roma 10",
+                "Test",
+                -3,
                 AccommodationType.Hotel,
-                60.0f,
+                50.0f,
+                "Hotel di test",
                 now.plusDays(1),
-                now.plusDays(5),
-                "Dovrebbe fallire",
-                true,
-                false,
-                false,
-                true,
-                false,
-                false,
+                now.plusDays(10),
                 true,
                 true,
                 false,
-                1,
+                3,
+                true,
                 false,
+                false,
+                false,
+                true,
+                false,
+                true,
                 2
         );
 
@@ -676,5 +677,105 @@ class AdminControllerTest {
         assertTrue(adminController.loginAdmin(newPassword));
 
         userDAO.removeUser(adminId);
+    }
+
+    @Test
+    void getAllReview() throws SQLException, ClassNotFoundException {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        UserDAO userDAO = new UserDAO();
+        UserController userController = new UserController();
+
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+
+
+        // 1. Creazione di una accommodation
+        LocalDateTime now = LocalDateTime.now();
+        accommodationDAO.addAccommodation(
+                "Test Hotel",
+                "Via Test 123",
+                "Test",
+                10,
+                AccommodationType.Hotel,
+                100.0f,
+                now.plusDays(1),
+                now.plusDays(10),
+                "Descrizione iniziale",
+                AccommodationRating.ThreeStar,
+                true,
+                true,
+                false,
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                5,
+                true,
+                2
+        );
+
+        // 2. Recupera l'accommodation
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(regUser); // finto utente
+        List<Accommodation> results = rc.doResearch(params);
+        assertFalse(results.isEmpty());
+
+        Accommodation accommodation = results.getFirst();
+        int id = accommodation.getId();
+
+        //non sapendo quante recensioni ci siano nel db aggiungo tre recensioni
+        reviewDAO.addReview(regUser, accommodation, "test1", AccommodationRating.ThreeStar);
+        reviewDAO.addReview(regUser, accommodation, "test2", AccommodationRating.TwoStar);
+        reviewDAO.addReview(regUser, accommodation, "test3", AccommodationRating.OneStar);
+
+        ArrayList<Review> reviews= adminController.getAllReview();
+        assertFalse(reviews.isEmpty());
+        assertNotNull(reviews);
+        assertTrue(reviews.size() >= 3, "non sapendo se il db sia popolato controlliamo che effettivamente la dimensione sia uguale o maggiore di 3");
+
+        //per pulizia
+        accommodationDAO.deleteAccommodation(id);
+        userDAO.removeUser(regUser.getId());
+
+    }
+
+    @Test
+    void removeReview() throws SQLException, ClassNotFoundException {
+        ReviewDAO reviewDAO = new ReviewDAO();
+        UserController userController = new UserController();
+        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+
+
+        // Aggiungi una accommodation per l’utente
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(regUser);
+        List<Accommodation> results = rc.doResearch(params);
+
+        rc.writeReview(results.getFirst(), "bi bi bi", AccommodationRating.OneStar);
+
+        ArrayList<Review> reviews= reviewDAO.getReviewByAccommodation(results.getFirst());
+        assertFalse(reviews.isEmpty());
+        assertNotNull(reviews);
+        assertEquals(1, reviews.size());
+
+        adminController.removeReview(reviews.getFirst().getReviewID());
+
+        reviews= reviewDAO.getReviewByAccommodation(results.getFirst());
+        assertTrue(reviews.isEmpty());
+
+        UserDAO userDAO = new UserDAO();
+        userDAO.removeUser(regUser.getId());
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
+
     }
 }

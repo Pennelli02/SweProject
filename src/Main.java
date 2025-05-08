@@ -42,8 +42,13 @@ public class Main {
                     String email = in1.nextLine();
                     System.out.println("Enter your password: ");
                     String password = in1.nextLine();
-
-                    RegisterUser registerUser = uc.login(email,password);
+                    // magari inserire un'eccezione che gestisce il caso in cui uno prova ad entrare da qui come admin.
+                    RegisterUser registerUser=null;
+                    try {
+                         registerUser = uc.login(email, password);
+                    }catch(RuntimeException e){
+                        System.err.println(e.getMessage());
+                    }
                     if(registerUser != null) {
                         if (registerUser.getId() == -1) {
                             // Correct email but wrong password
@@ -805,7 +810,6 @@ public class Main {
         return index;
     }
 
-
     private static void removeAccount(ProfileUserController pc) throws SQLException, ClassNotFoundException {
         pc.unRegister();
         pc.exit();
@@ -830,7 +834,8 @@ public class Main {
            + "\n4. Password"
            + "\n5. Username"
            + "\n6. Favourite Location"
-           + "\n7. Exit");
+           + "\n7. " + GREEN +"Confirm Update"+ RESET
+           + "\n8. "+ RED+ "Go Back"+ RESET);
 
            choice = scanner.nextInt();
 
@@ -902,7 +907,12 @@ public class Main {
                    }while (choice2<1 || choice2>4);
                    break;
                }
+               case 7:
+                   break;
 
+               case 8:{
+                   return;
+               }
                default: {
                    System.out.println("Please enter a valid choice");
                    break;
@@ -1040,7 +1050,7 @@ public class Main {
                     System.out.println("----ALL USERS----");
                     if(!registerUsers.isEmpty()){
                         for (RegisterUser ru : registerUsers) {
-                            ru.showMyPersonalInfo();
+                            ru.showMyPersonalInfoAdmin();
                         }
                     }else{
                         System.out.println("There is no user");
@@ -1518,7 +1528,6 @@ public class Main {
         }
         System.out.print("\nChoose an option: ");
     }
-
 
     private static String getMenuLabelAccommodation(int option,String app) {
         return switch (option) {

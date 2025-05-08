@@ -20,6 +20,7 @@ public class ResearchController {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
         return accommodationDAO.getAccommodationByParameter(searchParameters);
     }
+
     //avvia una prenotazione con tutte le funzioni del caso tenere presente che lo sconto viene gestito  con l'uso di un boolenao
     public void booking(Accommodation accommodation, LocalDateTime checkInDate, LocalDateTime checkOutDate, int numOfMembers, int price, boolean applydiscount) {
         if(accommodation.getDisponibility()>0) { // controllo aggiuntivo per sicurezza teoricamente è gestito da addBooking
@@ -47,7 +48,6 @@ public class ResearchController {
             System.out.println("You are not allowed to book this accommodation");
         }
     }
-
 
     public void saveAccommodation(Accommodation accommodation) {
         PreferenceDAO preferenceDAO = new PreferenceDAO();
@@ -88,8 +88,6 @@ public class ResearchController {
         ReviewDAO reviewDAO = new ReviewDAO();
         return reviewDAO.getReviewByAccommodation(accommodation);
     }
-
-
 
     public RegisterUser getUser(){
         return user;

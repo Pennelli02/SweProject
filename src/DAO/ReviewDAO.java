@@ -65,7 +65,7 @@ public class ReviewDAO {
         // Restituisce la lista di recensioni trovate
         return reviews;
     }
-///  rating di accommodation si attiva grazie a un trigger
+//  rating di accommodation si attiva grazie a un trigger nel db
     public void removeReview(int reviewID) {
         String sql = "DELETE FROM reviews WHERE id = ?";
 
@@ -77,7 +77,7 @@ public class ReviewDAO {
             System.out.println("Error something went wrong: " + e.getMessage());
         }
     }
-    ///  rating di accommodation si attiva grazie a un trigger
+    //  rating di accommodation si attiva grazie a un trigger nel db
     public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
        PreparedStatement stmt = null;
         try {

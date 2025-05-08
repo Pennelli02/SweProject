@@ -1,6 +1,7 @@
 package test.BusinessLogicTest;
 
 import BusinessLogic.ProfileUserController;
+import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
 import DAO.*;
 import DomainModel.Location;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import DomainModel.*;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +22,8 @@ class ProfileUserControllerTest {
     private RegisterUser registerUser;
     private UserController userController;
     private UserDAO userDAO;
+
+    LocalDateTime now = LocalDateTime.now();
 
     private final String testEmail = "test.user@example.com";
     private final String testPassword = "Test123!";
@@ -170,14 +175,25 @@ class ProfileUserControllerTest {
     @Test
     void removeReview() throws SQLException, ClassNotFoundException {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        Accommodation accommodation = accommodationDAO.getAccommodationByID(2); // Adatta l'ID al tuo db
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registerUser);
+        List<Accommodation> results = rc.doResearch(params);
         String testComment="testComment";
         ReviewDAO reviewDAO = new ReviewDAO();
 
         var reviews=profileUserController.viewMyReviews();
         assertTrue(reviews.isEmpty());
-        reviewDAO.addReview(registerUser, accommodation, testComment, AccommodationRating.OneStar);
-        var rating= accommodation.getRating();
+        reviewDAO.addReview(registerUser, results.getFirst(), testComment, AccommodationRating.OneStar);
+
+
         reviews=profileUserController.getReviewsByUser();
         assertFalse(reviews.isEmpty());
 
@@ -186,11 +202,7 @@ class ProfileUserControllerTest {
         reviews=profileUserController.getReviewsByUser();
         assertTrue(reviews.isEmpty());
 
-        accommodation=accommodationDAO.getAccommodationByID(2);
-
-        //assertNotEquals(rating,accommodation.getRating()); essendo che è stato fatto con un trigger non si aggiorna in tempo reale
-
-
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
     }
 
     @Test

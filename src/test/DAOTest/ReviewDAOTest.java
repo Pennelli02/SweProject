@@ -111,7 +111,17 @@ class ReviewDAOTest {
     void getReviewByAccommodation() {
         //aggiungiamo una recensione per il test
         reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
-        Review review= reviewDAO.getReviewByAccommodation(accommodationDAO.getAccommodationByID(accommodationId)).getFirst();
+        Review review= assertDoesNotThrow(()->reviewDAO.getReviewByAccommodation(accommodationDAO.getAccommodationByID(accommodationId)).getFirst());
         assertNotNull(review);
+    }
+
+    @Test
+    void getAllReviews() {
+        //aggiungiamo una recensione per il test
+        reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
+        ArrayList<Review>reviews=assertDoesNotThrow(()->reviewDAO.getAllReview());
+        assertNotNull(reviews);
+        assertFalse(reviews.isEmpty());
+
     }
 }

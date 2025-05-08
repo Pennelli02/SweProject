@@ -99,6 +99,7 @@ public class ProfileUserController {
             System.err.println(e.getMessage());
         }
     }
+
     public void removeReview(Review review) {
         ReviewDAO reviewDAO=new ReviewDAO();
         reviewDAO.removeReview(review.getReviewID());

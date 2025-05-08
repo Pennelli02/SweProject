@@ -192,4 +192,15 @@ public class RegisterUser {
             System.out.println((i+1)+") "+myReviews.get(i).toStringUser());
         }
     }
+
+    public void showMyPersonalInfoAdmin() {
+        System.out.print("ID: " + id);
+        System.out.print(", Username: " + username);
+        System.out.print(", Password: " + password);
+        System.out.print(", Email: " + email);
+        System.out.print(", Fidelity Points: " + fidelityPoints);
+        System.out.print(", Name: " + name);
+        System.out.print(", Surname: " + surname);
+        System.out.print(", Favourite Location: " + favouriteLocation + "\n");
+    }
 }

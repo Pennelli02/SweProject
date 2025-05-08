@@ -28,6 +28,9 @@ public class UserDAO {
             emailPs.setString(1, email);
             ResultSet emailRs = emailPs.executeQuery();
             if(emailRs.next()){
+                if (emailRs.getBoolean("isadmin")) {
+                    throw new RuntimeException("Access denied");
+                }
                 //esiste l'email
                 String passwordQuery = "SELECT * FROM \"users\" WHERE \"email\" = ? AND \"password\" = ?";
                 passwordPs= connection.prepareStatement(passwordQuery);
