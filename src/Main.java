@@ -1380,7 +1380,7 @@ public class Main {
 
     private static void printMenuAccommodationUpdate(Accommodation a,String updateAccommodation) {
         System.out.println("\n=== FILTER MENU ===");
-        for (int i = 1; i < 24; i++) {
+        for (int i = 1; i < 23; i++) {
             String label = getMenuLabelAccommodation(i,updateAccommodation);
             boolean isSet = isFilterSetAccommodationUpdate(a,i);
             String coloredLabel = isSet ? GREEN + label + RESET : label;
@@ -1491,26 +1491,25 @@ public class Main {
             case 1 -> "Name";
             case 2 -> "Address";
             case 3 -> "Place";
-            case 4 -> "disponibility";
-            case 5 -> "type";
-            case 6 -> "rateprice";
-            case 7 -> "description";
-            case 8 -> "availableFrom";
-            case 9 -> "availableEnd";
-            case 10 -> "coffeemachine";
-            case 11 -> "roomservice";
-            case 12 -> "welcomeanimal";
-            case 13 -> "numberofroom";
-            case 14 -> "goodforkids";
-            case 15 -> "havespa";
-            case 16 -> "cleaningservice";
-            case 17 -> "refundable";
-            case 18 -> "freewifi";
-            case 19 -> "havesmockingarea";
-            case 20 -> "haveparking";
-            case 21 -> "maxpeople";
-            case 22 -> app;
-            case 23 -> "Show Current Data";
+            case 4 -> "type";
+            case 5 -> "rateprice";
+            case 6 -> "description";
+            case 7 -> "availableFrom";
+            case 8 -> "availableEnd";
+            case 9 -> "coffeemachine";
+            case 10 -> "roomservice";
+            case 11 -> "welcomeanimal";
+            case 12 -> "numberofroom";
+            case 13 -> "goodforkids";
+            case 14 -> "havespa";
+            case 15 -> "cleaningservice";
+            case 16 -> "refundable";
+            case 17 -> "freewifi";
+            case 18 -> "havesmockingarea";
+            case 19 -> "haveparking";
+            case 20 -> "maxpeople";
+            case 21 -> app;
+            case 22 -> "Show Current Data";
             default -> "Invalid";
         };
     }
@@ -1520,13 +1519,12 @@ public class Main {
             case 1 -> filter[0] != null && !filter[0].toString().trim().isEmpty();
             case 2 -> filter[1] != null && !filter[1].toString().trim().isEmpty();
             case 3 -> filter[2] != null && !filter[2].toString().trim().isEmpty();
-            case 4 -> (int) filter[3] > 0;
-            case 5 -> filter[4] != null && !filter[4].toString().trim().isEmpty();
-            case 6 -> (float) filter[5] > 0;
-            case 7,8,9 -> filter[option - 1] != null && !filter[option - 1].toString().trim().isEmpty();
-            case 13 -> (int) filter[12] > 0;
-            case 10, 11, 12, 14, 15, 16, 17, 18, 19, 20 -> (boolean) filter[option - 1];
-            case 21 -> (int)filter[20] > 0;
+            case 4 -> filter[3] != null && !filter[3].toString().trim().isEmpty();
+            case 5 -> (float) filter[4] > 0;
+            case 7,8,6 -> filter[option - 1] != null && !filter[option - 1].toString().trim().isEmpty();
+            case 12 -> (int) filter[11] > 0;
+            case 9, 11, 10, 14, 15, 16, 17, 18, 19, 13 -> (boolean) filter[option - 1];
+            case 20 -> (int)filter[19] > 0;
             default -> false;
         };
     }
@@ -1640,13 +1638,13 @@ public class Main {
     }
 
     private static Object[] setFilterArrayAccommodation() {
-        Object[] array = new Object[21];
+        Object[] array = new Object[20];
         for (int i = 0; i < array.length; i++) {
-            if (i < 3 || i == 4 || (i > 5 && i < 9) ) {
+            if (i < 3 || i == 3 || (i > 4 && i < 9) ) {
                 array[i] = null;
-            } else if (i == 3 || i == 20 || i==12) {
+            } else if ( i == 18 || i==11) {
                 array[i] = 0;
-            } else if (i == 5) {
+            } else if (i == 4) {
                 array[i] = 0.0f;
             } else {
                 array[i] = false;
