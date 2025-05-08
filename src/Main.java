@@ -1169,8 +1169,6 @@ public class Main {
             throw new IllegalArgumentException("\n" + RED + "You must specify an address of place to perform the insert." + RESET + "\n");
         }else if(accommodation.getPlace().trim().isEmpty()){
             throw new IllegalArgumentException("\n" + RED + "You must specify a place to perform the insert." + RESET + "\n");
-        }else if(accommodation.getDisponibility() < 1){
-            throw new IllegalArgumentException("\n" + RED + "You must specify the disponibilty to perform the insert." + RESET + "\n");
         }else if(accommodation.getType() == null){
             throw new IllegalArgumentException("\n" + RED + "You must specify a type of accommodation to perform the insert." + RESET + "\n");
         }else if(accommodation.getRatePrice() < 1){
@@ -1221,12 +1219,6 @@ public class Main {
                 System.out.println("place set to: " + GREEN + place + RESET);
             }
             case 4 -> {
-                System.out.print("Enter disponibility: ");
-                int disponibility = scanner.nextInt();
-                acc.setDisponibility(disponibility);
-                System.out.println(getMenuLabel(choice) + " set to: " + GREEN + disponibility + RESET);
-            }
-            case 5 -> {
                 System.out.println("Select category: 1. Hotel, 2. B&B, 3. Apartment");
                 int type = scanner.nextInt();
                 AccommodationType selected = switch (type) {
@@ -1241,19 +1233,19 @@ public class Main {
                 }else
                     System.out.println(RED + "Invalid category selected." + RESET);
             }
-            case 6 -> {
+            case 5 -> {
                 System.out.print("Max Price: ");
                 float price = scanner.nextFloat();
                 acc.setRatePrice(price);
                 System.out.println("Max Price set to: " + GREEN + price + RESET);
             }
-            case 7 -> {
+            case 6 -> {
                 System.out.println("Description");
                 String description = scanner.nextLine();
                 acc.setDescription(description);
                 System.out.println("Description set to: " + GREEN + description + RESET);
             }
-            case 8 -> {
+            case 7 -> {
                 System.out.println("Available-From" + " Date:");
                 System.out.print("Year (e.g., 2025): ");
                 int year = scanner.nextInt();
@@ -1269,7 +1261,7 @@ public class Main {
                     System.out.println(RED + "Invalid date." + RESET);
                 }
             }
-            case 9 -> {
+            case 8 -> {
                 System.out.println("Available-End" + " Date:");
                 System.out.print("Year (e.g., 2025): ");
                 int year = scanner.nextInt();
@@ -1285,60 +1277,60 @@ public class Main {
                     System.out.println(RED + "Invalid date." + RESET);
                 }
             }
-            case 10 ->{
+            case 9 ->{
                 acc.setCoffeMachine(!acc.isCoffeMachine());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isCoffeMachine() + RESET);
             }
-            case 11 -> {
+            case 10 -> {
                 acc.setRoomService(!acc.isRoomService());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isRoomService() + RESET);
             }
-            case 12 -> {
+            case 11 -> {
                 acc.setWelcomeAnimal(!acc.isWelcomeAnimal());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isWelcomeAnimal() + RESET);
             }
-            case 13 -> {
+            case 12 -> {
                 System.out.print("Enter number of rooms: ");
                 int numberrooms = scanner.nextInt();
                 acc.setNumberOfRoom(numberrooms);
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + numberrooms + RESET);
             }
-            case 14 -> {
+            case 13 -> {
                 acc.setGoodForKids(!acc.isGoodForKids());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isGoodForKids() + RESET);
             }
-            case 15 -> {
+            case 14 -> {
                 acc.setHaveSpa(!acc.isHaveSpa());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isHaveSpa() + RESET);
             }
-            case 16 -> {
+            case 15 -> {
                 acc.setCleaningService(!acc.isCleaningService());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isCleaningService() + RESET);
             }
-            case 17 -> {
+            case 16 -> {
                 acc.setRefundable(!acc.isRefundable());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isRefundable() + RESET);
             }
-            case 18 -> {
+            case 17 -> {
                 acc.setFreewifi(!acc.isFreewifi());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isFreewifi() + RESET);
             }
-            case 19 -> {
+            case 18 -> {
                 acc.setHaveSmokingArea(!acc.isHaveSmokingArea());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isHaveSmokingArea() + RESET);
             }
-            case 20 -> {
+            case 19 -> {
                 acc.setHaveParking(!acc.isHaveParking());
                 System.out.println(getMenuLabelAccommodation(choice, "Update Accommodation") + " set to: " + GREEN + acc.isHaveParking() + RESET);
             }
-            case 21 -> {
+            case 20 -> {
                 System.out.print("Enter number of people: ");
                 int numberpeople = scanner.nextInt();
                 acc.setMaxNumberOfPeople(numberpeople);
                 System.out.println(getMenuLabel(choice) + " set to: " + GREEN + numberpeople + RESET);
             }
-            case 22 -> System.out.println(s);
-            case 23 -> showCurrentFiltersAccommodationUpdate(acc);
+            case 21 -> System.out.println(s);
+            case 22 -> showCurrentFiltersAccommodationUpdate(acc);
             default -> System.out.println(RED + "Invalid choice." + RESET);
         }
         return acc;
@@ -1365,24 +1357,23 @@ public class Main {
             case 1 -> a.getName();
             case 2 -> a.getAddress();
             case 3 -> a.getPlace();
-            case 4 -> a.getDisponibility();
-            case 5 -> a.getType();
-            case 6 -> a.getRatePrice();
-            case 7 -> a.getDescription();
-            case 8 -> a.getAvailableFrom();
-            case 9 -> a.getAvailableEnd();
-            case 10 -> a.isCoffeMachine();
-            case 11 -> a.isRoomService();
-            case 12 -> a.isWelcomeAnimal();
-            case 13 -> a.getNumberOfRoom();
-            case 14 -> a.isGoodForKids();
-            case 15 -> a.isHaveSpa();
-            case 16 -> a.isCleaningService();
-            case 17 -> a.isRefundable();
-            case 18 -> a.isFreewifi();
-            case 19 -> a.isHaveSmokingArea();
-            case 20 -> a.isHaveParking();
-            case 21 -> a.getMaxNumberOfPeople();
+            case 4 -> a.getType();
+            case 5 -> a.getRatePrice();
+            case 6 -> a.getDescription();
+            case 7 -> a.getAvailableFrom();
+            case 8 -> a.getAvailableEnd();
+            case 9 -> a.isCoffeMachine();
+            case 10 -> a.isRoomService();
+            case 11 -> a.isWelcomeAnimal();
+            case 12 -> a.getNumberOfRoom();
+            case 13 -> a.isGoodForKids();
+            case 14 -> a.isHaveSpa();
+            case 15 -> a.isCleaningService();
+            case 16 -> a.isRefundable();
+            case 17 -> a.isFreewifi();
+            case 18 -> a.isHaveSmokingArea();
+            case 19 -> a.isHaveParking();
+            case 20 -> a.getMaxNumberOfPeople();
             default -> false;
         };
     }
@@ -1403,24 +1394,23 @@ public class Main {
             case 1 -> a.isFieldModified("name");
             case 2 -> a.isFieldModified("address");
             case 3 -> a.isFieldModified("place");
-            case 4 -> a.isFieldModified("disponibility");
-            case 5 -> a.isFieldModified("type");
-            case 6 -> a.isFieldModified("ratePrice");
-            case 7 -> a.isFieldModified("description");
-            case 8 -> a.isFieldModified("availableFrom");
-            case 9 -> a.isFieldModified("availableEnd");
-            case 10 -> a.isFieldModified("coffeMachine");
-            case 11 -> a.isFieldModified("roomService");
-            case 12 -> a.isFieldModified("welcomeAnimal");
-            case 13 -> a.isFieldModified("numberOfRoom");
-            case 14 -> a.isFieldModified("goodForKids");
-            case 15 -> a.isFieldModified("haveSpa");
-            case 16 -> a.isFieldModified("cleaningService");
-            case 17 -> a.isFieldModified("refundable");
-            case 18 -> a.isFieldModified("freewifi");
-            case 19 -> a.isFieldModified("haveSmokingArea");
-            case 20 -> a.isFieldModified("haveParking");
-            case 21 -> a.isFieldModified("maxNumberOfPeople");
+            case 4 -> a.isFieldModified("type");
+            case 5 -> a.isFieldModified("ratePrice");
+            case 6 -> a.isFieldModified("description");
+            case 7 -> a.isFieldModified("availableFrom");
+            case 8 -> a.isFieldModified("availableEnd");
+            case 9 -> a.isFieldModified("coffeMachine");
+            case 10 -> a.isFieldModified("roomService");
+            case 11 -> a.isFieldModified("welcomeAnimal");
+            case 12 -> a.isFieldModified("numberOfRoom");
+            case 13 -> a.isFieldModified("goodForKids");
+            case 14 -> a.isFieldModified("haveSpa");
+            case 15 -> a.isFieldModified("cleaningService");
+            case 16 -> a.isFieldModified("refundable");
+            case 17 -> a.isFieldModified("freewifi");
+            case 18 -> a.isFieldModified("haveSmokingArea");
+            case 19 -> a.isFieldModified("haveParking");
+            case 20 -> a.isFieldModified("maxNumberOfPeople");
             default -> false;
         };
     }
