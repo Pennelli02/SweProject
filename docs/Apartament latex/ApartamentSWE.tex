@@ -7,6 +7,7 @@
 \usepackage{float}
 \usepackage[hidelinks]{hyperref}
 \usepackage{caption}
+\usepackage{xcolor}
 
 \setlocalecaption{italian}{contents}{Indice}
 
@@ -102,6 +103,7 @@ Sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante ven
 Figura 2: Use Case Diagram dello User e dell'Admin
 \end{center}
 
+\label{usecase}
 \subsection{Use Case Template}
 Sono di seguito alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a mockup presenti successivamente (sezione 2.3):
 
@@ -328,7 +330,6 @@ Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 L'architettura è divisa in 3 package:
 \begin{itemize}
 \item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e l'eliminazione degli utenti (\textbf{UserController}), quello che gestisce il profilo dell'utente (\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
-\vspace{-0.3cm}
 \par\medskip
 \hspace*{-0.75cm}
 \includegraphics[scale=0.6]{uml/BusinessLogic}
@@ -336,7 +337,7 @@ L'architettura è divisa in 3 package:
 Figura 10: Class Diagram - Business Logic 
 \end{center}
 \item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters},\textbf{SearchParametersBuilder}.
-\hspace*{-2cm}
+\hspace*{-0.5cm}
 \includegraphics[scale=0.58]{uml/domainModel}
 \par\medskip
 \begin{center}
@@ -392,7 +393,7 @@ la mantenibilità del codice.
 \subsection{ER Diagram e Relational Model}
 
 Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 13), e il Relational Model derivato (Figura 14), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
-Alla fine sono state definite le seguenti tabelle (Figura 15):
+Alla fine sono state definite le seguenti tabelle:
 \begin{itemize}
 \item \textbf{User}: rappresenta l'entità \textbf{User}.
 \item \textbf{Booking}: rappresenta l'entità \textbf{Booking}.
@@ -411,9 +412,17 @@ Figura 13: ER Diagram
 \par\medskip
 Figura 14: Tables of the database
 \par\medskip
-\includegraphics[scale=0.75]{ERImages/RelationalModel}
+\end{center}
+
+\subsubsection{Dettagli implementativi del database}
+
+Per gestire l'update del rating dell'alloggio all'interno del database è stata optata come soluzione l'utilizzo dei trigger. Il rating dell'alloggio viene aggiornato ogni volta che viene aggiunta o eliminata una sua recensione aggiornandone il valore con la media dei rating delle sue recensioni.
+
+\begin{center}
 \par\medskip
-Figura 15: Relation Model
+\includegraphics[scale=0.65]{trigger/trigger}
+\par\medskip
+Figura 15: trigger implementati per l'aggiornamento del rating per gli alloggi.
 \par\medskip
 \end{center}
 
@@ -489,6 +498,85 @@ Queste classi implementano il design pattern Builder Telescopic Constructor per 
 \subsubsection{AccommodationDAO}
 
 \`E la classe che si occupa della gestione dei dati degli alloggi. questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i metodi che permettono di aggiornare i dati di un alloggio. 
+
+\subsection{Interfaccia CLI}
+
+Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel \textbf{Main.java}. L'utente può navigare per l'applicazione compiendo le funzionalità del programma inserendo i vari comandi indicati dal sistema. La gestione delle scelte effettuata dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
+
+\begin{center}
+\hspace*{-0.75cm}
+\includegraphics[scale=0.6]{cli/usermenu}
+\par\medskip
+Figura 16: implementazione del menu dell'utente.
+\par\medskip
+\end{center} 
+
+\section{Test}
+
+Sono stati realizzati i test per verificare il corretto funzionamento del sistema, focalizzandosi principalmente sulle funzionalità della \textbf{Business Logic} e del \textbf{Dao}. Sono stati realizzati utilizzando la libreria \textbf{JUnit}. 
+
+\subsection{Domain Model Test}
+
+Sono stati implementati i test più rilevanti per il corretto funzionamento della logica di sistema e dei design pattern.
+I test implementati sono: 
+\begin{itemize}
+\item \textbf{AccommodationTest}.
+\item \textbf{SearchParametersBuilderTest}.
+\end{itemize}
+
+\subsection{Business Logic Test}
+
+Per i controller sono stati effettuati dei test su tutte le loro funzioni, prestando attenzione che seguono le direttive dello \hyperref[usecase]{use case}. Ne vengono riportati alcuni:
+
+\begin{center}
+\hspace*{-0.75cm}
+\includegraphics[scale=0.55]{test/BusinessLogic/login}
+\par\medskip
+Figura 17: test che verifica il login all'interno dell'applicazione.
+\par\medskip
+\end{center}
+
+\begin{center}
+\hspace*{-2cm}
+\includegraphics[scale=0.55]{test/BusinessLogic/register}
+\par\medskip
+Figura 18: test che verifica la registrazione all'interno dell'applicazione.
+\par\medskip
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.55]{test/BusinessLogic/testAdminController}
+\par\medskip
+Figura 19: i test per AdminController.
+\par\medskip
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.55]{test/BusinessLogic/testProfileUserController}
+\par\medskip
+Figura 20: i test per ProfileUserController.
+\par\medskip
+\end{center}
+
+\begin{center}
+\includegraphics[scale=0.55]{test/BusinessLogic/testResearchController}
+\par\medskip
+Figura 21: i test per ResearchController.
+\par\medskip
+\end{center}
+
+\subsection{DAO}
+
+Per ogni classe del DAO è stato effettuati dei test in modo da assicurarsi che i metodi si relazionino correttamente con il database. Questo controllo viene effettuato attraverso la cattura delle eccezioni in caso di errore.
+
+\subsection{Risultati dei test}
+\par\medskip
+\begin{center}
+\includegraphics[scale=0.75]{test/BusinessLogic/risultatitest}
+\par\medskip
+Figura 22: risultati dei test.
+\par\medskip
+\end{center}
 
 
 \end{document}
