@@ -62,7 +62,7 @@ Leuter Lorenzo\\
 
 \subsection{Descrizione del progetto}
 
-L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati B\&B, appartamenti e hotel. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegate successivamente. Inoltre, l'utente potrà anche cancellare le prenotazione se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni degli alloggi da loro prenotati in precedenza.\`E inoltre presente un Admin che può cancellare definitivamente gli utenti o recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti oppure rimuoverli.
+L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati B\&B, appartamenti e hotel. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegati successivamente. Inoltre, l'utente potrà anche cancellare le prenotazioni se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni a degli alloggi. \`E inoltre presente un Admin che può cancellare definitivamente gli utenti,  gli alloggi o le recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti.
 
 \subsection{Ambiente di sviluppo, Architettura del progetto e pratiche usate}
 
@@ -120,7 +120,7 @@ Livello & Function \\ \hline
 Attori & Utente, Admin \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce le sue credenziali (email e password) (\hyperref[mk1]{MK\#1} e \hyperref[mk3]{MK\#3}).
+    \item L'utente inserisce le sue credenziali (email e password) (\hyperref[mk1]{MK\#1} e \hyperref[mk3]{MK\#3})(\hyperref[test1]{T\#1}).
     \item L'utente preme il pulsante di Login.
     \item Il sistema verifica le credenziali.
     \item Il sistema autentica l'utente.
@@ -129,6 +129,7 @@ Flusso Alternativo &
 \begin{enumerate}
     \item[3a.] Se le credenziali sono errate, il sistema invia un messaggio di errore.
     \item[3b.] Se si verifica un problema all'interno del database durante la ricerca dell'utente, il sistema invia un messaggio di errore.
+    \item[3c] Se l'email è giusta, ma la password sbagliata, il sistema consente un recupero della password o l'immissione di un ulteriore tentativo 
     \item[4a.] Se l'accesso viene effettuato dall'utente, sarà indirizzato alla sua pagina personale.
 \end{enumerate} \\ \hline
 Post-condizioni & L'utente è autenticato dal sistema e ha accesso alle sue funzionalità. \\ \hline
@@ -184,6 +185,7 @@ Flusso Alternativo &
 \begin{enumerate}
     \item[2a.] Se la disponibilità è zero, il sistema restituisce un messaggio di errore.
     \item[2b.] Se si verifica un problema durante il salvataggio della prenotazione nel database, il sistema invia un messaggio di errore.
+    \item[2c.] Se l'utente non aveva inserito certi parametri per la ricerca ( data check-in check-out e numero di stanze e persone), gli verrà chiesto di inserirle per effettuare la prenotazione
 \end{enumerate} \\ \hline
 Pre-condizioni & L'utente deve aver fatto il login e deve aver effettuato la ricerca. \\ \hline
 Post-condizioni & La prenotazione effettuata verrà aggiunta a quelle già effettuate dell'utente. \\ \hline
@@ -198,19 +200,19 @@ Post-condizioni & La prenotazione effettuata verrà aggiunta a quelle già effet
 \begin{tabular}{|l|p{9cm}|}
 \hline
 Use Case 4 & Registration \\ \hline
-Descrizione & L’utente si registra all’interno del sistema. \\ \hline
+Descrizione & L’utente si registra all’interno del sistema. ( \\ \hline
 Livello & User Goal \\ \hline
 Attori & User \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce i parametri per registrarsi (\hyperref[mk5]{MK\#5}).
+    \item L'utente inserisce i parametri per registrarsi (\hyperref[mk5]{MK\#5})(\hyperref[test2]{T\#2}).
     \item L'utente preme il pulsante per effettuare la registrazione.
     \item Il sistema verifica le informazioni fornite.
     \item Il sistema crea un nuovo account per l’utente.
 \end{enumerate} \\ \hline
 Flusso Alternativo & 
 \begin{enumerate}
-    \item[3a.] Se l’utente inserisce dati non validi (es: l’email/username già usati), il sistema invia un messaggio di errore all’utente.
+    \item[3a.] Se l’utente inserisce dati non validi (es: l’email già usata o vuota), il sistema invia un messaggio di errore all’utente.
     \item[3b.] Se si verifica un problema durante il salvataggio dell’utente nel database, il sistema invierà un messaggio di errore.
 \end{enumerate} \\ \hline
 Post-condizioni & L’utente è registrato all’interno del sistema e può accedere tramite le sue credenziali. \\ \hline
@@ -230,7 +232,7 @@ Livello & User Goal \\ \hline
 Attori & Admin \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'admin inserisce i parametri che caratterizzano l'utente (es: username o email).
+    \item L'admin inserisce i parametri che caratterizzano l'utente (es: Id o email).
     \item L'admin preme il pulsante per effettuare l'eliminazione dell'utente.
     \item Il sistema verifica le informazioni fornite.
     \item Il sistema elimina l'utente dal database.
@@ -329,7 +331,7 @@ Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 \subsection{Class Diagram}
 L'architettura è divisa in 3 package:
 \begin{itemize}
-\item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e l'eliminazione degli utenti (\textbf{UserController}), quello che gestisce il profilo dell'utente (\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
+\item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e un eventuale recupero password (\textbf{UserController}), quello che gestisce il profilo dell'utente e una sua eventuale rimozione(\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
 \par\medskip
 \hspace*{-0.75cm}
 \includegraphics[scale=0.6]{uml/BusinessLogic}
@@ -433,7 +435,7 @@ Figura 15: trigger implementati per l'aggiornamento del rating per gli alloggi.
 
 \subsubsection{UserController}
 
-\`E la classe che si occupa di implementare le funzionalità di un utente generico per l'accesso all'applicazione. Infatti presenta i metodi di login, di registrazione, cancellare l'utente in uso e un eventuale recupera password.
+\`E la classe che si occupa di implementare le funzionalità di un utente generico per l'accesso all'applicazione. Infatti presenta i metodi di login, di registrazione e un eventuale recupera password.
 
 \subsubsection{ProfileController}
 
@@ -461,7 +463,7 @@ Contiene le informazioni relative all'utente registrato. Gli attributi della cla
 
 \subsubsection{Accommodation}
 
-\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma possono essere nulli perché dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il periodo di disponibilità, la descrizione di cosa offre, e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti).
+\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il periodo di disponibilità, la descrizione di cosa offre, un insieme di stringhe che permette di sapere cosa è stato modificato e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti) .
 
 \subsubsection{Review}
 
@@ -497,11 +499,11 @@ Queste classi implementano il design pattern Builder Telescopic Constructor per 
 
 \subsubsection{AccommodationDAO}
 
-\`E la classe che si occupa della gestione dei dati degli alloggi. questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i metodi che permettono di aggiornare i dati di un alloggio. 
+\`E la classe che si occupa della gestione dei dati degli alloggi. questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i  2 metodi che permettono di aggiornare i dati di un alloggio attraverso l'uso di un insieme di stringhe per evitare accessi inutili al database. 
 
 \subsection{Interfaccia CLI}
 
-Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel \textbf{Main.java}. L'utente può navigare per l'applicazione compiendo le funzionalità del programma inserendo i vari comandi indicati dal sistema. La gestione delle scelte effettuata dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
+Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel file \textbf{Main.java}. L'utente, inserendo i vari comandi indicati dal sistema, naviga all'interno dell'applicazione resa più user friendly con l'uso di colori per evidenziare le parole importanti o mancanti. La gestione delle scelte effettuate dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
 
 \begin{center}
 \hspace*{-0.75cm}
@@ -528,21 +530,24 @@ I test implementati sono:
 
 Per i controller sono stati effettuati dei test su tutte le loro funzioni, prestando attenzione che seguono le direttive dello \hyperref[usecase]{use case}. Ne vengono riportati alcuni:
 
+\label{test1}
 \begin{center}
 \hspace*{-0.75cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/login}
 \par\medskip
-Figura 17: test che verifica il login all'interno dell'applicazione.
+Figura 17: test che verifica il login all'interno dell'applicazione -T\#1.
 \par\medskip
 \end{center}
-
+\label{test2}
 \begin{center}
 \hspace*{-2cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/register}
 \par\medskip
-Figura 18: test che verifica la registrazione all'interno dell'applicazione.
+Figura 18: test che verifica la registrazione all'interno dell'applicazione -T\#2.
 \par\medskip
 \end{center}
+
+Qui di seguito vengono mostrati tutti i risultati dei test dei metodi della Business Logic:
 
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testAdminController}
