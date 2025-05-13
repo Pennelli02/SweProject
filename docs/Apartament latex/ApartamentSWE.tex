@@ -62,7 +62,7 @@ Leuter Lorenzo\\
 
 \subsection{Descrizione del progetto}
 
-L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati B\&B, appartamenti e hotel. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegati successivamente. Inoltre, l'utente potrà anche cancellare le prenotazioni se necessario, poter inserire tra i preferiti gli alloggi e lasciare delle recensioni a degli alloggi. \`E inoltre presente un Admin che può cancellare definitivamente gli utenti,  gli alloggi o le recensioni, aggiungere nuovi alloggi, modificare gli alloggi già presenti.
+L'obiettivo è creare un'applicazione java che permetta di gestire le prenotazioni di alloggi, in particolare verranno trattati B\&B, appartamenti e hotel. Gli utenti avranno la possibilità di effettuare ricerche e prenotazioni degli alloggi disponibili, selezionare il numero di persone che soggiorneranno, la data di inizio e di fine del soggiorno, e molti altri filtri che verranno spiegati successivamente. Inoltre, l'utente potrà anche cancellare le prenotazioni, inserire tra i preferiti gli alloggi e lasciare delle recensioni a essi. \`E inoltre presente un Admin che può cancellare definitivamente gli utenti,  gli alloggi o le recensioni, aggiungere nuovi alloggi e modificare gli alloggi già presenti.
 
 \subsection{Ambiente di sviluppo, Architettura del progetto e pratiche usate}
 
@@ -105,7 +105,7 @@ Figura 2: Use Case Diagram dello User e dell'Admin
 
 \label{usecase}
 \subsection{Use Case Template}
-Sono di seguito alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a mockup presenti successivamente (sezione 2.3):
+Sono di seguito mostrati alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a test e mockup presenti successivamente (sezione 2.3):
 
 \begin{center}
 \begin{table}[H]
@@ -331,7 +331,7 @@ Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 \subsection{Class Diagram}
 L'architettura è divisa in 3 package:
 \begin{itemize}
-\item \textbf{Business Logic}:è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e un eventuale recupero password (\textbf{UserController}), quello che gestisce il profilo dell'utente e una sua eventuale rimozione(\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca,prenotazione,recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
+\item \textbf{Business Logic}: è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e un eventuale recupero password (\textbf{UserController}), quello che gestisce il profilo dell'utente e una sua eventuale rimozione(\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca, prenotazione, recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}). 
 \par\medskip
 \hspace*{-0.75cm}
 \includegraphics[scale=0.6]{uml/BusinessLogic}
@@ -362,7 +362,7 @@ Figura 12: Class Diagram - DAO
 Nell'architettura sono stati usati diversi design pattern:
 \subsubsection{Singleton}
 
-Lo scopo del Singleton è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
+Il Singleton è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
 \vspace{-0.3cm}
 \begin{center}
 \includegraphics[scale=0.45]{Snippets/Singleton}
@@ -384,8 +384,8 @@ Snippet 2: UML del Mapper
 
 \subsubsection{Builder Telescoping Constructor}
 
-Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca che presenta tanti attributi, spesso opzionali, e consente una gestione più efficiente. L'unico scopo della classe è quello creare un oggetto di tipo ParametriRicerca e ci riesce grazie ai metodi di setting, che ritornando la classe stessa, consentono di avere una chiara creazione dell'oggetto, attraverso un metodo statico e evitando l'overloading dei costruttori tradizionale (\textbf{build}).
-
+Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca che presenta tanti attributi, spesso opzionali, e ne consente una gestione più efficiente. L'unico scopo della classe è quello creare un oggetto di tipo ParametriRicerca e ci riesce grazie ai metodi di setting, che ritornando la classe stessa, consentono di avere una chiara creazione dell'oggetto, attraverso un metodo statico e evitando l'overloading dei costruttori tradizionale (\textbf{build}).
+\label{daosec}
 \subsubsection{DAO}
 
 Il DAO (Data Access Object) è un design pattern che si occupa di separare le classi che si interfacciano al database dall'applicazione. Questo viene fatto
@@ -406,11 +406,11 @@ Alla fine sono state definite le seguenti tabelle:
 \begin{center}
 \par\medskip
 \hspace*{-2cm}
-\includegraphics[scale=0.41]{ERImages/FinalER}
+\includegraphics[scale=0.41]{ERimages/FinalER}
 \par\medskip
 Figura 13: ER Diagram
 \par\medskip
-\includegraphics[scale=0.5]{ERImages/schemaLogicoDBTabelle}
+\includegraphics[scale=0.5]{ERimages/schemaLogicoDBTabelle}
 \par\medskip
 Figura 14: Tables of the database
 \par\medskip
@@ -443,7 +443,7 @@ Figura 15: trigger implementati per l'aggiornamento del rating per gli alloggi.
 
 \subsubsection{ResearchController}
 
-\`E la classe che si occupa di fornire i metodi che implementano la logica dell'applicazione. Infatti, permette la ricerca in base a dei parametri (\textbf{doResearch()}) e sugli alloggi ricercati permette,a un utente registrato, di effettuare una prenotazione (\textbf{booking()}), salvarlo tra i preferiti (\textbf{saveAccomodation()}) e scrivere una recensione su quell'alloggio (\textbf{writeReview()}). Per funzionare, oltre ai collegamenti ai relativi DAO, questa classe usa il \textbf{SearchParametersBuilder} che si trova nel \textbf{Domain Model}.
+\`E la classe che si occupa di fornire i metodi che implementano la logica dell'applicazione. Infatti, permette la ricerca in base a dei parametri (\textbf{doResearch()}) e sugli alloggi ricercati permette, a un utente registrato, di effettuare una prenotazione (\textbf{booking()}), salvarlo tra i preferiti (\textbf{saveAccomodation()}) e scrivere una recensione su quell'alloggio (\textbf{writeReview()}). Per funzionare, oltre ai collegamenti ai relativi DAO, questa classe usa il \textbf{SearchParametersBuilder} che si trova nel \textbf{Domain Model}.
 
 \subsubsection{AdminController}
 
@@ -475,7 +475,7 @@ Queste classi implementano il design pattern Builder Telescopic Constructor per 
 
 \subsection{DAO}
 
-\`E il package che implementa l'omonimo design pattern descritto nella sezione 2.5.4. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse.
+\`E il package che implementa l'omonimo design pattern descritto nella sezione \hyperref[daosec]{2.5.4}. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse nel database.
 
 \subsubsection{DatabaseConnection}
 
@@ -483,11 +483,11 @@ Queste classi implementano il design pattern Builder Telescopic Constructor per 
 
 \subsubsection{UserDAO}
 
-\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilità di aggiungere nuovi utenti e di rimuovere quelli già presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilità di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}) oppure tramite lo username (\textbf{getUserByUsername()}) o anche in altri modi.Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente.
+\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilità di aggiungere nuovi utenti e di rimuovere quelli già presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilità di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}). Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente e di eliminarlo.
 
 \subsubsection{BookingDAO}
 
-\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) o vederle tutte. Quest'ultimo metodo viene utilizzato da un admin per effettuare dei controlli e modifiche se fosse necessario.
+\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) e di modificare lo stato della prenotazione
 
 \subsubsection{PreferenceDAO}
 
@@ -503,7 +503,7 @@ Queste classi implementano il design pattern Builder Telescopic Constructor per 
 
 \subsection{Interfaccia CLI}
 
-Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel file \textbf{Main.java}. L'utente, inserendo i vari comandi indicati dal sistema, naviga all'interno dell'applicazione resa più user friendly con l'uso di colori per evidenziare le parole importanti o mancanti. La gestione delle scelte effettuate dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
+Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel file \textbf{Main.java}. L'utente, inserendo i vari comandi indicati dal sistema, naviga all'interno dell'applicazione, resa più user friendly grazie all'uso di colori per evidenziare le parole importanti o mancanti. La gestione delle scelte effettuate dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
 
 \begin{center}
 \hspace*{-0.75cm}
