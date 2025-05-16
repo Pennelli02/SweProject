@@ -19,7 +19,7 @@ class ReviewDAOTest {
     private ReviewDAO reviewDAO;
     private UserController userController;
     private UserDAO userDAO;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
     private AccommodationDAO accommodationDAO;
 
     LocalDateTime now = LocalDateTime.now();
@@ -39,7 +39,7 @@ class ReviewDAOTest {
         reviewDAO = new ReviewDAO();
         accommodationDAO = new AccommodationDAO();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
         accommodationDAO.addAccommodation(
                 "Family Spa Apartment",
@@ -72,21 +72,21 @@ class ReviewDAOTest {
 
     @AfterEach
     void tearDown() {
-        if(registerUser!=null){
-            userDAO.removeUser(registerUser.getId());
+        if(registeredUser !=null){
+            userDAO.removeUser(registeredUser.getId());
         }
         accommodationDAO.deleteAccommodation(accommodationId);
     }
 
     @Test
     void getReviewByUser() {
-        ArrayList<Review> reviews=assertDoesNotThrow(()->reviewDAO.getReviewByUser(registerUser));
+        ArrayList<Review> reviews=assertDoesNotThrow(()->reviewDAO.getReviewByUser(registeredUser));
         assertNotNull(reviews);
         assertTrue(reviews.isEmpty());
 
         // aggiungiamo delle recensioni per test
-        reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
-        reviews=assertDoesNotThrow(()->reviewDAO.getReviewByUser(registerUser));
+        reviewDAO.addReview(registeredUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
+        reviews=assertDoesNotThrow(()->reviewDAO.getReviewByUser(registeredUser));
         assertNotNull(reviews);
         assertFalse(reviews.isEmpty());
     }
@@ -94,23 +94,23 @@ class ReviewDAOTest {
     @Test
     void removeReview() {
         //aggiungo una recensione per il test
-        reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
-        Review review= reviewDAO.getReviewByUser(registerUser).getFirst();
+        reviewDAO.addReview(registeredUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
+        Review review= reviewDAO.getReviewByUser(registeredUser).getFirst();
         assertDoesNotThrow(()->reviewDAO.removeReview(review.getReviewID()));
 
-        assertTrue(reviewDAO.getReviewByUser(registerUser).isEmpty());
+        assertTrue(reviewDAO.getReviewByUser(registeredUser).isEmpty());
     }
 
     @Test
     void addReview() {
-        assertDoesNotThrow(()->reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar));
-        assertNotNull(reviewDAO.getReviewByUser(registerUser).getFirst());
+        assertDoesNotThrow(()->reviewDAO.addReview(registeredUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar));
+        assertNotNull(reviewDAO.getReviewByUser(registeredUser).getFirst());
     }
 
     @Test
     void getReviewByAccommodation() {
         //aggiungiamo una recensione per il test
-        reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
+        reviewDAO.addReview(registeredUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
         Review review= assertDoesNotThrow(()->reviewDAO.getReviewByAccommodation(accommodationDAO.getAccommodationByID(accommodationId)).getFirst());
         assertNotNull(review);
     }
@@ -118,7 +118,7 @@ class ReviewDAOTest {
     @Test
     void getAllReviews() {
         //aggiungiamo una recensione per il test
-        reviewDAO.addReview(registerUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
+        reviewDAO.addReview(registeredUser, accommodationDAO.getAccommodationByID(accommodationId), "test test test", AccommodationRating.FourStar);
         ArrayList<Review>reviews=assertDoesNotThrow(()->reviewDAO.getAllReview());
         assertNotNull(reviews);
         assertFalse(reviews.isEmpty());

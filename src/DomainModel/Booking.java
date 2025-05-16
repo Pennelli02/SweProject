@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Booking {
     private int bookingID;
-    private RegisterUser customer;
+    private RegisteredUser customer;
     private Accommodation accommodation;
     private float price;
     private int numPeople;
@@ -20,11 +20,11 @@ public class Booking {
         this.bookingID = bookingID;
     }
 
-    public RegisterUser getCustomer() {
+    public RegisteredUser getCustomer() {
         return customer;
     }
 
-    public void setCustomer(RegisterUser customer) {
+    public void setCustomer(RegisteredUser customer) {
         this.customer = customer;
     }
 
@@ -77,7 +77,7 @@ public class Booking {
     }
 
 
-    public Booking(int bookingID, RegisterUser customer, Accommodation accommodation, float price, int numPeople, LocalDateTime checkInDate, LocalDateTime checkOutDate, State state) {
+    public Booking(int bookingID, RegisteredUser customer, Accommodation accommodation, float price, int numPeople, LocalDateTime checkInDate, LocalDateTime checkOutDate, State state) {
         this.bookingID = bookingID;
         this.customer = customer;
         this.accommodation = accommodation;

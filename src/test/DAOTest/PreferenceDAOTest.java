@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +18,7 @@ class PreferenceDAOTest {
     private PreferenceDAO preferenceDAO;
     private UserController userController;
     private UserDAO userDAO;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
     private AccommodationDAO accommodationDAO;
 
     LocalDateTime now = LocalDateTime.now();
@@ -39,7 +38,7 @@ class PreferenceDAOTest {
         preferenceDAO = new PreferenceDAO();
         accommodationDAO = new AccommodationDAO();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
         accommodationDAO.addAccommodation(
                 "Family Spa Apartment",
@@ -72,8 +71,8 @@ class PreferenceDAOTest {
 
     @AfterEach
     void tearDown() {
-        if(registerUser!=null){
-            userDAO.removeUser(registerUser.getId());
+        if(registeredUser !=null){
+            userDAO.removeUser(registeredUser.getId());
         }
         accommodationDAO.deleteAccommodation(accommodationId);
     }
@@ -81,25 +80,25 @@ class PreferenceDAOTest {
     @Test
     void unSave() {
         // inseriamo tra i preferiti
-        preferenceDAO.save(registerUser.getId(), accommodationId);
-        assertFalse(preferenceDAO.getFavouritesByUser(registerUser.getId()).isEmpty());
+        preferenceDAO.save(registeredUser.getId(), accommodationId);
+        assertFalse(preferenceDAO.getFavouritesByUser(registeredUser.getId()).isEmpty());
 
         //eliminiamo tra i preferiti
-        assertDoesNotThrow(()->preferenceDAO.unSave(registerUser.getId(), accommodationId));
-        assertTrue(preferenceDAO.getFavouritesByUser(registerUser.getId()).isEmpty());
+        assertDoesNotThrow(()->preferenceDAO.unSave(registeredUser.getId(), accommodationId));
+        assertTrue(preferenceDAO.getFavouritesByUser(registeredUser.getId()).isEmpty());
 
     }
 
     @Test
     void save() throws SQLException, ClassNotFoundException {
-        assertDoesNotThrow(() -> preferenceDAO.save(registerUser.getId(),accommodationId));
+        assertDoesNotThrow(() -> preferenceDAO.save(registeredUser.getId(),accommodationId));
 
-        registerUser=userController.login(testEmail, testPassword);
-        assertFalse(registerUser.getMyPreferences().isEmpty());
+        registeredUser =userController.login(testEmail, testPassword);
+        assertFalse(registeredUser.getMyPreferences().isEmpty());
     }
 
     @Test
     void getFavouritesByUser() {
-        assertDoesNotThrow(() -> preferenceDAO.getFavouritesByUser(registerUser.getId()));
+        assertDoesNotThrow(() -> preferenceDAO.getFavouritesByUser(registeredUser.getId()));
     }
 }

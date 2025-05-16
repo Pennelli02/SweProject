@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 
 public class ResearchController {
-    private RegisterUser user;
+    private RegisteredUser user;
 
     // non so se sia necessario
-    public ResearchController(RegisterUser user) {
+    public ResearchController(RegisteredUser user) {
         this.user = user;
     }
 
@@ -89,11 +89,11 @@ public class ResearchController {
         return reviewDAO.getReviewByAccommodation(accommodation);
     }
 
-    public RegisterUser getUser(){
+    public RegisteredUser getUser(){
         return user;
     }
 
-    public void setUser(RegisterUser User){
+    public void setUser(RegisteredUser User){
         this.user = user;
     }
 }

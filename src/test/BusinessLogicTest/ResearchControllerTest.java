@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ResearchControllerTest {
     private ResearchController researchController;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
     private UserController userController;
     private UserDAO userDAO;
     private AccommodationDAO accommodationDAO;
@@ -41,19 +41,19 @@ class ResearchControllerTest {
         userController = new UserController();
         accommodationDAO = new AccommodationDAO();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
-        researchController=new ResearchController(registerUser);
-        profileUserController= new ProfileUserController(registerUser);
+        researchController=new ResearchController(registeredUser);
+        profileUserController= new ProfileUserController(registeredUser);
 
     }
 
     @AfterEach
     void tearDown() {
-        if (registerUser!=null){
+        if (registeredUser !=null){
             ArrayList<Integer> ids=new ArrayList<>();
             if(profileUserController.viewMyBookings()!=null){
-                ArrayList<Accommodation>accommodations=accommodationDAO.getAccommodationFromUser(registerUser.getId());
+                ArrayList<Accommodation>accommodations=accommodationDAO.getAccommodationFromUser(registeredUser.getId());
                 for(Accommodation accommodation:accommodations){
                     ids.add(accommodation.getId());
                 }
@@ -303,33 +303,11 @@ class ResearchControllerTest {
 
     @Test
     void booking() throws SQLException, ClassNotFoundException {
-
         LocalDateTime now = LocalDateTime.now();
         // Creazione dinamica di un alloggio di test
-        accommodationDAO.addAccommodation(
-                "Test Hotel",
-                "Via Test Booking 1",
-                "Test",
-                10,
-                AccommodationType.Hotel,
-                200.0f,
-                now.plusDays(1),
-                now.plusDays(10),
-                "Hotel di test per booking",
-                AccommodationRating.FourStar,
-                true,  // refundable
-                true,  // freewifi
-                false, // smoking
-                true,  // parking
-                false, // coffee
-                true,  // room service
-                true,  // cleaning
-                false, // spa
-                true,  // kids
-                5,
-                true,
-                3
-        );
+        accommodationDAO.addAccommodation("Test Hotel","Via Test Booking 1","Test",10, AccommodationType.Hotel,200.0f, now.plusDays(1),
+                now.plusDays(10),"Hotel di test per booking", AccommodationRating.FourStar, true, true,false,true,  // parking
+                false, true, true,false,true,5,true,3);
         SearchParameters SPM=SearchParametersBuilder.newBuilder("Test").build();
         ArrayList<Accommodation> accommodations= researchController.doResearch(SPM);
         int disponibilityBefore=accommodations.getFirst().getDisponibility();
@@ -339,13 +317,13 @@ class ResearchControllerTest {
         assertNotEquals(0, researchController.getUser().getFidelityPoints());
         assertEquals(disponibilityBefore-1, accommodations.getFirst().getDisponibility());
 
-        registerUser=userController.login(testEmail, testPassword);
-        ProfileUserController puc=new ProfileUserController(registerUser);
+        registeredUser =userController.login(testEmail, testPassword);
+        ProfileUserController puc=new ProfileUserController(registeredUser);
         var MyBookings= puc.viewMyBookings();
         assertEquals(1, MyBookings.size());
         for (Booking booking : MyBookings) {
             assertEquals(booking.getAccommodation().getId(), accommodations.getFirst().getId());
-            assertEquals(booking.getCustomer().getId(), registerUser.getId());
+            assertEquals(booking.getCustomer().getId(), registeredUser.getId());
             assertEquals(booking.getCheckInDate(), accommodations.getFirst().getAvailableFrom());
             assertEquals(booking.getCheckOutDate(), accommodations.getFirst().getAvailableEnd());
             assertEquals(3, booking.getNumPeople());
@@ -359,13 +337,13 @@ class ResearchControllerTest {
         assertEquals(0, researchController.getUser().getFidelityPoints());
         assertEquals(disponibilityBefore-1, accommodations.getFirst().getDisponibility());
 
-        registerUser=userController.login(testEmail, testPassword);
-        puc=new ProfileUserController(registerUser);
+        registeredUser =userController.login(testEmail, testPassword);
+        puc=new ProfileUserController(registeredUser);
         MyBookings= puc.viewMyBookings();
         assertEquals(2, MyBookings.size());
         for (Booking booking : MyBookings) {
             assertEquals(booking.getAccommodation().getId(), accommodations.getFirst().getId());
-            assertEquals(booking.getCustomer().getId(), registerUser.getId());
+            assertEquals(booking.getCustomer().getId(), registeredUser.getId());
             assertEquals(booking.getCheckInDate(), accommodations.getFirst().getAvailableFrom());
             assertEquals(booking.getCheckOutDate(), accommodations.getFirst().getAvailableEnd());
             assertEquals(3, booking.getNumPeople());
@@ -406,12 +384,12 @@ class ResearchControllerTest {
         ArrayList<Accommodation> accommodations= researchController.doResearch(SPM);
         researchController.saveAccommodation(accommodations.getFirst());
 
-        ProfileUserController puc=new ProfileUserController(registerUser);
+        ProfileUserController puc=new ProfileUserController(registeredUser);
         var MySavings= puc.viewMySavings();
         assertEquals(1, MySavings.size());
 
-        registerUser=userController.login(testEmail, testPassword);
-        puc=new ProfileUserController(registerUser);
+        registeredUser =userController.login(testEmail, testPassword);
+        puc=new ProfileUserController(registeredUser);
         MySavings= puc.viewMySavings();
         assertEquals(1, MySavings.size());
         assertEquals(accommodations.getFirst().getId(), MySavings.getFirst().getId());
@@ -451,11 +429,11 @@ class ResearchControllerTest {
         researchController.writeReview(accommodations.getFirst(), "test test test", AccommodationRating.OneStar);
 
         //controlliamo le recensioni utente
-        ProfileUserController puc=new ProfileUserController(registerUser);
+        ProfileUserController puc=new ProfileUserController(registeredUser);
         ArrayList<Review> reviews= puc.getReviewsByUser();
         assertEquals(1, reviews.size());
         assertEquals(reviews.getFirst().getReviewedItem().getId(), accommodations.getFirst().getId());
-        assertEquals(reviews.getFirst().getAuthor().getId(), registerUser.getId());
+        assertEquals(reviews.getFirst().getAuthor().getId(), registeredUser.getId());
         assertEquals("test test test", reviews.getFirst().getReviewText());
         assertEquals(AccommodationRating.OneStar, reviews.getFirst().getVote());
 
@@ -463,7 +441,7 @@ class ResearchControllerTest {
         reviews= researchController.getReviews(accommodations.getFirst());
         assertEquals(1, reviews.size());
         assertEquals(reviews.getFirst().getReviewedItem().getId(), accommodations.getFirst().getId());
-        assertEquals(reviews.getFirst().getAuthor().getId(), registerUser.getId());
+        assertEquals(reviews.getFirst().getAuthor().getId(), registeredUser.getId());
         assertEquals("test test test", reviews.getFirst().getReviewText());
         assertEquals(AccommodationRating.OneStar, reviews.getFirst().getVote());
 
@@ -479,26 +457,26 @@ class ResearchControllerTest {
         try {
             // === Caso 1: Utente idoneo, sceglie Sì (1) ===
             System.setIn(new ByteArrayInputStream("1\n".getBytes()));
-            registerUser.setFidelityPoints(15);
-            researchController.setUser(registerUser);
+            registeredUser.setFidelityPoints(15);
+            researchController.setUser(registeredUser);
             assertTrue(researchController.applyDiscount(400f));
 
             // === Caso 2: Utente idoneo, sceglie No (2) ===
             System.setIn(new ByteArrayInputStream("2\n".getBytes()));
-            registerUser.setFidelityPoints(20);
-            researchController.setUser(registerUser);
+            registeredUser.setFidelityPoints(20);
+            researchController.setUser(registeredUser);
             assertFalse(researchController.applyDiscount(400f));
 
             // === Caso 3: Utente NON idoneo (punti insufficienti) ===
             System.setIn(new ByteArrayInputStream("1\n".getBytes())); // anche se inserisce "1", non conta
-            registerUser.setFidelityPoints(5);
-            researchController.setUser(registerUser);
+            registeredUser.setFidelityPoints(5);
+            researchController.setUser(registeredUser);
             assertFalse(researchController.applyDiscount(400f));
 
             // === Caso 4: Utente NON idoneo (prezzo troppo basso) ===
             System.setIn(new ByteArrayInputStream("1\n".getBytes()));
-            registerUser.setFidelityPoints(20);
-            researchController.setUser(registerUser);
+            registeredUser.setFidelityPoints(20);
+            researchController.setUser(registeredUser);
             assertFalse(researchController.applyDiscount(100f));
 
         } finally {
@@ -542,7 +520,7 @@ class ResearchControllerTest {
         ArrayList<Review> reviews=researchController.getReviews(accommodations.getFirst());
         assertEquals(1, reviews.size());
         assertEquals(reviews.getFirst().getReviewedItem().getId(), accommodations.getFirst().getId());
-        assertEquals(reviews.getFirst().getAuthor().getId(), registerUser.getId());
+        assertEquals(reviews.getFirst().getAuthor().getId(), registeredUser.getId());
         assertEquals("test test test", reviews.getFirst().getReviewText());
         assertEquals(AccommodationRating.OneStar, reviews.getFirst().getVote());
 

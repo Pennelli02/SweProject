@@ -1,23 +1,21 @@
 package test.DAOTest;
 
 import BusinessLogic.UserController;
-import DAO.AccommodationDAO;
 import DAO.UserDAO;
 import DomainModel.Location;
-import DomainModel.RegisterUser;
+import DomainModel.RegisteredUser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserDAOTest {
     private UserController userController;
     private UserDAO userDAO;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
 
     //per l'utente
     private final String testEmail = "test.user@example.com";
@@ -39,7 +37,7 @@ class UserDAOTest {
         userController = new UserController();
         userDAO = new UserDAO();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
 
 
@@ -47,20 +45,20 @@ class UserDAOTest {
 
     @AfterEach
     void tearDown() {
-        if(registerUser!=null){
-            userDAO.removeUser(registerUser.getId());
+        if(registeredUser !=null){
+            userDAO.removeUser(registeredUser.getId());
         }
     }
 
     @Test
     void getUserByEmailPassword() {
-        registerUser= assertDoesNotThrow(() -> userDAO.getUserByEmailPassword(testEmail,testPassword));
-        assertEquals(testEmail,registerUser.getEmail());
-        assertEquals(testPassword,registerUser.getPassword());
-        assertEquals(testUsername,registerUser.getUsername());
-        assertEquals(testName,registerUser.getName());
-        assertEquals(testSurname,registerUser.getSurname());
-        assertEquals(testLocation, registerUser.getFavouriteLocations());
+        registeredUser = assertDoesNotThrow(() -> userDAO.getUserByEmailPassword(testEmail,testPassword));
+        assertEquals(testEmail, registeredUser.getEmail());
+        assertEquals(testPassword, registeredUser.getPassword());
+        assertEquals(testUsername, registeredUser.getUsername());
+        assertEquals(testName, registeredUser.getName());
+        assertEquals(testSurname, registeredUser.getSurname());
+        assertEquals(testLocation, registeredUser.getFavouriteLocations());
     }
 
     @Test
@@ -90,15 +88,15 @@ class UserDAOTest {
         assertDoesNotThrow(()->userDAO.addUser(testEmail2, testPassword2, testUsername2, testName2, testSurname2, testLocation));
 
         //serve per rimuoverlo
-        RegisterUser reg2= userDAO.getUserByEmailPassword(testEmail2, testPassword2);
+        RegisteredUser reg2= userDAO.getUserByEmailPassword(testEmail2, testPassword2);
         userDAO.removeUser(reg2.getId());
     }
 
     @Test
     void removeUser() throws SQLException, ClassNotFoundException {
-        assertDoesNotThrow(() -> userDAO.removeUser(registerUser.getId()));
+        assertDoesNotThrow(() -> userDAO.removeUser(registeredUser.getId()));
 
-        assertNull(registerUser=userController.login(testEmail, testPassword));
+        assertNull(registeredUser =userController.login(testEmail, testPassword));
     }
 
     @Test
@@ -119,7 +117,7 @@ class UserDAOTest {
 
     @Test
     void getUserById() {
-        RegisterUser user= assertDoesNotThrow(()->userDAO.getUserById(registerUser.getId()));
+        RegisteredUser user= assertDoesNotThrow(()->userDAO.getUserById(registeredUser.getId()));
         assertEquals(testEmail,user.getEmail());
         assertEquals(testPassword,user.getPassword());
         assertEquals(testUsername,user.getUsername());
@@ -133,49 +131,49 @@ class UserDAOTest {
     void updateName() throws SQLException, ClassNotFoundException {
         String newName= testName+"2";
 
-        assertDoesNotThrow(()->userDAO.updateName(registerUser.getId(),newName));
+        assertDoesNotThrow(()->userDAO.updateName(registeredUser.getId(),newName));
 
-        registerUser= userDAO.getUserById(registerUser.getId());
-        assertEquals(newName,registerUser.getName());
+        registeredUser = userDAO.getUserById(registeredUser.getId());
+        assertEquals(newName, registeredUser.getName());
     }
 
     @Test
     void updateSurname() throws SQLException, ClassNotFoundException {
         String newSurname= testSurname+"2";
 
-        assertDoesNotThrow(()->userDAO.updateSurname(registerUser.getId(),newSurname));
+        assertDoesNotThrow(()->userDAO.updateSurname(registeredUser.getId(),newSurname));
 
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(newSurname,registerUser.getSurname());
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(newSurname, registeredUser.getSurname());
     }
 
     @Test
     void updateFavouriteLocations() throws SQLException, ClassNotFoundException {
         Location newFavouriteLocation= Location.Sea;
 
-        assertDoesNotThrow(()->userDAO.updateFavouriteLocations(registerUser.getId(),newFavouriteLocation));
+        assertDoesNotThrow(()->userDAO.updateFavouriteLocations(registeredUser.getId(),newFavouriteLocation));
 
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(newFavouriteLocation,registerUser.getFavouriteLocations());
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(newFavouriteLocation, registeredUser.getFavouriteLocations());
     }
 
     @Test
     void updateUsername() throws SQLException, ClassNotFoundException {
         String newUsername= testUsername+"2";
 
-        assertDoesNotThrow(()->userDAO.updateUsername(registerUser.getId(),newUsername));
+        assertDoesNotThrow(()->userDAO.updateUsername(registeredUser.getId(),newUsername));
 
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(newUsername,registerUser.getUsername());
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(newUsername, registeredUser.getUsername());
     }
 
     @Test
     void updatePassword() throws SQLException, ClassNotFoundException {
         String newPassword= testPassword+"2";
-        assertDoesNotThrow(()->userDAO.updatePassword(registerUser.getId(),newPassword));
+        assertDoesNotThrow(()->userDAO.updatePassword(registeredUser.getId(),newPassword));
 
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(newPassword,registerUser.getPassword());
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(newPassword, registeredUser.getPassword());
 
     }
 
@@ -183,7 +181,7 @@ class UserDAOTest {
     void updateEmail() {
         //quando l'email che cambia non esiste
         String newEmail= testEmail+"2";
-        assertDoesNotThrow(()->userDAO.updateEmail(registerUser.getId(),newEmail));
+        assertDoesNotThrow(()->userDAO.updateEmail(registeredUser.getId(),newEmail));
 
         //testiamo il caso che l'email modificata esista di già nel db
         //inserimento di un utente
@@ -194,24 +192,24 @@ class UserDAOTest {
         String testSurname2 = "User2";
 
         userDAO.addUser(testEmail2, testPassword2, testUsername2, testName2, testSurname2, testLocation);
-        IllegalArgumentException thrown =assertThrows(IllegalArgumentException.class,()->userDAO.updateEmail(registerUser.getId(),testEmail2));
+        IllegalArgumentException thrown =assertThrows(IllegalArgumentException.class,()->userDAO.updateEmail(registeredUser.getId(),testEmail2));
         assertEquals("Email già registrata: "+testEmail2,thrown.getMessage());
 
-        RegisterUser reg2= userDAO.getUserByEmailPassword(testEmail2, testPassword2);
+        RegisteredUser reg2= userDAO.getUserByEmailPassword(testEmail2, testPassword2);
         userDAO.removeUser(reg2.getId());
 
         //testiamo che l'email cambiata sia vuota e che non la inserisca
-        thrown= assertThrows(IllegalArgumentException.class,()->userDAO.updateEmail(registerUser.getId(),"  "));
+        thrown= assertThrows(IllegalArgumentException.class,()->userDAO.updateEmail(registeredUser.getId(),"  "));
         assertEquals("La nuova email non può essere vuota" ,thrown.getMessage());
     }
 
     @Test
     void updateFidPoints() throws SQLException, ClassNotFoundException {
-        int fidPointsBefore=registerUser.getFidelityPoints();
-        assertDoesNotThrow(()->userDAO.updateFidPoints(registerUser, 49));
+        int fidPointsBefore= registeredUser.getFidelityPoints();
+        assertDoesNotThrow(()->userDAO.updateFidPoints(registeredUser, 49));
 
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertNotEquals(fidPointsBefore,registerUser.getFidelityPoints());
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertNotEquals(fidPointsBefore, registeredUser.getFidelityPoints());
     }
 
     @Test
@@ -230,13 +228,13 @@ class UserDAOTest {
     @Test
     void resetFidPoints() throws SQLException, ClassNotFoundException {
         //aggiungiamo dei punti
-        userDAO.updateFidPoints(registerUser, 300);
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(10,registerUser.getFidelityPoints());
+        userDAO.updateFidPoints(registeredUser, 300);
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(10, registeredUser.getFidelityPoints());
 
-        assertDoesNotThrow(()->userDAO.resetFidPoints(registerUser.getId(), 0));
-        registerUser=userDAO.getUserById(registerUser.getId());
-        assertEquals(0,registerUser.getFidelityPoints());
+        assertDoesNotThrow(()->userDAO.resetFidPoints(registeredUser.getId(), 0));
+        registeredUser =userDAO.getUserById(registeredUser.getId());
+        assertEquals(0, registeredUser.getFidelityPoints());
 
 
     }

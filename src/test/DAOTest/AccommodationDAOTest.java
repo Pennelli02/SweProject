@@ -232,7 +232,7 @@ class AccommodationDAOTest {
         //creiamo un utente
         UserController uc = new UserController();
         BookingDAO bdao = new BookingDAO();
-        RegisterUser ru = uc.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        RegisteredUser ru = uc.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
         //associamo delle prenotazioni all'utente
         Accommodation accommodation = accommodationDAO.getAccommodationByID(testAccommodationIds.getFirst());
         bdao.addBooking(ru, accommodation, accommodation.getAvailableFrom(), accommodation.getAvailableEnd(), 4, 500);

@@ -391,7 +391,6 @@ public class AccommodationDAO {
     // si può fare con un trigger nel db
     public void updateRating(int accommodationID) {}
 
-    //FixMe da vedere in futuro se funziona
     public void addAccommodation(String name, String address, String place, int disponibility, AccommodationType type, float ratePrice, LocalDateTime availableFrom, LocalDateTime availableEnd, String description, AccommodationRating rating, boolean refundable, boolean freewifi, boolean haveSmokingArea, boolean haveParking, boolean coffeMachine, boolean roomService, boolean cleaningService, boolean haveSpa, boolean goodForKids, int numberOfRoom, boolean welcomeAnimal, int maxNumberOfPeople) {
         if(disponibility<=0){
             throw new RuntimeException("disponibility should be greater than 0");

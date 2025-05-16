@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfileUserController {
-    private RegisterUser user;
+    private RegisteredUser user;
 
-    public ProfileUserController(RegisterUser user) {
+    public ProfileUserController(RegisteredUser user) {
         this.user = user;
     }
 

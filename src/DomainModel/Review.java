@@ -2,12 +2,12 @@ package DomainModel;
 
 public class Review {
     private int ReviewID;
-    private RegisterUser author;
+    private RegisteredUser author;
     private Accommodation reviewedItem;
     private String reviewText;
     private AccommodationRating vote;
 
-    public Review(int reviewID, RegisterUser author, Accommodation reviewedItem, String reviewText, AccommodationRating vote) {
+    public Review(int reviewID, RegisteredUser author, Accommodation reviewedItem, String reviewText, AccommodationRating vote) {
         ReviewID = reviewID;
         this.author = author;
         this.reviewedItem = reviewedItem;
@@ -25,11 +25,11 @@ public class Review {
         ReviewID = reviewID;
     }
 
-    public RegisterUser getAuthor() {
+    public RegisteredUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(RegisterUser author) {
+    public void setAuthor(RegisteredUser author) {
         this.author = author;
     }
 

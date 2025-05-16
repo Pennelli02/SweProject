@@ -3,7 +3,7 @@ package test.BusinessLogicTest;
 import BusinessLogic.UserController;
 import DAO.UserDAO;
 import DomainModel.Location;
-import DomainModel.RegisterUser;
+import DomainModel.RegisteredUser;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ class UserControllerTest {
 
     private UserController userController;
     private UserDAO userDAO;
-    private RegisterUser user;
+    private RegisteredUser user;
 
     private final String testEmail = "test.user@example.com";
     private final String testPassword = "Test123!";
@@ -41,7 +41,7 @@ class UserControllerTest {
     void login() throws SQLException, ClassNotFoundException {
         //testiamo il login di una persona registrata nel database
         user=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
-        RegisterUser loginUser=userController.login(testEmail, testPassword);
+        RegisteredUser loginUser=userController.login(testEmail, testPassword);
         assertNotNull(loginUser);
         assertEquals(testUsername,loginUser.getUsername());
         assertEquals(testPassword,loginUser.getPassword());

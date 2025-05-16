@@ -18,7 +18,7 @@ public class UserDAO {
         }
     }
 
-    public RegisterUser getUserByEmailPassword(String email, String password) {
+    public RegisteredUser getUserByEmailPassword(String email, String password) {
         PreparedStatement emailPs=null;
         PreparedStatement passwordPs=null;
         try{
@@ -59,7 +59,7 @@ public class UserDAO {
                             location=Location.Nothing;
                         }
                     }
-                    RegisterUser user = new RegisterUser(id, username, password, email, fidelityPoints, name, surname, location);
+                    RegisteredUser user = new RegisteredUser(id, username, password, email, fidelityPoints, name, surname, location);
                     // gestire le mie prenotazioni
                     BookingDAO bookingDAO = new BookingDAO();
                     ArrayList<Booking> bookings;
@@ -76,7 +76,7 @@ public class UserDAO {
                 }else{
                     System.out.println("Wrong password");
                     // magari ci si mette qualcosa per indicare al main questa cosa valore boolean?
-                    return new RegisterUser(-1 ,email) ; // ci metto l'email che magari può essere utile
+                    return new RegisteredUser(-1 ,email) ; // ci metto l'email che magari può essere utile
                 }
 
             }else {
@@ -213,15 +213,15 @@ public class UserDAO {
         return null;
     }
 
-    public ArrayList<RegisterUser> getAllUsers() throws ClassNotFoundException {
-        ArrayList<RegisterUser> users = new ArrayList<>();
+    public ArrayList<RegisteredUser> getAllUsers() throws ClassNotFoundException {
+        ArrayList<RegisteredUser> users = new ArrayList<>();
         PreparedStatement ps=null;
         try {
             String query = "SELECT id FROM users";
             ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                RegisterUser user=getUserById(rs.getInt("id"));
+                RegisteredUser user=getUserById(rs.getInt("id"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -233,7 +233,7 @@ public class UserDAO {
         return users;
     }
     // da gestire il fatto che ci siano 2 funzioni che fanno la stessa cosa
-    public RegisterUser getUserById(int id) throws SQLException, ClassNotFoundException {
+    public RegisteredUser getUserById(int id) throws SQLException, ClassNotFoundException {
         PreparedStatement ps=null;
         try {
             String query = "SELECT * FROM users WHERE id = ?";
@@ -259,7 +259,7 @@ public class UserDAO {
                         location = Location.Nothing;
                     }
                 }
-                RegisterUser user = new RegisterUser(id, username, pass, mail, fidelityPoints, name, surname, location);
+                RegisteredUser user = new RegisteredUser(id, username, pass, mail, fidelityPoints, name, surname, location);
                 // gestire le mie prenotazioni
                 BookingDAO bookingDAO = new BookingDAO();
                 bookingDAO.getBookingsFromUser(user);
@@ -403,7 +403,7 @@ public class UserDAO {
     }
 
     // si attiva a ogni pagamento o eliminazione
-    public void updateFidPoints(RegisterUser user, float transactionAmount) {
+    public void updateFidPoints(RegisteredUser user, float transactionAmount) {
         // Calcola la variazione punti
         int pointsVariation = calculatePointsVariation(transactionAmount);
         int newFidelityPoints = user.getFidelityPoints() + pointsVariation;

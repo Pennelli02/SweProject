@@ -1,10 +1,8 @@
 package DomainModel;
 
-import DAO.ReviewDAO;
-
 import java.util.ArrayList;
 
-public class RegisterUser {
+public class RegisteredUser {
     private int id;
     private String username;
     private String password;
@@ -16,7 +14,7 @@ public class RegisterUser {
     private ArrayList<Booking> myBookings;
     private ArrayList<Accommodation> myPreferences;
 
-    public RegisterUser(int id, String username, String password, String email, int fidelityPoints, String name, Location favouriteLocation, String surname, ArrayList<Booking> myBookings, ArrayList<Accommodation> myPreferences) {
+    public RegisteredUser(int id, String username, String password, String email, int fidelityPoints, String name, Location favouriteLocation, String surname, ArrayList<Booking> myBookings, ArrayList<Accommodation> myPreferences) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,7 +27,7 @@ public class RegisterUser {
         this.myPreferences = myPreferences;
     }
 
-    public RegisterUser(int id, String username, String password, String email, int fidelityPoints, String name, String surname, Location location) {
+    public RegisteredUser(int id, String username, String password, String email, int fidelityPoints, String name, String surname, Location location) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -42,11 +40,11 @@ public class RegisterUser {
         myPreferences = new ArrayList<>();
     }
     // lo uso come possibile gestione per quando l'utente inserisce l'email giusta, ma la password sbagliata id<0
-    public RegisterUser(int errorID, String email) {
+    public RegisteredUser(int errorID, String email) {
         this.id = errorID; this.email = email;
     }
     //solo per testing
-    public RegisterUser() {}
+    public RegisteredUser() {}
     public int getId() {
         return id;
     }
@@ -159,13 +157,13 @@ public class RegisterUser {
         System.out.println("ALL BOOKINGS");
         for (int i=0;i<myBookings.size();i++) {
             if (myBookings.get(i).getState() == State.Accommodation_Cancelled) {
-                sendMessage(myBookings.get(i).getPrice(), myBookings.get(i).getAccommodation().getName());
+                getMessage(myBookings.get(i).getPrice(), myBookings.get(i).getAccommodation().getName());
             }
             System.out.println((i+1)+") "+myBookings.get(i));
         }
     }
 
-    private void sendMessage(float price, String name) {
+    private void getMessage(float price, String name) {
         String subject = "Siamo spiacenti per la cancellazione";
         String message = "Ciao " + username + ",\n\n" +
                 "Purtroppo il tuo alloggio \"" + name + "\" è stato cancellato dalla struttura.\n" +

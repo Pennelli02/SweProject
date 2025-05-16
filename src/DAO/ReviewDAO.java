@@ -20,7 +20,7 @@ public class ReviewDAO {
     }
 
     // esempio di jdbc
-    public ArrayList<Review> getReviewByUser(RegisterUser user) {
+    public ArrayList<Review> getReviewByUser(RegisteredUser user) {
         // Inizializza una lista vuota per contenere le recensioni
         ArrayList<Review> reviews = new ArrayList<>();
         //test utilizzando l'email dell'utente come elemento unico
@@ -82,7 +82,7 @@ public class ReviewDAO {
         }
     }
     //  rating di accommodation si attiva grazie a un trigger nel db
-    public void addReview(RegisterUser user, Accommodation accommodation, String content, AccommodationRating rating) {
+    public void addReview(RegisteredUser user, Accommodation accommodation, String content, AccommodationRating rating) {
        PreparedStatement stmt = null;
         try {
             String sql = "INSERT INTO reviews (userid, accommodationid, rating, commenttext) VALUES(?, ?, ?, ?)";
@@ -113,7 +113,7 @@ public class ReviewDAO {
                 int id = rs.getInt("id");
                 String content = rs.getString("commenttext");
                 int authorID = rs.getInt("userId");
-                RegisterUser author=userDAO.getUserById(authorID);
+                RegisteredUser author=userDAO.getUserById(authorID);
                 int rating = rs.getInt("rating");
                 AccommodationRating accRating = AccommodationRating.OneStar;
                 for (AccommodationRating ar : AccommodationRating.values()) {
@@ -148,7 +148,7 @@ public class ReviewDAO {
                 int id = rs.getInt("id");
                 String content = rs.getString("commenttext");
                 int authorID = rs.getInt("userId");
-                RegisterUser author=userDAO.getUserById(authorID);
+                RegisteredUser author=userDAO.getUserById(authorID);
                 int accommodationid = rs.getInt("accommodationId");
                 Accommodation accommodation=accommodationDAO.getAccommodationByID(accommodationid);
                 int rating = rs.getInt("rating");

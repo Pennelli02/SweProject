@@ -82,7 +82,7 @@ class AdminControllerTest {
         UserDAO userDAO = new UserDAO();
 
         //simuliamo l'utente che cerca questo alloggio
-        RegisterUser testUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        RegisteredUser testUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
         ResearchController researchController= new ResearchController(testUser);
         SearchParametersBuilder testSCP= SearchParametersBuilder.newBuilder("test");
         ArrayList<Accommodation> accommodations=researchController.doResearch(testSCP.build());
@@ -187,7 +187,7 @@ class AdminControllerTest {
 
         // 2. Recupera l'accommodation
         SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
-        ResearchController rc = new ResearchController(new RegisterUser()); // finto utente
+        ResearchController rc = new ResearchController(new RegisteredUser()); // finto utente
         List<Accommodation> results = rc.doResearch(params);
         assertFalse(results.isEmpty());
 
@@ -252,7 +252,7 @@ class AdminControllerTest {
 
         // 2. Ricerca per verificare inserimento
         SearchParameters params = SearchParametersBuilder.newBuilder("test").build();
-        ResearchController rc = new ResearchController(new RegisterUser()); // fake user
+        ResearchController rc = new ResearchController(new RegisteredUser()); // fake user
         List<Accommodation> results = rc.doResearch(params);
         assertFalse(results.isEmpty());
 
@@ -313,12 +313,12 @@ class AdminControllerTest {
     void removeUser() throws SQLException, ClassNotFoundException {
         // test con un utente che ha delle prenotazioni
         UserController userController = new UserController();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
         assertNotNull(regUser);
 
         // Recupera l'utente
         UserDAO userDAO = new UserDAO();
-        RegisterUser user = userDAO.getUserByEmailPassword(testEmail, testPassword);
+        RegisteredUser user = userDAO.getUserByEmailPassword(testEmail, testPassword);
         assertNotNull(user);
 
         int userId = user.getId();
@@ -364,10 +364,10 @@ class AdminControllerTest {
         accommodationDAO.deleteAccommodation(accommodation.getId());
 
         //test utente senza prenotazioni associate
-        RegisterUser regUser2 = userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser2 = userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
         assertNotNull(regUser2);
 
-        RegisterUser user2= userDAO.getUserByEmailPassword(testEmail, testPassword);
+        RegisteredUser user2= userDAO.getUserByEmailPassword(testEmail, testPassword);
         assertNotNull(user2);
 
         int user2Id = user2.getId();
@@ -388,12 +388,12 @@ class AdminControllerTest {
     @Test
     void searchUser() throws SQLException, ClassNotFoundException {
         UserController userController = new UserController();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
         assertNotNull(regUser);
         int userId = regUser.getId();
 
         AdminController adminController = new AdminController();
-        RegisterUser foundUser = adminController.searchUser(userId);
+        RegisteredUser foundUser = adminController.searchUser(userId);
         assertNotNull(foundUser);
 
         assertEquals(userId, foundUser.getId());
@@ -506,9 +506,9 @@ class AdminControllerTest {
         adminController = new AdminController();
         UserController userController = new UserController();
         UserDAO userDAO = new UserDAO();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
-        RegisterUser regUser2 = userController.register(
+        RegisteredUser regUser2 = userController.register(
                 "second.user@example.com",  // email diversa
                 "Second123!",               // password
                 "seconduser",               // username diverso
@@ -517,7 +517,7 @@ class AdminControllerTest {
                 Location.Nothing            // location
         );
 
-        RegisterUser regUser3 = userController.register(
+        RegisteredUser regUser3 = userController.register(
                 "third.user@example.com",   // email diversa
                 "Third123!",                // password
                 "thirduser",                // username diverso
@@ -525,7 +525,7 @@ class AdminControllerTest {
                 "User",                     // cognome
                 Location.Nothing            // location
         );
-        ArrayList<RegisterUser> allUsers= adminController.getAllUser();
+        ArrayList<RegisteredUser> allUsers= adminController.getAllUser();
 
         assertNotNull(allUsers);
         assertFalse(allUsers.isEmpty(), "La lista non dovrebbe essere vuota");
@@ -540,7 +540,7 @@ class AdminControllerTest {
     @Test
     void getReviewByUser() throws SQLException, ClassNotFoundException {
         UserController userController = new UserController();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
         int userId = regUser.getId();
 
@@ -582,7 +582,7 @@ class AdminControllerTest {
     @Test
     void getReviewByAccommodation() throws SQLException, ClassNotFoundException {
         UserController userController = new UserController();
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
         int userId = regUser.getId();
 
@@ -630,7 +630,7 @@ class AdminControllerTest {
                 false, false, 2, false, 4);
 
         SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
-        ResearchController rc = new ResearchController(new RegisterUser());
+        ResearchController rc = new ResearchController(new RegisteredUser());
         List<Accommodation> results = rc.doResearch(params);
         assertNotNull(results);
         int accommodationId = results.getFirst().getId();
@@ -686,7 +686,7 @@ class AdminControllerTest {
         UserDAO userDAO = new UserDAO();
         UserController userController = new UserController();
 
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
 
         // 1. Creazione di una accommodation
@@ -746,7 +746,7 @@ class AdminControllerTest {
         ReviewDAO reviewDAO = new ReviewDAO();
         UserController userController = new UserController();
 
-        RegisterUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
+        RegisteredUser regUser=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
 
         // Aggiungi una accommodation per l’utente
         AccommodationDAO accommodationDAO = new AccommodationDAO();

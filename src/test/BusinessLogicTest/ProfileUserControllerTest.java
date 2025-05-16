@@ -5,7 +5,7 @@ import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
 import DAO.*;
 import DomainModel.Location;
-import DomainModel.RegisterUser;
+import DomainModel.RegisteredUser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileUserControllerTest {
     private ProfileUserController profileUserController;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
     private UserController userController;
     private UserDAO userDAO;
 
@@ -37,15 +37,15 @@ class ProfileUserControllerTest {
         userDAO = new UserDAO();
         userController = new UserController();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
-        profileUserController=new ProfileUserController(registerUser);
+        profileUserController=new ProfileUserController(registeredUser);
     }
 
     @AfterEach
     void tearDown() {
-        if (registerUser!=null){
-            userDAO.removeUser(registerUser.getId());
+        if (registeredUser !=null){
+            userDAO.removeUser(registeredUser.getId());
         }
         profileUserController=null;
     }
@@ -65,20 +65,20 @@ class ProfileUserControllerTest {
         Location newLocation=Location.Sea;
         profileUserController.updateProfile(newName, newSurname, newEmail, newPassword, newUsername, newLocation);
 
-        assertNotEquals(testEmail,registerUser.getEmail());
-        assertNotEquals(testPassword,registerUser.getPassword());
-        assertNotEquals(testUsername,registerUser.getUsername());
-        assertNotEquals(testName,registerUser.getName());
-        assertNotEquals(testSurname,registerUser.getSurname());
-        assertNotEquals(testLocation, registerUser.getFavouriteLocations());
+        assertNotEquals(testEmail, registeredUser.getEmail());
+        assertNotEquals(testPassword, registeredUser.getPassword());
+        assertNotEquals(testUsername, registeredUser.getUsername());
+        assertNotEquals(testName, registeredUser.getName());
+        assertNotEquals(testSurname, registeredUser.getSurname());
+        assertNotEquals(testLocation, registeredUser.getFavouriteLocations());
 
     }
 
     @Test
     void unRegister() throws SQLException, ClassNotFoundException {
         profileUserController.unRegister();
-        registerUser=userController.login(testEmail, testPassword);
-        assertNull(registerUser);
+        registeredUser =userController.login(testEmail, testPassword);
+        assertNull(registeredUser);
     }
 // non so è una questione grafica
     @Test
@@ -94,7 +94,7 @@ class ProfileUserControllerTest {
         // 2. Crea una nuova prenotazione
         BookingDAO bookingDAO = new BookingDAO();
         Booking testBooking = bookingDAO.addBooking(
-                registerUser,
+                registeredUser,
                 accommodation,
                 accommodation.getAvailableFrom(),
                 accommodation.getAvailableEnd(),
@@ -102,11 +102,11 @@ class ProfileUserControllerTest {
                 400
         );
 
-        assertEquals(0, registerUser.getFidelityPoints());
+        assertEquals(0, registeredUser.getFidelityPoints());
         // 3. Simula logout e nuovo login per testare persistenza
         profileUserController.exit();
-        registerUser = userController.login(testEmail, testPassword);
-        profileUserController = new ProfileUserController(registerUser);
+        registeredUser = userController.login(testEmail, testPassword);
+        profileUserController = new ProfileUserController(registeredUser);
 
         // 4. Verifica che la prenotazione esista e sia confermata
         var bookingsBefore = profileUserController.viewMyBookings();
@@ -120,7 +120,7 @@ class ProfileUserControllerTest {
         var bookingsAfter = profileUserController.viewMyBookings();
         assertNotEquals(State.Booking_Confirmed, bookingsAfter.getFirst().getState());
 
-        assertEquals(0, registerUser.getFidelityPoints());
+        assertEquals(0, registeredUser.getFidelityPoints());
         accommodation= accommodationDAO.getAccommodationByID(2);
         assertNotEquals(accommodation.getDisponibility(), Disponibility);
         // 7. Cleanup manuale
@@ -136,7 +136,7 @@ class ProfileUserControllerTest {
         // 2. Crea una nuova prenotazione
         BookingDAO bookingDAO = new BookingDAO();
         Booking testBooking = bookingDAO.addBooking(
-                registerUser,
+                registeredUser,
                 accommodation,
                 accommodation.getAvailableFrom(),
                 accommodation.getAvailableEnd(),
@@ -146,8 +146,8 @@ class ProfileUserControllerTest {
 
         // 3. Simula logout e nuovo login per testare persistenza
         profileUserController.exit();
-        registerUser = userController.login(testEmail, testPassword);
-        profileUserController = new ProfileUserController(registerUser);
+        registeredUser = userController.login(testEmail, testPassword);
+        profileUserController = new ProfileUserController(registeredUser);
 
         // 4. Verifica che la prenotazione esista e sia confermata
         var bookingsBefore = profileUserController.viewMyBookings();
@@ -166,8 +166,8 @@ class ProfileUserControllerTest {
 
         //8. controlliamo che sia persistente
         profileUserController.exit();
-        registerUser = userController.login(testEmail, testPassword);
-        profileUserController = new ProfileUserController(registerUser);
+        registeredUser = userController.login(testEmail, testPassword);
+        profileUserController = new ProfileUserController(registeredUser);
         var bookingsBefore2 = profileUserController.viewMyBookings();
         assertTrue(bookingsBefore2.isEmpty());
     }
@@ -184,14 +184,14 @@ class ProfileUserControllerTest {
                 false, false, 2, false, 4);
 
         SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
-        ResearchController rc = new ResearchController(registerUser);
+        ResearchController rc = new ResearchController(registeredUser);
         List<Accommodation> results = rc.doResearch(params);
         String testComment="testComment";
         ReviewDAO reviewDAO = new ReviewDAO();
 
         var reviews=profileUserController.viewMyReviews();
         assertTrue(reviews.isEmpty());
-        reviewDAO.addReview(registerUser, results.getFirst(), testComment, AccommodationRating.OneStar);
+        reviewDAO.addReview(registeredUser, results.getFirst(), testComment, AccommodationRating.OneStar);
 
 
         reviews=profileUserController.getReviewsByUser();
@@ -211,20 +211,20 @@ class ProfileUserControllerTest {
         Accommodation accommodation = accommodationDAO.getAccommodationByID(2);
 
         PreferenceDAO preferenceDAO = new PreferenceDAO();
-        preferenceDAO.save(registerUser.getId(), accommodation.getId());
+        preferenceDAO.save(registeredUser.getId(), accommodation.getId());
 
         profileUserController.exit();
-        registerUser=userController.login(testEmail, testPassword);
-        profileUserController = new ProfileUserController(registerUser);
+        registeredUser =userController.login(testEmail, testPassword);
+        profileUserController = new ProfileUserController(registeredUser);
 
-        var savingsBefore = registerUser.getMyPreferences();
+        var savingsBefore = registeredUser.getMyPreferences();
         assertFalse(savingsBefore.isEmpty());
 
         profileUserController.unSaveAccommodation(savingsBefore.getFirst());
         profileUserController.exit();
-        registerUser=userController.login(testEmail, testPassword);
-        profileUserController = new ProfileUserController(registerUser);
-        var savingsAfter = registerUser.getMyPreferences();
+        registeredUser =userController.login(testEmail, testPassword);
+        profileUserController = new ProfileUserController(registeredUser);
+        var savingsAfter = registeredUser.getMyPreferences();
         assertTrue(savingsAfter.isEmpty());
 
     }
@@ -241,7 +241,7 @@ class ProfileUserControllerTest {
         Accommodation accommodation = accommodationDAO.getAccommodationByID(2);
         String testComment="testComment";
         ReviewDAO reviewDAO = new ReviewDAO();
-        reviewDAO.addReview(registerUser, accommodation, testComment, AccommodationRating.OneStar);
+        reviewDAO.addReview(registeredUser, accommodation, testComment, AccommodationRating.OneStar);
 
         myReviews=profileUserController.getReviewsByUser();
         assertFalse(myReviews.isEmpty());
@@ -249,6 +249,6 @@ class ProfileUserControllerTest {
         assertEquals(testComment, myReviews.getFirst().getReviewText());
         assertEquals(AccommodationRating.OneStar, myReviews.getFirst().getVote());
         assertEquals(accommodation.getId(), myReviews.getFirst().getReviewedItem().getId());
-        assertEquals(registerUser.getId(), myReviews.getFirst().getAuthor().getId());
+        assertEquals(registeredUser.getId(), myReviews.getFirst().getAuthor().getId());
     }
 }

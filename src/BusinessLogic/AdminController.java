@@ -9,8 +9,6 @@ import DomainModel.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
 
 public class AdminController {
     private boolean isLoggedIn;
@@ -61,7 +59,7 @@ public class AdminController {
         userDAO.removeUser(idUser);
     }
 
-    public RegisterUser searchUser(int idUser) throws SQLException, ClassNotFoundException {
+    public RegisteredUser searchUser(int idUser) throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         return userDAO.getUserById(idUser);
     }
@@ -71,7 +69,7 @@ public class AdminController {
         return accommodationDAO.getAllAccommodation();
     }
 
-    public ArrayList<RegisterUser> getAllUser() throws SQLException, ClassNotFoundException {
+    public ArrayList<RegisteredUser> getAllUser() throws SQLException, ClassNotFoundException {
         UserDAO userDAO = new UserDAO();
         return userDAO.getAllUsers();
     }
@@ -86,7 +84,7 @@ public class AdminController {
         reviewDAO.removeReview(idReview);
     }
 
-    public ArrayList<Review> getReviewByUser(RegisterUser user) {
+    public ArrayList<Review> getReviewByUser(RegisteredUser user) {
         ReviewDAO reviewDAO = new ReviewDAO();
         return reviewDAO.getReviewByUser(user);
     }

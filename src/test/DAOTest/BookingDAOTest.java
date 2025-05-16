@@ -1,6 +1,5 @@
 package test.DAOTest;
 
-import BusinessLogic.ProfileUserController;
 import BusinessLogic.UserController;
 import DAO.AccommodationDAO;
 import DAO.BookingDAO;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookingDAOTest {
     private BookingDAO bookingDAO;
-    private RegisterUser registerUser;
+    private RegisteredUser registeredUser;
     private UserController userController;
     private UserDAO userDAO;
     private AccommodationDAO accommodationDAO;
@@ -39,7 +38,7 @@ class BookingDAOTest {
         userController = new UserController();
         userDAO = new UserDAO();
 
-        registerUser=userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
+        registeredUser =userController.register(testEmail,testPassword,testUsername,testName,testSurname,testLocation);
 
 
         //associamo all'utente di test alcune prenotazioni così possiamo fare i testing
@@ -71,15 +70,15 @@ class BookingDAOTest {
         );
         SearchParameters sp= SearchParametersBuilder.newBuilder("Test").build();
         ArrayList<Accommodation> acc= accommodationDAO.getAccommodationByParameter(sp);
-        bookingDAO.addBooking(registerUser, acc.getFirst(), acc.getFirst().getAvailableFrom(), acc.getFirst().getAvailableEnd(), 3, 400);
+        bookingDAO.addBooking(registeredUser, acc.getFirst(), acc.getFirst().getAvailableFrom(), acc.getFirst().getAvailableEnd(), 3, 400);
         accommodationId=acc.getFirst().getId();
-        registerUser=userController.login(testEmail,testPassword);
+        registeredUser =userController.login(testEmail,testPassword);
     }
 
     @AfterEach
     void tearDown() {
-        if(registerUser!=null){
-            userDAO.removeUser(registerUser.getId());
+        if(registeredUser !=null){
+            userDAO.removeUser(registeredUser.getId());
             accommodationDAO.deleteAccommodation(accommodationId);
         }
 
@@ -87,7 +86,7 @@ class BookingDAOTest {
 
     @Test
     void removeBooking() throws SQLException, ClassNotFoundException {
-       ArrayList<Booking>myBookings= registerUser.getMyBookings();
+       ArrayList<Booking>myBookings= registeredUser.getMyBookings();
        assertFalse(myBookings.isEmpty());
 
        //controlliamo il caso di rimozione non possibile
@@ -101,15 +100,15 @@ class BookingDAOTest {
 
         assertDoesNotThrow(()->bookingDAO.removeBooking(myBookings.getFirst().getBookingID(), myBookings.getFirst().getState()));
 
-        registerUser=userController.login(testEmail, testPassword);
-        assertTrue(registerUser.getMyBookings().isEmpty());
+        registeredUser =userController.login(testEmail, testPassword);
+        assertTrue(registeredUser.getMyBookings().isEmpty());
     }
 
     @Test
     void addBooking() {
         Accommodation acc= accommodationDAO.getAccommodationByID(accommodationId);
         Booking booking = assertDoesNotThrow(() ->
-                bookingDAO.addBooking(registerUser, acc, acc.getAvailableFrom(), acc.getAvailableEnd(), 3, 400)
+                bookingDAO.addBooking(registeredUser, acc, acc.getAvailableFrom(), acc.getAvailableEnd(), 3, 400)
         );
         assertNotNull(booking);
         assertTrue(booking.getBookingID() > 0);
@@ -118,13 +117,13 @@ class BookingDAOTest {
 
     @Test
     void getBookingsFromUser() {
-        assertDoesNotThrow(()->bookingDAO.getBookingsFromUser(registerUser));
+        assertDoesNotThrow(()->bookingDAO.getBookingsFromUser(registeredUser));
     }
 
     @Test
     void cancelBook() {
-        assertDoesNotThrow(()->bookingDAO.cancelBook(registerUser.getMyBookings().getFirst()));
-        Booking updated = bookingDAO.getBookingsFromUser(registerUser).getFirst();
+        assertDoesNotThrow(()->bookingDAO.cancelBook(registeredUser.getMyBookings().getFirst()));
+        Booking updated = bookingDAO.getBookingsFromUser(registeredUser).getFirst();
         assertTrue(updated.getState() == State.Booking_Refunded || updated.getState() == State.Cancelled);
     }
 
