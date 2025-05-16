@@ -1,8 +1,6 @@
-package test.DAOTest;
+package test.ORMTest;
 
-import DAO.DatabaseConnection;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import ORM.DatabaseConnection;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;

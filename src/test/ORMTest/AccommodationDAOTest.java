@@ -1,9 +1,9 @@
-package test.DAOTest;
+package test.ORMTest;
 
 import BusinessLogic.UserController;
-import DAO.AccommodationDAO;
-import DAO.BookingDAO;
-import DAO.UserDAO;
+import ORM.AccommodationDAO;
+import ORM.BookingDAO;
+import ORM.UserDAO;
 import DomainModel.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

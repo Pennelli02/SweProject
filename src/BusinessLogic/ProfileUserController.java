@@ -1,6 +1,6 @@
 package BusinessLogic;
 
-import DAO.*;
+import ORM.*;
 import DomainModel.*;
 
 import java.sql.SQLException;

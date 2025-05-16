@@ -3,7 +3,7 @@ package test.BusinessLogicTest;
 import BusinessLogic.ProfileUserController;
 import BusinessLogic.ResearchController;
 import BusinessLogic.UserController;
-import DAO.*;
+import ORM.*;
 import DomainModel.Location;
 import DomainModel.RegisteredUser;
 import org.junit.jupiter.api.AfterEach;

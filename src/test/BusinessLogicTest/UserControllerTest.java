@@ -1,7 +1,7 @@
 package test.BusinessLogicTest;
 
 import BusinessLogic.UserController;
-import DAO.UserDAO;
+import ORM.UserDAO;
 import DomainModel.Location;
 import DomainModel.RegisteredUser;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,7 +1,7 @@
 package BusinessLogic;
 
 import java.sql.SQLException;
-import DAO.UserDAO;
+import ORM.UserDAO;
 import DomainModel.Location;
 import DomainModel.RegisteredUser;
 public class UserController {

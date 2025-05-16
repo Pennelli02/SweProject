@@ -1,7 +1,7 @@
-package test.DAOTest;
+package test.ORMTest;
 
 import BusinessLogic.UserController;
-import DAO.UserDAO;
+import ORM.UserDAO;
 import DomainModel.Location;
 import DomainModel.RegisteredUser;
 import org.junit.jupiter.api.AfterEach;

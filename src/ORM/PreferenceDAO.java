@@ -1,4 +1,4 @@
-package DAO;
+package ORM;
 
 import DomainModel.Accommodation;
 import DomainModel.AccommodationRating;

@@ -1,9 +1,9 @@
 package BusinessLogic;
 
-import DAO.AccommodationDAO;
-import DAO.BookingDAO;
-import DAO.ReviewDAO;
-import DAO.UserDAO;
+import ORM.AccommodationDAO;
+import ORM.BookingDAO;
+import ORM.ReviewDAO;
+import ORM.UserDAO;
 import DomainModel.*;
 
 import java.sql.SQLException;
