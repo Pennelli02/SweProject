@@ -60,6 +60,7 @@ class UserControllerTest {
         //testiamo il login nel caso uno metta la password errata, ma l'email giusta
 
         loginUser=userController.login(testEmail, testPassword2);
+        //possibilità di recupero password
         assertEquals(-1, loginUser.getId());
         assertEquals(testEmail, loginUser.getEmail());
 
@@ -67,6 +68,7 @@ class UserControllerTest {
 
     @Test
     void register() throws SQLException, ClassNotFoundException {
+        //testiamo il caso che vada tutto bene
         user=userController.register(testEmail, testPassword, testUsername, testName, testSurname, testLocation);
         assertNotNull(user);
         assertEquals(testEmail, user.getEmail());
@@ -76,6 +78,13 @@ class UserControllerTest {
         assertEquals(testSurname, user.getSurname());
         assertEquals(testLocation, user.getFavouriteLocations());
 
+        //testiamo il caso che un utente provi a registrarsi con un email già usata
+        RegisteredUser user2=userController.register(testEmail, "test", "test", testName, testSurname, testLocation);
+        assertNull(user2); // non viene registrato
+
+        //testiamo il caso che inserisca degli spazi al posto dell'email
+        user2=userController.register("    ", "test2", "test", testName, testSurname, testLocation);
+        assertNull(user2); // non viene registrato
     }
 
     @Test

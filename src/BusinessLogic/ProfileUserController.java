@@ -78,6 +78,8 @@ public class ProfileUserController {
         ReviewDAO reviewDAO=new ReviewDAO();
         return reviewDAO.getReviewByUser(user);
     }
+
+
     // cancella una prenotazione ma non la rimuove e attiva tutte le funzioni del caso
     public void cancelABooking(Booking booking) {
         BookingDAO bookingDAO=new BookingDAO();
@@ -91,7 +93,6 @@ public class ProfileUserController {
     // si può fare se e solo se lo stato della prenotazione è Checking out, Cancelled, Refunded, accommodation cancelled
     public void removeBooking(Booking booking) {
         BookingDAO bookingDAO=new BookingDAO();
-        UserDAO userDAO=new UserDAO();
         try {
             bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
             user.removeBooking(booking);
