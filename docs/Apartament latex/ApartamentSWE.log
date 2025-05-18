@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  18 MAY 2025 23:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  18 MAY 2025 23:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -586,11 +586,11 @@ Overfull \hbox (38.95804pt too wide) in paragraph at lines 370--372
  []
 
 [15 <./uml/domainModel.png> <./uml/DAO.png>]
-<Snippets/Singleton.jpg, id=346, 413.74574pt x 383.63326pt>
-File: Snippets/Singleton.jpg Graphic file (type jpg)
-<use Snippets/Singleton.jpg>
-Package pdftex.def Info: Snippets/Singleton.jpg  used on input line 385.
-(pdftex.def)             Requested size: 186.18387pt x 172.63336pt.
+<Snippets/Singleton.png, id=346, 401.70074pt x 355.92975pt>
+File: Snippets/Singleton.png Graphic file (type png)
+<use Snippets/Singleton.png>
+Package pdftex.def Info: Snippets/Singleton.png  used on input line 385.
+(pdftex.def)             Requested size: 220.93608pt x 195.76196pt.
 <Snippets/Mapper.jpg, id=347, 448.67625pt x 336.0555pt>
 File: Snippets/Mapper.jpg Graphic file (type jpg)
 <use Snippets/Mapper.jpg>
@@ -601,8 +601,8 @@ Overfull \hbox (36.37662pt too wide) in paragraph at lines 396--397
  [] 
  []
 
-[16 <./Snippets/Singleton.jpg>] [17 <./Snippets/Mapper.jpg>] [18] [19]
-<ERimages/FinalER.jpg, id=444, 1124.2pt x 719.68875pt>
+[16 <./Snippets/Singleton.png>] [17 <./Snippets/Mapper.jpg>] [18] [19]
+<ERimages/FinalER.jpg, id=445, 1124.2pt x 719.68875pt>
 File: ERimages/FinalER.jpg Graphic file (type jpg)
 <use ERimages/FinalER.jpg>
 Package pdftex.def Info: ERimages/FinalER.jpg  used on input line 507.
@@ -613,7 +613,7 @@ Overfull \hbox (61.2417pt too wide) in paragraph at lines 506--508
  []
 
 [20]
-<ERimages/schemaLogicoDBTabelle.jpg, id=449, 754.31813pt x 496.10344pt>
+<ERimages/schemaLogicoDBTabelle.jpg, id=450, 754.31813pt x 496.10344pt>
 File: ERimages/schemaLogicoDBTabelle.jpg Graphic file (type jpg)
 <use ERimages/schemaLogicoDBTabelle.jpg>
 Package pdftex.def Info: ERimages/schemaLogicoDBTabelle.jpg  used on input line
@@ -625,11 +625,11 @@ Overfull \hbox (32.15814pt too wide) in paragraph at lines 511--512
  []
 
 [21 <./ERimages/FinalER.jpg>]
-<trigger/trigger.png, id=454, 397.485pt x 455.45157pt>
+<trigger/trigger.png, id=455, 307.1475pt x 366.168pt>
 File: trigger/trigger.png Graphic file (type png)
 <use trigger/trigger.png>
 Package pdftex.def Info: trigger/trigger.png  used on input line 523.
-(pdftex.def)             Requested size: 258.36218pt x 296.04001pt.
+(pdftex.def)             Requested size: 199.6435pt x 238.00638pt.
  [22 <./ERimages/schemaLogicoDBTabelle.jpg>]
 [23 <./trigger/trigger.png>] [24
 
@@ -645,7 +645,7 @@ Overfull \hbox (58.7022pt too wide) in paragraph at lines 634--635
 ri (\OT1/cmr/bx/n/10 getAccommodationByParameters()\OT1/cmr/m/n/10 ).
  []
 
-<cli/usermenu.png, id=502, 610.53094pt x 296.60812pt>
+<cli/usermenu.png, id=503, 610.53094pt x 296.60812pt>
 File: cli/usermenu.png Graphic file (type png)
 <use cli/usermenu.png>
 Package pdftex.def Info: cli/usermenu.png  used on input line 642.
@@ -656,13 +656,13 @@ Overfull \hbox (2.20406pt too wide) in paragraph at lines 641--643
  []
 
 [27]
-<test/BusinessLogic/login.png, id=508, 698.61pt x 455.301pt>
+<test/BusinessLogic/login.png, id=509, 664.28175pt x 470.35725pt>
 File: test/BusinessLogic/login.png Graphic file (type png)
 <use test/BusinessLogic/login.png>
 Package pdftex.def Info: test/BusinessLogic/login.png  used on input line 669.
-(pdftex.def)             Requested size: 384.23668pt x 250.41632pt.
+(pdftex.def)             Requested size: 365.35608pt x 258.69728pt.
 
-Overfull \hbox (20.11934pt too wide) in paragraph at lines 668--670
+Overfull \hbox (1.23874pt too wide) in paragraph at lines 668--670
  |  [] 
  []
 
@@ -671,47 +671,45 @@ Overfull \hbox (20.11934pt too wide) in paragraph at lines 668--670
 LaTeX Warning: Hyper reference `Usecase1' on page 29 undefined on input line 67
 1.
 
-<test/BusinessLogic/register.png, id=514, 852.93657pt x 262.73157pt>
+<test/BusinessLogic/register.png, id=515, 808.82175pt x 335.45325pt>
 File: test/BusinessLogic/register.png Graphic file (type png)
 <use test/BusinessLogic/register.png>
 Package pdftex.def Info: test/BusinessLogic/register.png  used on input line 67
 7.
-(pdftex.def)             Requested size: 469.11656pt x 144.50279pt.
+(pdftex.def)             Requested size: 444.85333pt x 184.49985pt.
 
-Overfull \hbox (69.43327pt too wide) in paragraph at lines 676--678
+Overfull \hbox (45.17004pt too wide) in paragraph at lines 676--678
  |  [] 
  []
 
-<test/BusinessLogic/testAdminController.png, id=516, 598.48593pt x 340.27126pt>
-
+<test/BusinessLogic/testAdminController.png, id=517, 255.95625pt x 271.0125pt>
 File: test/BusinessLogic/testAdminController.png Graphic file (type png)
 <use test/BusinessLogic/testAdminController.png>
 Package pdftex.def Info: test/BusinessLogic/testAdminController.png  used on in
 put line 686.
-(pdftex.def)             Requested size: 329.16827pt x 187.14977pt.
+(pdftex.def)             Requested size: 140.77637pt x 149.05733pt.
 [29 <./test/BusinessLogic/login.png> <./test/BusinessLogic/register.png>]
-<test/BusinessLogic/testProfileUserController.png, id=523, 575.14874pt x 197.23
-688pt>
+<test/BusinessLogic/testProfileUserController.png, id=524, 240.9pt x 155.3805pt
+>
 File: test/BusinessLogic/testProfileUserController.png Graphic file (type png)
 <use test/BusinessLogic/testProfileUserController.png>
 Package pdftex.def Info: test/BusinessLogic/testProfileUserController.png  used
  on input line 693.
-(pdftex.def)             Requested size: 316.33278pt x 108.4806pt.
-<test/BusinessLogic/testResearchController.png, id=524, 579.66562pt x 159.59625
-pt>
+(pdftex.def)             Requested size: 132.49539pt x 85.45952pt.
+<test/BusinessLogic/testResearchController.png, id=525, 240.9pt x 122.25674pt>
 File: test/BusinessLogic/testResearchController.png Graphic file (type png)
 <use test/BusinessLogic/testResearchController.png>
 Package pdftex.def Info: test/BusinessLogic/testResearchController.png  used on
  input line 700.
-(pdftex.def)             Requested size: 318.81708pt x 87.7782pt.
-<test/BusinessLogic/risultatitest.png, id=525, 486.618pt x 257.16075pt>
+(pdftex.def)             Requested size: 132.49539pt x 67.24141pt.
+<test/BusinessLogic/risultatitest.png, id=526, 699.21225pt x 296.307pt>
 File: test/BusinessLogic/risultatitest.png Graphic file (type png)
 <use test/BusinessLogic/risultatitest.png>
 Package pdftex.def Info: test/BusinessLogic/risultatitest.png  used on input li
 ne 713.
-(pdftex.def)             Requested size: 364.9626pt x 192.87007pt.
+(pdftex.def)             Requested size: 384.56792pt x 162.96935pt.
 
-Overfull \hbox (19.9626pt too wide) in paragraph at lines 713--714
+Overfull \hbox (39.56792pt too wide) in paragraph at lines 713--714
  [] 
  []
 
@@ -730,10 +728,10 @@ Package rerunfilecheck Info: File `ApartamentSWE.out' has not changed.
 (rerunfilecheck)             Checksum: 7AC14BC044A4668DD63E4C13708B7C48;5693.
  ) 
 Here is how much of TeX's memory you used:
- 14895 strings out of 474486
- 245001 string characters out of 5743756
+ 14893 strings out of 474486
+ 244945 string characters out of 5743756
  2052542 words of memory out of 5000000
- 36807 multiletter control sequences out of 15000+600000
+ 36805 multiletter control sequences out of 15000+600000
  562110 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,117p,1249b,2036s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -746,9 +744,9 @@ eX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lori0/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lori0/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lori0/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on ApartamentSWE.pdf (31 pages, 2575403 bytes).
+Output written on ApartamentSWE.pdf (31 pages, 2615990 bytes).
 PDF statistics:
- 617 PDF objects out of 1000 (max. 8388607)
+ 618 PDF objects out of 1000 (max. 8388607)
  210 named destinations out of 1000 (max. 500000)
  451 words of extra memory for PDF output out of 10000 (max. 10000000)
 
