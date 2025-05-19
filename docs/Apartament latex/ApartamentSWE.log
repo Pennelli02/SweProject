@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  18 MAY 2025 23:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  19 MAY 2025 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -465,251 +465,246 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout4 = `ApartamentSWE.toc'.
 
  [2]
-<Sp/Architettura.jpg, id=222, 1920.17375pt x 865.2325pt>
-File: Sp/Architettura.jpg Graphic file (type jpg)
-<use Sp/Architettura.jpg>
-Package pdftex.def Info: Sp/Architettura.jpg  used on input line 87.
-(pdftex.def)             Requested size: 336.03545pt x 151.41795pt.
- [3 <./Sp/Architettura.jpg>]
-<usecases/ClientUseCase.png, id=228, 746.03719pt x 533.74406pt>
+<Sp/Architettura.png, id=222, 825.83531pt x 399.74344pt>
+File: Sp/Architettura.png Graphic file (type png)
+<use Sp/Architettura.png>
+Package pdftex.def Info: Sp/Architettura.png  used on input line 87.
+(pdftex.def)             Requested size: 330.32828pt x 159.89453pt.
+ [3 <./Sp/Architettura.png>]
+<usecases/ClientUseCase.png, id=229, 746.03719pt x 533.74406pt>
 File: usecases/ClientUseCase.png Graphic file (type png)
 <use usecases/ClientUseCase.png>
-Package pdftex.def Info: usecases/ClientUseCase.png  used on input line 117.
+Package pdftex.def Info: usecases/ClientUseCase.png  used on input line 118.
 (pdftex.def)             Requested size: 373.01767pt x 266.87137pt.
-<usecases/AdminUseCase.png, id=229, 750.55406pt x 471.26062pt>
+<usecases/AdminUseCase.png, id=230, 842.39719pt x 521.69907pt>
 File: usecases/AdminUseCase.png Graphic file (type png)
 <use usecases/AdminUseCase.png>
-Package pdftex.def Info: usecases/AdminUseCase.png  used on input line 118.
-(pdftex.def)             Requested size: 375.27611pt x 235.62973pt.
+Package pdftex.def Info: usecases/AdminUseCase.png  used on input line 120.
+(pdftex.def)             Requested size: 421.19756pt x 260.84889pt.
 
-Overfull \hbox (28.01767pt too wide) in paragraph at lines 117--118
- [] 
- []
-
-
-Overfull \hbox (30.27611pt too wide) in paragraph at lines 117--118
- [] 
+Overfull \hbox (49.96703pt too wide) in paragraph at lines 117--120
+ |  [] 
  []
 
 [4 <./usecases/ClientUseCase.png>] [5 <./usecases/AdminUseCase.png>] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 237--237
+Underfull \hbox (badness 10000) in paragraph at lines 238--238
 []\OT1/cmr/m/n/10 L'utente in-se-ri-sce i pa-ra-me-tri per re-gi-strar-si
  []
 
 [7] [8] [9]
-<Mockup/MockupAdminLogin.png, id=295, 539.616pt x 314.3745pt>
+<Mockup/MockupAdminLogin.png, id=296, 539.616pt x 314.3745pt>
 File: Mockup/MockupAdminLogin.png Graphic file (type png)
 <use Mockup/MockupAdminLogin.png>
-Package pdftex.def Info: Mockup/MockupAdminLogin.png  used on input line 301.
+Package pdftex.def Info: Mockup/MockupAdminLogin.png  used on input line 302.
 (pdftex.def)             Requested size: 323.7721pt x 188.62614pt.
-<Mockup/mockupBooking.png, id=296, 678.73575pt x 459.51675pt>
+<Mockup/mockupBooking.png, id=297, 678.73575pt x 459.51675pt>
 File: Mockup/mockupBooking.png Graphic file (type png)
 <use Mockup/mockupBooking.png>
-Package pdftex.def Info: Mockup/mockupBooking.png  used on input line 308.
+Package pdftex.def Info: Mockup/mockupBooking.png  used on input line 309.
 (pdftex.def)             Requested size: 339.36703pt x 229.75781pt.
  [10 <./Mockup/MockupAdminLogin.png>]
-<Mockup/MockupLogin.png, id=307, 663.6795pt x 374.5995pt>
+<Mockup/MockupLogin.png, id=308, 663.6795pt x 374.5995pt>
 File: Mockup/MockupLogin.png Graphic file (type png)
 <use Mockup/MockupLogin.png>
-Package pdftex.def Info: Mockup/MockupLogin.png  used on input line 315.
+Package pdftex.def Info: Mockup/MockupLogin.png  used on input line 316.
 (pdftex.def)             Requested size: 331.83894pt x 187.29929pt.
-<Mockup/MockupProfile.png, id=308, 561.89925pt x 343.2825pt>
+<Mockup/MockupProfile.png, id=309, 561.89925pt x 343.2825pt>
 File: Mockup/MockupProfile.png Graphic file (type png)
 <use Mockup/MockupProfile.png>
-Package pdftex.def Info: Mockup/MockupProfile.png  used on input line 321.
+Package pdftex.def Info: Mockup/MockupProfile.png  used on input line 322.
 (pdftex.def)             Requested size: 337.14215pt x 205.97107pt.
  [11 <./Mockup/mockupBooking.png> <./Mockup/MockupLogin.png>]
-<Mockup/MockupRegister.png, id=315, 537.80925pt x 322.806pt>
+<Mockup/MockupRegister.png, id=316, 537.80925pt x 322.806pt>
 File: Mockup/MockupRegister.png Graphic file (type png)
 <use Mockup/MockupRegister.png>
-Package pdftex.def Info: Mockup/MockupRegister.png  used on input line 327.
+Package pdftex.def Info: Mockup/MockupRegister.png  used on input line 328.
 (pdftex.def)             Requested size: 322.68803pt x 193.68509pt.
-<Mockup/MockupResearch.png, id=316, 599.23875pt x 470.9595pt>
+<Mockup/MockupResearch.png, id=317, 599.23875pt x 470.9595pt>
 File: Mockup/MockupResearch.png Graphic file (type png)
 <use Mockup/MockupResearch.png>
-Package pdftex.def Info: Mockup/MockupResearch.png  used on input line 335.
+Package pdftex.def Info: Mockup/MockupResearch.png  used on input line 336.
 (pdftex.def)             Requested size: 329.58234pt x 259.02852pt.
  [12 <./Mockup/MockupProfile.png> <./Mockup/MockupRegister.png>]
-<Mockup/MockupResult.png, id=324, 520.94624pt x 402.303pt>
+<Mockup/MockupResult.png, id=325, 520.94624pt x 402.303pt>
 File: Mockup/MockupResult.png Graphic file (type png)
 <use Mockup/MockupResult.png>
-Package pdftex.def Info: Mockup/MockupResult.png  used on input line 341.
+Package pdftex.def Info: Mockup/MockupResult.png  used on input line 342.
 (pdftex.def)             Requested size: 312.57016pt x 241.38365pt.
  [13 <./Mockup/MockupResearch.png> <./Mockup/MockupResult.png>]
-Overfull \hbox (7.8555pt too wide) in paragraph at lines 351--352
+Overfull \hbox (7.8555pt too wide) in paragraph at lines 352--353
 \OT1/cmr/m/n/10 del-l'ap-pli-ca-zio-ne (ri-cer-ca, pre-no-ta-zio-ne, re-cen-sio
 -ne) (\OT1/cmr/bx/n/10 ResearchController\OT1/cmr/m/n/10 )
  []
 
 
-Overfull \hbox (15.59023pt too wide) in paragraph at lines 351--352
+Overfull \hbox (15.59023pt too wide) in paragraph at lines 352--353
 \OT1/cmr/m/n/10 e quel-lo che ge-sti-sce le azio-ni che pu^^Ro ef-fet-tua-re l'
 Ad-min (\OT1/cmr/bx/n/10 AdminController\OT1/cmr/m/n/10 ). 
  []
 
-<uml/BusinessLogic.png, id=332, 570.33075pt x 269.20575pt>
+<uml/BusinessLogic.png, id=333, 570.33075pt x 269.20575pt>
 File: uml/BusinessLogic.png Graphic file (type png)
 <use uml/BusinessLogic.png>
-Package pdftex.def Info: uml/BusinessLogic.png  used on input line 354.
+Package pdftex.def Info: uml/BusinessLogic.png  used on input line 355.
 (pdftex.def)             Requested size: 342.20108pt x 161.52469pt.
 
-Overfull \hbox (3.08377pt too wide) in paragraph at lines 353--355
+Overfull \hbox (3.08377pt too wide) in paragraph at lines 354--356
 []|  [] 
  []
 
-<uml/domainModel.png, id=333, 670.30424pt x 363.15675pt>
+<uml/domainModel.png, id=334, 670.30424pt x 363.15675pt>
 File: uml/domainModel.png Graphic file (type png)
 <use uml/domainModel.png>
-Package pdftex.def Info: uml/domainModel.png  used on input line 360.
+Package pdftex.def Info: uml/domainModel.png  used on input line 361.
 (pdftex.def)             Requested size: 388.77673pt x 210.63106pt.
 
-Overfull \hbox (17.43164pt too wide) in paragraph at lines 358--361
+Overfull \hbox (17.43164pt too wide) in paragraph at lines 359--362
 \OT1/cmr/bx/n/10 king\OT1/cmr/m/n/10 , \OT1/cmr/bx/n/10 Ac-com-mo-da-tion\OT1/c
 mr/m/n/10 , \OT1/cmr/bx/n/10 Sear-ch-Pa-ra-me-ters\OT1/cmr/m/n/10 ,\OT1/cmr/bx/
 n/10 SearchParametersBuilder\OT1/cmr/m/n/10 .
  []
 
 
-Overfull \hbox (56.77261pt too wide) in paragraph at lines 358--361
+Overfull \hbox (56.77261pt too wide) in paragraph at lines 359--362
 |  [] 
  []
 
 [14 <./uml/BusinessLogic.png>]
-<uml/DAO.png, id=339, 639.5895pt x 293.29575pt>
+<uml/DAO.png, id=340, 639.5895pt x 293.29575pt>
 File: uml/DAO.png Graphic file (type png)
 <use uml/DAO.png>
-Package pdftex.def Info: uml/DAO.png  used on input line 371.
+Package pdftex.def Info: uml/DAO.png  used on input line 372.
 (pdftex.def)             Requested size: 370.96216pt x 170.11163pt.
 
-Overfull \hbox (38.95804pt too wide) in paragraph at lines 370--372
+Overfull \hbox (38.95804pt too wide) in paragraph at lines 371--373
 []|  [] 
  []
 
 [15 <./uml/domainModel.png> <./uml/DAO.png>]
-<Snippets/Singleton.png, id=346, 401.70074pt x 355.92975pt>
+<Snippets/Singleton.png, id=347, 401.70074pt x 355.92975pt>
 File: Snippets/Singleton.png Graphic file (type png)
 <use Snippets/Singleton.png>
-Package pdftex.def Info: Snippets/Singleton.png  used on input line 385.
+Package pdftex.def Info: Snippets/Singleton.png  used on input line 386.
 (pdftex.def)             Requested size: 220.93608pt x 195.76196pt.
-<Snippets/Mapper.jpg, id=347, 448.67625pt x 336.0555pt>
+<Snippets/Mapper.jpg, id=348, 448.67625pt x 336.0555pt>
 File: Snippets/Mapper.jpg Graphic file (type jpg)
 <use Snippets/Mapper.jpg>
-Package pdftex.def Info: Snippets/Mapper.jpg  used on input line 396.
+Package pdftex.def Info: Snippets/Mapper.jpg  used on input line 397.
 (pdftex.def)             Requested size: 381.37662pt x 285.64851pt.
 
-Overfull \hbox (36.37662pt too wide) in paragraph at lines 396--397
+Overfull \hbox (36.37662pt too wide) in paragraph at lines 397--398
  [] 
  []
 
 [16 <./Snippets/Singleton.png>] [17 <./Snippets/Mapper.jpg>] [18] [19]
-<ERimages/FinalER.jpg, id=445, 1124.2pt x 719.68875pt>
+<ERimages/FinalER.jpg, id=446, 1124.2pt x 719.68875pt>
 File: ERimages/FinalER.jpg Graphic file (type jpg)
 <use ERimages/FinalER.jpg>
-Package pdftex.def Info: ERimages/FinalER.jpg  used on input line 507.
+Package pdftex.def Info: ERimages/FinalER.jpg  used on input line 508.
 (pdftex.def)             Requested size: 460.92499pt x 295.0743pt.
 
-Overfull \hbox (61.2417pt too wide) in paragraph at lines 506--508
+Overfull \hbox (61.2417pt too wide) in paragraph at lines 507--509
  |  [] 
  []
 
 [20]
-<ERimages/schemaLogicoDBTabelle.jpg, id=450, 754.31813pt x 496.10344pt>
+<ERimages/schemaLogicoDBTabelle.jpg, id=451, 754.31813pt x 496.10344pt>
 File: ERimages/schemaLogicoDBTabelle.jpg Graphic file (type jpg)
 <use ERimages/schemaLogicoDBTabelle.jpg>
 Package pdftex.def Info: ERimages/schemaLogicoDBTabelle.jpg  used on input line
- 511.
+ 512.
 (pdftex.def)             Requested size: 377.15814pt x 248.0511pt.
 
-Overfull \hbox (32.15814pt too wide) in paragraph at lines 511--512
+Overfull \hbox (32.15814pt too wide) in paragraph at lines 512--513
  [][] 
  []
 
 [21 <./ERimages/FinalER.jpg>]
-<trigger/trigger.png, id=455, 307.1475pt x 366.168pt>
+<trigger/trigger.png, id=456, 307.1475pt x 366.168pt>
 File: trigger/trigger.png Graphic file (type png)
 <use trigger/trigger.png>
-Package pdftex.def Info: trigger/trigger.png  used on input line 523.
+Package pdftex.def Info: trigger/trigger.png  used on input line 524.
 (pdftex.def)             Requested size: 199.6435pt x 238.00638pt.
  [22 <./ERimages/schemaLogicoDBTabelle.jpg>]
 [23 <./trigger/trigger.png>] [24
 
 ] [25] [26]
-Overfull \hbox (33.22217pt too wide) in paragraph at lines 634--635
+Overfull \hbox (33.22217pt too wide) in paragraph at lines 635--636
 \OT1/cmr/m/n/10 sen-ta mol-ti me-to-di, per-met-ten-do di ag-giun-ge-re nuo-vi 
 al-log-gi (\OT1/cmr/bx/n/10 addAccommodation()\OT1/cmr/m/n/10 ),
  []
 
 
-Overfull \hbox (58.7022pt too wide) in paragraph at lines 634--635
+Overfull \hbox (58.7022pt too wide) in paragraph at lines 635--636
 \OT1/cmr/m/n/10 al-log-gi che ven-go-no ri-cer-ca-ti tra-mi-te l'u-so dei fil-t
 ri (\OT1/cmr/bx/n/10 getAccommodationByParameters()\OT1/cmr/m/n/10 ).
  []
 
-<cli/usermenu.png, id=503, 610.53094pt x 296.60812pt>
+<cli/usermenu.png, id=504, 788.9475pt x 371.88937pt>
 File: cli/usermenu.png Graphic file (type png)
 <use cli/usermenu.png>
-Package pdftex.def Info: cli/usermenu.png  used on input line 642.
-(pdftex.def)             Requested size: 366.3214pt x 177.96623pt.
+Package pdftex.def Info: cli/usermenu.png  used on input line 643.
+(pdftex.def)             Requested size: 473.37215pt x 223.13533pt.
 
-Overfull \hbox (2.20406pt too wide) in paragraph at lines 641--643
+Overfull \hbox (109.2548pt too wide) in paragraph at lines 642--644
  |  [] 
  []
 
 [27]
-<test/BusinessLogic/login.png, id=509, 664.28175pt x 470.35725pt>
+<test/BusinessLogic/login.png, id=510, 664.28175pt x 470.35725pt>
 File: test/BusinessLogic/login.png Graphic file (type png)
 <use test/BusinessLogic/login.png>
-Package pdftex.def Info: test/BusinessLogic/login.png  used on input line 669.
+Package pdftex.def Info: test/BusinessLogic/login.png  used on input line 670.
 (pdftex.def)             Requested size: 365.35608pt x 258.69728pt.
 
-Overfull \hbox (1.23874pt too wide) in paragraph at lines 668--670
+Overfull \hbox (1.23874pt too wide) in paragraph at lines 669--671
  |  [] 
  []
 
 [28 <./cli/usermenu.png>]
 
 LaTeX Warning: Hyper reference `Usecase1' on page 29 undefined on input line 67
-1.
+2.
 
-<test/BusinessLogic/register.png, id=515, 808.82175pt x 335.45325pt>
+<test/BusinessLogic/register.png, id=516, 808.82175pt x 335.45325pt>
 File: test/BusinessLogic/register.png Graphic file (type png)
 <use test/BusinessLogic/register.png>
 Package pdftex.def Info: test/BusinessLogic/register.png  used on input line 67
-7.
+8.
 (pdftex.def)             Requested size: 444.85333pt x 184.49985pt.
 
-Overfull \hbox (45.17004pt too wide) in paragraph at lines 676--678
+Overfull \hbox (45.17004pt too wide) in paragraph at lines 677--679
  |  [] 
  []
 
-<test/BusinessLogic/testAdminController.png, id=517, 255.95625pt x 271.0125pt>
+<test/BusinessLogic/testAdminController.png, id=518, 255.95625pt x 271.0125pt>
 File: test/BusinessLogic/testAdminController.png Graphic file (type png)
 <use test/BusinessLogic/testAdminController.png>
 Package pdftex.def Info: test/BusinessLogic/testAdminController.png  used on in
-put line 686.
+put line 687.
 (pdftex.def)             Requested size: 140.77637pt x 149.05733pt.
 [29 <./test/BusinessLogic/login.png> <./test/BusinessLogic/register.png>]
-<test/BusinessLogic/testProfileUserController.png, id=524, 240.9pt x 155.3805pt
+<test/BusinessLogic/testProfileUserController.png, id=525, 240.9pt x 155.3805pt
 >
 File: test/BusinessLogic/testProfileUserController.png Graphic file (type png)
 <use test/BusinessLogic/testProfileUserController.png>
 Package pdftex.def Info: test/BusinessLogic/testProfileUserController.png  used
- on input line 693.
+ on input line 694.
 (pdftex.def)             Requested size: 132.49539pt x 85.45952pt.
-<test/BusinessLogic/testResearchController.png, id=525, 240.9pt x 122.25674pt>
+<test/BusinessLogic/testResearchController.png, id=526, 240.9pt x 122.25674pt>
 File: test/BusinessLogic/testResearchController.png Graphic file (type png)
 <use test/BusinessLogic/testResearchController.png>
 Package pdftex.def Info: test/BusinessLogic/testResearchController.png  used on
- input line 700.
+ input line 701.
 (pdftex.def)             Requested size: 132.49539pt x 67.24141pt.
-<test/BusinessLogic/risultatitest.png, id=526, 699.21225pt x 296.307pt>
+<test/BusinessLogic/risultatitest.png, id=527, 699.21225pt x 296.307pt>
 File: test/BusinessLogic/risultatitest.png Graphic file (type png)
 <use test/BusinessLogic/risultatitest.png>
 Package pdftex.def Info: test/BusinessLogic/risultatitest.png  used on input li
-ne 713.
+ne 714.
 (pdftex.def)             Requested size: 384.56792pt x 162.96935pt.
 
-Overfull \hbox (39.56792pt too wide) in paragraph at lines 713--714
+Overfull \hbox (39.56792pt too wide) in paragraph at lines 714--715
  [] 
  []
 
@@ -728,10 +723,10 @@ Package rerunfilecheck Info: File `ApartamentSWE.out' has not changed.
 (rerunfilecheck)             Checksum: 7AC14BC044A4668DD63E4C13708B7C48;5693.
  ) 
 Here is how much of TeX's memory you used:
- 14893 strings out of 474486
- 244945 string characters out of 5743756
+ 14891 strings out of 474486
+ 244895 string characters out of 5743756
  2052542 words of memory out of 5000000
- 36805 multiletter control sequences out of 15000+600000
+ 36803 multiletter control sequences out of 15000+600000
  562110 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,117p,1249b,2036s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -744,9 +739,9 @@ eX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lori0/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lori0/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lori0/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on ApartamentSWE.pdf (31 pages, 2615990 bytes).
+Output written on ApartamentSWE.pdf (31 pages, 2600929 bytes).
 PDF statistics:
- 618 PDF objects out of 1000 (max. 8388607)
+ 619 PDF objects out of 1000 (max. 8388607)
  210 named destinations out of 1000 (max. 500000)
  451 words of extra memory for PDF output out of 10000 (max. 10000000)
 
