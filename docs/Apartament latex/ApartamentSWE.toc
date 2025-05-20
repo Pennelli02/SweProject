@@ -7,9 +7,9 @@
 \contentsline {subsection}{\numberline {2.1}Use Case Diagram}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Use Case Template}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Mockups}{10}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Class Diagram}{14}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Class Diagram}{13}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Dettagli di Progetto}{15}{subsection.2.5}%
-\contentsline {subsubsection}{\numberline {2.5.1}Singleton}{16}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.1}Singleton}{15}{subsubsection.2.5.1}%
 \contentsline {subsubsection}{\numberline {2.5.2}Mapper}{16}{subsubsection.2.5.2}%
 \contentsline {subsubsection}{\numberline {2.5.3}Builder Telescoping Constructor}{17}{subsubsection.2.5.3}%
 \contentsline {subsubsection}{\numberline {2.5.4}DAO}{20}{subsubsection.2.5.4}%
@@ -28,15 +28,16 @@
 \contentsline {subsubsection}{\numberline {3.2.4}Review}{25}{subsubsection.3.2.4}%
 \contentsline {subsubsection}{\numberline {3.2.5}SearchParametersBuilder e SearchParameters}{25}{subsubsection.3.2.5}%
 \contentsline {subsection}{\numberline {3.3}ORM}{26}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}DatabaseConnection}{26}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}UserDAO}{26}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.1}DatabaseConnection}{27}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}UserDAO}{27}{subsubsection.3.3.2}%
 \contentsline {subsubsection}{\numberline {3.3.3}BookingDAO}{27}{subsubsection.3.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.4}PreferenceDAO}{27}{subsubsection.3.3.4}%
-\contentsline {subsubsection}{\numberline {3.3.5}ReviewDAO}{27}{subsubsection.3.3.5}%
-\contentsline {subsubsection}{\numberline {3.3.6}AccommodationDAO}{27}{subsubsection.3.3.6}%
-\contentsline {subsection}{\numberline {3.4}Interfaccia CLI}{27}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Test}{28}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Domain Model Test}{28}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Business Logic Test}{28}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}ORM Test}{30}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Risultati dei test}{31}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {3.3.4}PreferenceDAO}{28}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.5}ReviewDAO}{28}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.6}AccommodationDAO}{28}{subsubsection.3.3.6}%
+\contentsline {subsubsection}{\numberline {3.3.7}DBUtils}{31}{subsubsection.3.3.7}%
+\contentsline {subsection}{\numberline {3.4}Interfaccia CLI}{31}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Test}{32}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Domain Model Test}{32}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Business Logic Test}{32}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}ORM Test}{34}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Risultati dei test}{36}{subsection.4.4}%

@@ -96,8 +96,7 @@ L'architettura del progetto è articolata in quattro componenti:
 	\item \textbf{ORM}: contiene le classi che permettono di gestire la comunicazione tra l'applicazione e il database andando a separare la logica per l'interazione con i dati dal resto dell'applicazione.
         \item \textbf{Interfaccia CLI}: interfaccia di linea di comando (CLI) dove l'utente può usufruire delle funzioni dell'applicazione e interagire con il sistema.
 \end{itemize}
-L'applicazione è stata sviluppata nel linguaggio Java e il database è stato implementato con PostrgreSQL. La connessione tra il progetto e il database è realizzata tramite JDBC. 
-Sono state utilizzate le seguenti piattaforme e software:
+L'applicazione è stata sviluppata nel linguaggio Java e il database è stato implementato con PostrgreSQL. La connessione tra il progetto e il database è realizzata tramite JDBC. Sono state utilizzate le seguenti piattaforme e software:
 \begin{itemize}
 \item \textbf{IntelliJ IDEA}: IDE per lo sviluppo in Java.
 \item \textbf{StarUML}: software per la creazione di diagrammi UML.
@@ -112,9 +111,8 @@ Sono state utilizzate le seguenti piattaforme e software:
 \subsection{Use Case Diagram}
 
 Sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante vengono rappresentati i casi d'uso per i due tipi di utenti: 
-
 \begin{center}
-\hspace*{-2cm}
+\hspace*{-1cm}
 \includegraphics[scale=0.5]{usecases/ClientUseCase}
 \hspace*{-1cm}
 \includegraphics[scale=0.5]{usecases/AdminUseCase}\\
@@ -123,7 +121,7 @@ Figura 2: Use Case Diagram dello User e dell'Admin
 \label{usecase}
 \subsection{Use Case Template}
 Sono di seguito mostrati alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a test e mockup presenti successivamente (sezione 2.3):
-\label{UseCase1}
+
 \begin{center}
 \begin{table}[H]
 \vspace{-0.3cm}
@@ -131,13 +129,14 @@ Sono di seguito mostrati alcuni template dei casi d'uso. In alcuni di essi sono 
 \scalebox{0.75}{ % Riduce tutto il blocco al 75% della dimensione originale
 \begin{tabular}{|l|p{9cm}|}
 \hline
-Use Case 1 & Login \\ \hline
+\label{Usecase1}
+Use Case 1 & Login (\hyperref[test1]{Tst\#1})\\ \hline
 Descrizione & L'utente accede al sistema inserendo le sue credenziali. \\ \hline
 Livello & Function \\ \hline
 Attori & Utente, Admin \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce le sue credenziali (email e password) (\hyperref[mk1]{MK\#1} e \hyperref[mk3]{MK\#3})(\hyperref[test1]{Tst\#1}).
+    \item L'utente inserisce le sue credenziali (email e password) (\hyperref[mk1]{MK\#1} e \hyperref[mk3]{MK\#3}).
     \item L'utente preme il pulsante di Login.
     \item Il sistema verifica le credenziali.
     \item Il sistema autentica l'utente.
@@ -146,7 +145,7 @@ Flusso Alternativo &
 \begin{enumerate}
     \item[3a.] Se le credenziali sono errate, il sistema invia un messaggio di errore.
     \item[3b.] Se si verifica un problema all'interno del database durante la ricerca dell'utente, il sistema invia un messaggio di errore.
-    \item[3c] Se l'email è giusta, ma la password sbagliata, il sistema consente un recupero della password o l'immissione di un ulteriore tentativo 
+    \item[3c.] Se l'email è giusta, ma la password sbagliata, il sistema consente un recupero della password o l'immissione di un ulteriore tentativo 
     \item[4a.] Se l'accesso viene effettuato dall'utente, sarà indirizzato alla sua pagina personale.
 \end{enumerate} \\ \hline
 Post-condizioni & L'utente è autenticato dal sistema e ha accesso alle sue funzionalità. \\ \hline
@@ -180,7 +179,7 @@ Pre-condizioni & L'utente deve aver fatto il login. \\ \hline
 Post-condizioni & L'utente riceverà una lista di alloggi da consultare. \\ \hline
 \end{tabular}
 }
-\caption{Template che descrive il caso d'uso dello Research}
+\caption{Template che descrive il caso d'uso dello Search}
 \end{table}
 \begin{table}[H]
 \vspace{-0.3cm}
@@ -217,13 +216,13 @@ Post-condizioni & La prenotazione effettuata verrà aggiunta a quelle già effet
 \begin{tabular}{|l|p{9cm}|}
 \hline
 \label{Usecase4}
-Use Case 4 & Registration \\ \hline
+Use Case 4 & Registration (\hyperref[test2]{Tst\#2})\\ \hline
 Descrizione & L’utente si registra all’interno del sistema.  \\ \hline
 Livello & User Goal \\ \hline
 Attori & User \\ \hline
 Flusso Base & 
 \begin{enumerate}
-    \item L'utente inserisce i parametri per registrarsi (\hyperref[mk5]{MK\#5})(\hyperref[test2]{Tst\#2}).
+    \item L'utente inserisce i parametri per registrarsi (\hyperref[mk5]{MK\#5}).
     \item L'utente preme il pulsante per effettuare la registrazione.
     \item Il sistema verifica le informazioni fornite.
     \item Il sistema crea un nuovo account per l’utente.
@@ -284,7 +283,7 @@ Flusso Base &
 \end{enumerate} \\ \hline
 Flusso Alternativo & 
 \begin{enumerate}
-    \item[3b.] Se si verifica un problema durante la registrazione dell'alloggio nel database, il sistema invia un messaggio di errore.
+    \item[3a.] Se si verifica un problema durante la registrazione dell'alloggio nel database, il sistema invia un messaggio di errore.
 \end{enumerate} \\ \hline
 Pre-condizioni & L'admin deve aver fatto il login. \\ \hline
 Post-condizioni & L'alloggio è stato registrato con successo e sarà disponibile per le successive ricerche degli utenti. \\ \hline
@@ -349,32 +348,34 @@ Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 \subsection{Class Diagram}
 L'architettura è divisa in 3 package:
 \begin{itemize}
-\item \textbf{Business Logic}: è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e un eventuale recupero password (\textbf{UserController}), quello che gestisce il profilo dell'utente e una sua eventuale rimozione(\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca, prenotazione, recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}).  
+\label{domainmodel}
+\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters} e \textbf{SearchParametersBuilder}.
 \par\medskip
-\hspace*{-0.75cm}
-\includegraphics[scale=0.6]{uml/BusinessLogic}
-\begin{center}
-Figura 10: Class Diagram - Business Logic 
-\end{center}
-\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters},\textbf{SearchParametersBuilder}.
-\hspace*{-0.5cm}
-\includegraphics[scale=0.58]{uml/domainModel}
+\hspace*{-2cm}
+\includegraphics[scale=0.58]{uml/DomainModel}
 \par\medskip
 \begin{center}
-Figura 11: Class Diagram - Domain Model 
+Figura 10: Class Diagram - Domain Model 
 \end{center}
 \par\medskip
 \vspace{-0.3cm}
 \item \textbf{ORM}: è il package che si occupa di gestire la connessione con il database: \textbf{UserDAO}, \textbf{BookingDAO}, \textbf{PreferenceDAO}, \textbf{ReviewDAO}, \textbf{AccommodationDAO}, \textbf{DatabaseConnection}.
-\vspace{0.1cm}
 \par\medskip
-\hspace*{-0.5cm}
+\hspace*{-1.75cm}
 \includegraphics[scale=0.58]{uml/DAO}
 \par\medskip
 \begin{center}
-Figura 12: Class Diagram - ORM
+Figura 11: Class Diagram - ORM
 \end{center}
 \par\medskip
+\item \textbf{Business Logic}: è il package che contiene i controller, che sono 4: quello che gestisce l'accesso, la registrazione e un eventuale recupero password (\textbf{UserController}), quello che gestisce il profilo dell'utente e una sua eventuale rimozione(\textbf{ProfileUserController}), quello che gestisce la logica dell'applicazione (ricerca, prenotazione, recensione) (\textbf{ResearchController}) e quello che gestisce le azioni che può effettuare l'Admin (\textbf{AdminController}).  
+\par\medskip
+\hspace*{-1.5cm}
+\includegraphics[scale=0.6]{uml/BusinessLogic}
+\begin{center}
+Figura 12: Class Diagram - Business Logic 
+\end{center}
+
 \end{itemize}
 \subsection{Dettagli di Progetto}
 Nell'architettura sono stati usati diversi design pattern:
@@ -382,8 +383,9 @@ Nell'architettura sono stati usati diversi design pattern:
 
 Il Singleton è stato utilizzato per garantire che la connessione al database venisse effettuata una singola volta e per evitare conflitti tra connessioni.
 \par\medskip
+\vspace{-0.3cm}
 \begin{center}
-\includegraphics[scale=0.55]{Snippets/Singleton}
+\includegraphics[scale=0.65]{Snippets/Singleton}
 \par\medskip
 Snippet 1: Implementazione Singleton
 \par\medskip
@@ -394,7 +396,7 @@ Snippet 1: Implementazione Singleton
 Lo scopo del Mapper è quello di creare la relazione tra utenti, recensioni e alloggi.
 
 \begin{center}
-\includegraphics[scale=0.85]{Snippets/Mapper}
+\includegraphics[scale=0.75]{Snippets/Mapper}
 \par\medskip
 Snippet 2: UML del Mapper
 \par\medskip
@@ -404,7 +406,8 @@ Snippet 2: UML del Mapper
 
 Il Builder Telescoping Constructor viene usato per creare la classe parametri di ricerca che presenta tanti attributi, spesso opzionali, e ne consente una gestione più efficiente. L'unico scopo della classe è quello creare un oggetto di tipo ParametriRicerca e ci riesce grazie ai metodi di setting, che ritornando la classe stessa, consentono di avere una chiara creazione dell'oggetto, attraverso un metodo statico e evitando l'overloading dei costruttori tradizionali (\textbf{build}). La classe per definizione presenta tutti gli attributi della classe \textbf{SearchParameters} quindi possiede 19 attributi e ognuno di essi ha implementato un setter. Inoltre, per funzionare, creare una classe \textbf{SearchParametersBuilder} bisogna fornigli un valore di tipo String che nel nostro progetto rappresenta il luogo della ricerca (\textbf{newBuilder(String place)}). Per evitare che l'utente creasse dei parametri di ricerca invalidi abbiamo inserito nella fase di build dei metodi di validazione che lanciano delle eccezioni quando l'utente sbaglia a inserire un valore. Un esempio può essere la validazione delle date che controlla che l'utente non abbia inserito nella ricerca date passate.
 Per implemenentare questa classe sono state richieste circa 203 linee di codice. Qui sottostante ne riporteremo alcune più significative
-\par\medskip
+\newpage
+\UseRawInputEncoding
 \begin{lstlisting}
 public final class SearchParametersBuilder {
     private final String place;
@@ -477,30 +480,33 @@ public final class SearchParametersBuilder {
             }
 
         } else if (dateOfCheckIn != null || dateOfCheckOut != null) {
-            // Se solo una delle due date e' specificata
+            // Se solo una delle due date è specificata
             throw new IllegalArgumentException("Both check-in and check-out dates must be provided or both must be null.");
         }
     }
     //...
 \end{lstlisting}
+\begin{center}
+Snipper 3: Implementazione del Builder
+\end{center}
 \par\medskip
 \label{daosec}
 \subsubsection{DAO}
 
-Il DAO (Data Access Object) è un design pattern che si occupa di separare le classi che si interfacciano al database dall'applicazione. Questo viene fatto
-per poter meglio implementare il principio di singola responsabilità e aumenta
+Il DAO (Data Access Object) \`e un design pattern che si occupa di separare le classi che si interfacciano al database dall'applicazione. Questo viene fatto
+per poter meglio implementare il principio di singola responsabilit\`a e aumenta
 la mantenibilità del codice. Viene implementato nel package ORM.
 
 \subsection{ER Diagram e Relational Model}
 
-Per il database e la sua gestione, è stato realizzato un ER Diagram (Figura 13), e il Relational Model derivato (Figura 14), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entità \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un'attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
+Per il database e la sua gestione, \`e stato realizzato un ER Diagram (Figura 13), e il Relational Model derivato (Figura 14), entrambi realizzati con \textbf{Draw.io}. Ci sono state delle scelte progettuali precise, in particolare quella riguardante l'entit\`a \textbf{Alloggio}, dove per differenziare i tipi di alloggio è stato usato un attributo al posto di una generalizzazione, dovuto al fatto che nel progetto si faranno uso di informazioni che sono a comune tra i vari alloggi, favorendo accessi più veloci ma a discapito di un notevole spreco di memoria e la presenza di valori nulli.\\
 Alla fine sono state definite le seguenti tabelle:
 \begin{itemize}
-\item \textbf{User}: rappresenta l'entità \textbf{User}.
-\item \textbf{Booking}: rappresenta l'entità \textbf{Booking}.
-\item \textbf{Acccommodation}: rappresenta l'entità \textbf{Accommodation}.
-\item \textbf{Review}: rappresenta la relazione \textbf{Review} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
-\item \textbf{Favourites}: rappresenta la relazione \textbf{Like} che avviene tra l'entità \textbf{User} e l'entità \textbf{Accommodation}.
+\item \textbf{User}: rappresenta l'entit\`a \textbf{User}.
+\item \textbf{Booking}: rappresenta l'entit\`a \textbf{Booking}.
+\item \textbf{Acccommodation}: rappresenta l'entit\`a \textbf{Accommodation}.
+\item \textbf{Review}: rappresenta la relazione \textbf{Review} che avviene tra l'entit\`a \textbf{User} e l'entit\`a \textbf{Accommodation}.
+\item \textbf{Favourites}: rappresenta la relazione \textbf{Like} che avviene tra l'entit\`a \textbf{User} e l'entit\`a \textbf{Accommodation}.
 \end{itemize}
 \begin{center}
 \par\medskip
@@ -530,7 +536,7 @@ Figura 15: trigger implementati per l'aggiornamento del rating per gli alloggi.
 \section{Implementazione}
 \subsection{Business Logic}
 
-\`E il package che contiene i controller e che espone all'esterno le funzionalità dell'applicazione. \`E responsabilità dei controller gestire le dipendenze tra gli oggetti creati dai DAO. I controller accedono alle funzionalità del DAO grazie ai loro metodi dove vengono instanziati le classi DAO necessarie. La loro relazione si può rappresentare come la dipendenza d'uso.
+\`E il package che contiene i controller e che espone all'esterno le funzionalit\`a dell'applicazione. \`E responsabilit\`a dei controller gestire le dipendenze tra gli oggetti creati dai DAO. I controller accedono alle funzionalit\`a del DAO grazie ai loro metodi dove vengono instanziati le classi DAO necessarie. La loro relazione si pu\`o rappresentare come la dipendenza d'uso.
 Qui sotto mostriamo un esempio di come comunica un controller con il DAO:
 \clearpage
 \begin{lstlisting}
@@ -546,11 +552,13 @@ public class ResearchController {
     //...
 \end{lstlisting}
 \par\medskip
-Frammento di codice del ResearchController implementazione della ricerca degli alloggi
+\begin{center}
+Snipper 4: Frammento di codice del ResearchController implementazione della ricerca degli alloggi
 \par\medskip
+\end{center}
 \subsubsection{UserController}
 
-\`E la classe che si occupa di implementare le funzionalità di un utente generico per l'accesso all'applicazione. Infatti presenta i metodi di login, di registrazione e un eventuale recupera password.
+\`E la classe che si occupa di implementare le funzionalit\`a di un utente generico per l'accesso all'applicazione. Infatti presenta i metodi di login, di registrazione e un eventuale recupera password.
 
 \subsubsection{ProfileController}
 
@@ -562,35 +570,54 @@ Frammento di codice del ResearchController implementazione della ricerca degli a
 
 \subsubsection{AdminController}
 
-\`E la classe che si occupa di implementare le operazioni dell'admin, il quale può  leggere, modificare, cancellare e aggiungere alloggi, mentre può solo leggere e cancellare utenti e recensioni.
+\`E la classe che si occupa di implementare le operazioni dell'admin, il quale pu\`o leggere, modificare, cancellare e aggiungere alloggi, mentre pu\`o solo leggere e cancellare utenti e recensioni.
  
 \subsection{Domain Model}
 
-\`E il package che rappresenta il modello dei dati e implementa le classi che raffigurano le entità del sistema.
+\`E il package che rappresenta il modello dei dati e implementa le classi che raffigurano le entit\`a del sistema.
 
 \subsubsection{RegisterUser}
 
-Contiene le informazioni relative all'utente registrato. Gli attributi della classe sono: id (utilizzato come identificativo), username, email (unica all'interno dell'applicazione), password, nome, cognome, punti fedeltà (che si aggiornano ad ogni acquisto e raggiunta una certa soglia, permette di avere degli sconti), località preferita che indica un genere di esperienza che preferisce, la lista delle prenotazioni effettuate e la lista dei suoi alloggi preferiti. 
+Contiene le informazioni relative all'utente registrato. Gli attributi della classe sono: id (utilizzato come identificativo), username, email (unica all'interno dell'applicazione), password, nome, cognome, punti fedelt\`a (che si aggiornano ad ogni acquisto e raggiunta una certa soglia, permette di avere degli sconti), localit\`a preferita che indica un genere di esperienza che preferisce, la lista delle prenotazioni effettuate e la lista dei suoi alloggi preferiti. 
 
 \subsubsection{Booking}
 
-\`E la classe che rappresenta l'entità prenotazione, con tutte le informazioni relative ad essa. Possiede un id identificativo, l'acquirente, il servizio, per quante persone è la prenotazione, il prezzo, il check-in, il check-out e lo stato della prenotazione.
+\`E la classe che rappresenta l'entit\`a prenotazione, con tutte le informazioni relative ad essa. Possiede un id identificativo, l'acquirente, il servizio, per quante persone \`e la prenotazione, il prezzo, il check-in, il check-out e lo stato della prenotazione.
 
 \subsubsection{Accommodation}
 
-\`E la classe che rappresenta l'entità alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il periodo di disponibilità, la descrizione di cosa offre, un insieme di stringhe che permette di sapere cosa è stato modificato e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle figure precedenti) .
+\`E la classe che rappresenta l'entit\`a alloggio e tiene conto dei suoi attributi. Molti dei suoi attributi non sono obbligatori, ma dipendono dai servizi che offre l'alloggio. Ha un id (univoco), un nome, un indirizzo, un luogo, quante persone possono alloggiarci, tipo di alloggio (B\&B, appartamento e hotel), il prezzo, il periodo di disponibilit\`a, la descrizione di cosa offre, un insieme di stringhe che permette di sapere cosa \`e stato modificato e diversi parametri aggiuntivi che non sono obbligatori (visualizzabili nelle \hyperref[domainmodel]{figure} precedenti) .
 
 \subsubsection{Review}
 
-\`E la classe che rappresenta l'entità recensione. I campi sono id, autore, alloggio recensito, commento e il voto. Consente di stabilire una correlazione tra l'utente e l'alloggio in maniera discreta, senza che tale connessione sia direttamente percepita dagli interessati.
+\`E la classe che rappresenta l'entit\`a recensione. I campi sono id, autore, alloggio recensito, commento e il voto. Consente di stabilire una correlazione tra l'utente e l'alloggio in maniera discreta, senza che tale connessione sia direttamente percepita dagli interessati.
 
 \subsubsection{SearchParametersBuilder e SearchParameters}
 
-Queste classi implementano il design pattern Builder Telescopic Constructor per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione più facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo è di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
+Queste classi implementano il design pattern Builder Telescopic Constructor per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione pi\`u facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo \`e di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
 
 \subsection{ORM}
 
-\`E il package che implementa il design pattern DAO descritto nella sezione \hyperref[daosec]{2.5.4}. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse nel database. Ogni classe possiede un attributo di tipo Connection, tipo del \textbf{JDBC} che rappresenta la connessione al database ottenuta dalla classe \textbf{DatabaseConnection}. Per la complessità dell'applicazione stessa le classi DAO devono comunicare tra loro e lo fanno passando dai controller della \textbf{Business Logic}. L'unica situazione in cui non passano dal controller, ma vengono richiamati direttamente dalla classe DAO stessa è il metodo \textbf{getUserByEmailPassword(...)} del \textbf{UserDAO}.
+\`E il package che implementa il design pattern DAO descritto nella sezione \hyperref[daosec]{2.5.4}. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse nel database. Ogni classe possiede un attributo di tipo Connection, tipo del \textbf{JDBC} che rappresenta la connessione al database ottenuta dalla classe \textbf{DatabaseConnection}.
+\newline
+\begin{lstlisting}
+public class AccommodationDAO {
+  private Connection connection;
+  public AccommodationDAO() {
+     try {
+         this.connection = DatabaseConnection.getInstance().getConnection();
+        } catch (Exception e) {
+         System.err.println(e.getMessage());
+        }
+    }
+    //...
+\end{lstlisting}
+\begin{center}
+\par
+Snipper 5: Esempio di come una classe DAO ottiene la connessione al db
+\par\medskip
+\end{center}
+Per la complessità dell'applicazione stessa le classi DAO devono comunicare tra loro e lo fanno passando dai controller della \textbf{Business Logic}. Esistono alcuni metodi che per comunicare non passano dal controller, ma vengono richiamati direttamente dalla classe DAO stessa per una questione di comodit\`a. Un esempio è il metodo \textbf{getUserByEmailPassword(...)} del \textbf{UserDAO}.
 \newline
 Qui sotto mostriamo un esempio di comunicazione passando dai controller:
 \begin{lstlisting}
@@ -607,21 +634,62 @@ Qui sotto mostriamo un esempio di comunicazione passando dai controller:
             );
     }
 \end{lstlisting}
-\medskip
-Codice di cancellazione di una prenotazione nel ProfileUserController in cui si usa BookingDAO, UserDAO, AccommodationDAO
-\medskip
+\begin{center}
+\par
+Snipper 6: Codice di cancellazione di una prenotazione nel ProfileUserController in cui si usa BookingDAO, UserDAO, AccommodationDAO
+\par\medskip
+\end{center}
 \subsubsection{DatabaseConnection}
 
 \`E la classe che si occupa di gestire la connessione al database per le altre classi DAO tramite il metodo \textbf{getConnection()}. Classe implementata usando il design pattern \textit{Singleton} per evitare conflitti tra connessioni.
 
 \subsubsection{UserDAO}
 
-\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilità di aggiungere nuovi utenti e di rimuovere quelli già presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilità di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}). Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente e di eliminarlo.
+\`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilit\`a di aggiungere nuovi utenti e di rimuovere quelli gi\`a presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilit\`a di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}). Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente e di eliminarlo.
+\newline
+Esempio
 
 \subsubsection{BookingDAO}
 
-\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) e di modificare lo stato della prenotazione
-
+\`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) e di modificare lo stato della prenotazione.
+\par\medskip
+\begin{lstlisting}
+public Booking addBooking(RegisteredUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
+    if(accommodation.getDisponibility()==0){
+        throw new RuntimeException("This accommodation is not disponible");
+    }
+    PreparedStatement preparedStatement=null;
+    try {
+        String query="insert into booking (userid,accommodationid,checkin,checkout,price,
+        numpeople, state) values(?,?,?,?,?,?,?) RETURNING id";
+        
+        preparedStatement=connection.prepareStatement(query);
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.setInt(2, accommodation.getId());
+        preparedStatement.setTimestamp(3, java.sql.Timestamp.valueOf(datein));
+        preparedStatement.setTimestamp(4, java.sql.Timestamp.valueOf(dateout));
+        preparedStatement.setInt(5, price);
+        preparedStatement.setInt(6, nPeople);
+        preparedStatement.setString(7,
+                State.Booking_Confirmed.name());
+        ResultSet rs = preparedStatement.executeQuery();
+        if(rs.next()) {
+            return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, 
+            dateout, State.Booking_Confirmed);
+            }
+    } catch (SQLException e) {
+        DBUtils.printSQLException(e);
+    }finally{
+        DBUtils.closeQuietly(preparedStatement);
+    }
+    return null;
+}
+\end{lstlisting}
+\begin{center}
+    \par
+Snipper 7: Query che inserisce un record di booking nel database e che ne restituisce un'istanza nel codice
+    \par\medskip
+\end{center}
 \subsubsection{PreferenceDAO}
 
 \`E la classe che si occupa della gestione dei dati che riguardano le liste di alloggi preferiti dagli utenti, i quali posso essere visionati senza dover fare una nuova ricerca. Questa classe contiene i metodi che permettono di aggiungere un nuovo alloggio tra i preferiti (\textbf{addPreference()}), di rimuovere un alloggio tra i preferiti (\textbf{removePreference()}) e di visualizzare gli alloggi preferiti di uno specifico utente (\textbf{getPreferenceByUser()}). 
@@ -632,11 +700,122 @@ Codice di cancellazione di una prenotazione nel ProfileUserController in cui si 
 
 \subsubsection{AccommodationDAO}
 
-\`E la classe che si occupa della gestione dei dati degli alloggi. Questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi (\textbf{addAccommodation()}), di rimuovere gli alloggi già presenti (\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi (\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo è molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i  2 metodi che permettono di aggiornare i dati di un alloggio attraverso l'uso di un insieme di stringhe per evitare accessi inutili al database. 
+\`E la classe che si occupa della gestione dei dati degli alloggi. Questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi \newline(\textbf{addAccommodation()}), di rimuovere gli alloggi gi\`a presenti \newline(\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi
+\newline(\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo \`e molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i 2 metodi che permettono di aggiornare i dati di un alloggio attraverso l'uso di un insieme di stringhe per evitare accessi inutili al database (\textbf{updateAccommodationDirty()}, \textbf{updateField()}).
+Qui di seguito verr\`a riportato un frammento di codice di \textbf{getAccommodationByParameters()} data la sua importanza. Purtroppo per una questione di sintesi non verr\`a riportato tutto, essendo lungo 185 righe di codice, ma saranno presenti solo le righe pi\`u importanti che fanno capire la logica e la complessità di tale metodo.
+\begin{lstlisting}
+public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
+    ArrayList<Accommodation> accommodations = new ArrayList<>();
+    StringBuilder queryBuilder = new StringBuilder(
+        "SELECT * 
+        FROM accommodation a 
+        WHERE disponibility > 0"
+        );
+
+    // Lista parametri per PreparedStatement
+    List<Object> parameters = new ArrayList<>();
+
+    // Aggiunta condizioni in base ai parametri non nulli
+    if (searchParameters.getPlace() != null && !searchParameters.getPlace().isEmpty()) {
+         queryBuilder.append(" AND a.place ILIKE ?");
+            parameters.add(searchParameters.getPlace());
+    }
+
+    if (searchParameters.getDateOfCheckIn() != null && searchParameters.getDateOfCheckOut() != null) {
+        queryBuilder.append(
+         " AND a.availablefrom <= ? " +   // L'alloggio è disponibile gia' alla data di check-in
+         " AND a.availableend >= ? "     // L'alloggio è disponibile almeno fino alla data di check-out
+        );
+        parameters.add(java.sql.Timestamp.valueOf(
+            searchParameters.getDateOfCheckIn()));
+        parameters.add(java.sql.Timestamp.valueOf(
+            searchParameters.getDateOfCheckOut()));
+     }
+
+    if (searchParameters.getHowMuchRooms() > 0) {
+    queryBuilder.append(" AND a.numberofroom >= ?");
+    parameters.add(searchParameters.getHowMuchRooms());
+    }
+
+    if (searchParameters.getHowMuchPeople() > 0) {
+        queryBuilder.append(" AND  a.maxpeople >= ?");
+        parameters.add(searchParameters.getHowMuchPeople());
+    }
+
+    if (!searchParameters.isAllCategories() && searchParameters.getCategory() != null) {
+        queryBuilder.append(" AND a.type = ?");
+        parameters.add(searchParameters.getCategory().
+                        toString());
+    }
+
+    if (searchParameters.getMaxPrice() > 0) {
+        queryBuilder.append(" AND a.rateprice <= ?");
+        parameters.add(searchParameters.getMaxPrice());
+    }
+
+    if (searchParameters.getMinAccommodationRating() != null) {
+        queryBuilder.append(" AND a.rating >= ?");
+        parameters.add(searchParameters.getMinAccommodation-                Rating().getNumericValue());
+    } else if (searchParameters.getSpecificAccommodationRating() !=             null) {
+        queryBuilder.append(" AND a.rating = ?");
+        parameters.add(searchParameters.getSpecific-
+        AccommodationRating().getNumericValue());
+    }
+
+    // Aggiunta condizioni per i servizi (solo se true)
+    if (searchParameters.isRefundable()) {
+        queryBuilder.append(" AND a.refundable = TRUE");
+    }
+
+    if (searchParameters.isHaveFreeWifi()) {
+        queryBuilder.append(" AND a.freewifi = TRUE");
+    }
+
+    //... altre condizioni booleane
+
+    // Aggiunto ordinamento per rating (decrescente) e prezzo (crescente)
+    queryBuilder.append(" ORDER BY a.rating DESC, a.ratePrice ASC");
+
+    // Esecuzione query
+    PreparedStatement ps = null;
+
+    try {
+        ps = connection.prepareStatement(queryBuilder.
+                            toString());
+
+        // Imposta tutti i parametri
+        for (int i = 0; i < parameters.size(); i++) {
+            Object param = parameters.get(i);
+            if (param instanceof String) {
+                ps.setString(i + 1, (String) param);
+            } else if (param instanceof Integer) {
+                ps.setInt(i + 1, (Integer) param);
+            } else if (param instanceof Float) {
+                ps.setFloat(i + 1, (Float) param);
+            } else if (param instanceof java.sql.Timestamp) {
+                ps.setTimestamp(i + 1, (java.sql.Timestamp) param);
+            }
+        }
+
+        ResultSet resultSet = ps.executeQuery();
+    //... qui ci sara' la creazione delle istanze alloggio
+\end{lstlisting}
+\begin{center}
+\par\
+Snipper 8: Query dinamica in base alle scelte dell'utente per la ricerca degli alloggi
+\par\medskip
+\end{center}
+\subsubsection{DBUtils}
+Classe che si occupa di gestire le eccezioni lanciate dai db. Il suo scopo \`e di fornire una spiegazione chiara dell'eccezione lanciata e di chiudere in modo sicuro, evitando memory leak, i prepared statement (oggetto che rappresenta un precompilato SQL statement). Tale classe presenta solo 2 metodi statici:
+\begin{itemize}
+    \item \textbf{printSQLException()} che stampa tutti i dettagli dell'eccezione SQL, comprese le eventuali eccezioni concatenate  
+    \item \textbf{closeQuietly()} che chiude in sicurezza un oggetto AutoCloseable.
+\end{itemize}
+Non \`e stata inserita nel Class Diagram perch\`e il suo scopo \`e utile solo al fine di debug.
 
 \subsection{Interfaccia CLI}
 
-Per l'applicazione è stata realizzata un'interfaccia a linea di comando, implementata nel file \textbf{Main.java}. L'utente, inserendo i vari comandi indicati dal sistema, naviga all'interno dell'applicazione, resa più user friendly grazie all'uso di colori per evidenziare le parole importanti o mancanti. La gestione delle scelte effettuate dall'utente è ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalità sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
+Per l'applicazione \`e stata realizzata un'interfaccia a linea di comando, implementata nel file \textbf{Main.java}. L'utente, inserendo i vari comandi indicati dal sistema, naviga all'interno dell'applicazione, resa pi\`u user friendly grazie all'uso di colori per evidenziare le parole importanti o mancanti. La gestione delle scelte effettuate dall'utente \`e ottenuta attraverso i costrutti \textit{do-while} e \textit{switch-case}, mentre le varie funzionalit\`a sono implementate in metodi specifici delle classi contenute nella \textbf{Business Logic}.
 
 \begin{center}
 \hspace*{-0.75cm}
@@ -648,11 +827,11 @@ Figura 16: implementazione del menu dell'utente.
 
 \section{Test}
 
-Sono stati realizzati i test per verificare il corretto funzionamento del sistema, focalizzandosi principalmente sulle funzionalità della \textbf{Business Logic} e del \textbf{Dao}. Sono stati realizzati utilizzando la libreria \textbf{JUnit}. 
+Sono stati realizzati i test per verificare il corretto funzionamento del sistema, focalizzandosi principalmente sulle funzionalit\`a della \textbf{Business Logic} e del \textbf{Dao}. Sono stati realizzati utilizzando la libreria \textbf{JUnit}. 
 
 \subsection{Domain Model Test}
 
-Sono stati implementati i test più rilevanti per il corretto funzionamento della logica di sistema e dei design pattern.
+Sono stati implementati i test pi\`u rilevanti per il corretto funzionamento della logica di sistema e dei design pattern.
 I test implementati sono: 
 \begin{itemize}
 \item \textbf{AccommodationTest}.
@@ -662,40 +841,43 @@ I test implementati sono:
 \subsection{Business Logic Test}
 
 Per i controller sono stati effettuati dei test su tutte le loro funzioni (test funzionali), prestando attenzione che seguano le direttive dello \hyperref[usecase]{use case}.
-Ne vengono riportati alcuni:
-
+Ne vengono riportati alcuni. 
+\begin{itemize}
+\item Il test sul metodo di login di un utente che vuole dimostrare che funzioni sia nel caso di flusso normale che alternativo.
 \label{test1}
 \begin{center}
 \hspace*{-0.75cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/login}
-\par\medskip
+\par
 Figura 17: test che verifica il \hyperref[Usecase1]{login} all'interno dell'applicazione -Tst\#1.
-\par\medskip
+\par   
 \end{center}
 \label{test2}
+\item Il test sulla registrazione da parte di un utente all'applicazione, tenendo conto che funzioni sia nel flusso normale che non.
 \begin{center}
 \hspace*{-2cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/register}
-\par\medskip
+\par
 Figura 18: test che verifica la \hyperref[Usecase4]{registrazione} all'interno dell'applicazione -Tst\#2.
 \par\medskip
 \end{center}
-
+\end{itemize}
 Qui di seguito vengono mostrati tutti i risultati dei test dei metodi della Business Logic:
-
+\par\medskip
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testAdminController}
 \par\medskip
 Figura 19: i test per AdminController.
 \par\medskip
 \end{center}
-
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testProfileUserController}
 \par\medskip
 Figura 20: i test per ProfileUserController.
 \par\medskip
 \end{center}
+
+
 
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testResearchController}
@@ -706,14 +888,37 @@ Figura 21: i test per ResearchController.
 
 \subsection{ORM Test}
 
-Per ogni classe del DAO è stato effettuati dei test strutturali in modo da assicurarsi che i metodi si relazionino correttamente con il database. Questo controllo viene effettuato attraverso la cattura delle eccezioni in caso di errore.
+Per ogni classe del DAO sono stati effettuati dei test strutturali in modo da assicurarsi che i metodi si relazionino correttamente con il database. Questo controllo viene effettuato attraverso la cattura delle eccezioni in caso di errore. Ne vengono riportati alcuni.
+\begin{itemize}
+
+\item Il test che consente di ottenere le recensioni scritte da un determinato utente, identificato tramite il suo id. Per dimostrarne il funzionamento, viene inserita una recensione di prova, che viene poi visualizzata a schermo.
+\par\medskip
+\hspace{-1cm}
+\includegraphics[scale=0.65]{test/orm/getReviewByUser}
+\begin{center}
+\par\medskip
+Figura 22: Il test verifica la corretta acquisizione delle recensioni tramite l'id dell'utente.
+\par\medskip
+\end{center}
+
+\item Il test che consente di salvare un alloggio negli alloggi preferiti.
+\par\medskip
+\hspace{-1cm}
+\includegraphics[scale=0.75]{test/orm/save}
+\begin{center}
+\par\medskip
+Figura 23: Il test di salvataggio degli alloggi preferiti.
+\par\medskip
+\end{center}
+
+\end{itemize}
 
 \subsection{Risultati dei test}
 \par\medskip
 \begin{center}
-\includegraphics[scale=0.55]{test/BusinessLogic/risultatitest}
+\includegraphics[scale=0.5]{test/BusinessLogic/risultatitest}
 \par\medskip
-Figura 22: risultati dei test.
+Figura 24: risultati dei test.
 \par\medskip
 \end{center}
 
