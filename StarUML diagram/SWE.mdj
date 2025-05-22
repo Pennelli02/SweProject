@@ -5033,7 +5033,7 @@
 											"top": 783,
 											"width": 231.4833984375,
 											"height": 13,
-											"text": "RegisterUser"
+											"text": "RegisteredUser"
 										},
 										{
 											"_type": "LabelView",
@@ -5573,7 +5573,7 @@
 											"top": 1138,
 											"width": 247,
 											"height": 13,
-											"text": "-author: RegisterUser",
+											"text": "-author: RegisteredUser",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6279,7 +6279,7 @@
 											"top": 853,
 											"width": 175,
 											"height": 13,
-											"text": "-customer: RegisterUser",
+											"text": "-customer: RegisteredUser",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6914,7 +6914,7 @@
 											"top": 334,
 											"width": 163.21435546875,
 											"height": 13,
-											"text": "-User: RegisterUser",
+											"text": "-User: RegisteredUser",
 											"horizontalAlignment": 0
 										}
 									],
@@ -9175,7 +9175,7 @@
 											"top": 358,
 											"width": 182.72705078125,
 											"height": 13,
-											"text": "-User: RegisterUser",
+											"text": "-User: RegisteredUser",
 											"horizontalAlignment": 0
 										}
 									],
@@ -16542,7 +16542,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGU5iANn3mkJ7I="
 							},
-							"name": "RegisterUser",
+							"name": "RegisteredUser",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
