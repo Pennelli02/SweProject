@@ -349,7 +349,7 @@ Figura 9: Mockup che mostra i risualtati di una ricerca - MK\#7
 L'architettura è divisa in 3 package:
 \begin{itemize}
 \label{domainmodel}
-\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisterUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters} e \textbf{SearchParametersBuilder}.
+\item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisteredUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters} e \textbf{SearchParametersBuilder}.
 \par\medskip
 \hspace*{-2cm}
 \includegraphics[scale=0.58]{uml/DomainModel}
@@ -576,7 +576,7 @@ Snipper 4: Frammento di codice del ResearchController implementazione della rice
 
 \`E il package che rappresenta il modello dei dati e implementa le classi che raffigurano le entit\`a del sistema.
 
-\subsubsection{RegisterUser}
+\subsubsection{RegisteredUser}
 
 Contiene le informazioni relative all'utente registrato. Gli attributi della classe sono: id (utilizzato come identificativo), username, email (unica all'interno dell'applicazione), password, nome, cognome, punti fedelt\`a (che si aggiornano ad ogni acquisto e raggiunta una certa soglia, permette di avere degli sconti), localit\`a preferita che indica un genere di esperienza che preferisce, la lista delle prenotazioni effettuate e la lista dei suoi alloggi preferiti. 
 
