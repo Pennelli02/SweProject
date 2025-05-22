@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  20 MAY 2025 21:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  22 MAY 2025 19:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -476,18 +476,18 @@ File: usecases/ClientUseCase.png Graphic file (type png)
 <use usecases/ClientUseCase.png>
 Package pdftex.def Info: usecases/ClientUseCase.png  used on input line 116.
 (pdftex.def)             Requested size: 373.01767pt x 266.87137pt.
-<usecases/AdminUseCase.png, id=235, 842.39719pt x 521.69907pt>
+<usecases/AdminUseCase.png, id=235, 606.46574pt x 373.99725pt>
 File: usecases/AdminUseCase.png Graphic file (type png)
 <use usecases/AdminUseCase.png>
 Package pdftex.def Info: usecases/AdminUseCase.png  used on input line 118.
-(pdftex.def)             Requested size: 421.19756pt x 260.84889pt.
+(pdftex.def)             Requested size: 394.19806pt x 243.09532pt.
 
 Overfull \hbox (1.78714pt too wide) in paragraph at lines 115--118
  |  [] 
  []
 
 
-Overfull \hbox (49.96703pt too wide) in paragraph at lines 115--118
+Overfull \hbox (22.96753pt too wide) in paragraph at lines 115--118
  |  [] 
  []
 
@@ -782,7 +782,7 @@ eX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lori0/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lori0/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lori0/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on ApartamentSWE.pdf (36 pages, 2911751 bytes).
+Output written on ApartamentSWE.pdf (36 pages, 2876215 bytes).
 PDF statistics:
  818 PDF objects out of 1000 (max. 8388607)
  354 named destinations out of 1000 (max. 500000)
