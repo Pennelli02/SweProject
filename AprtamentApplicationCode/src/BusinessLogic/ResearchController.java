@@ -31,8 +31,7 @@ public class ResearchController {
                 if (applydiscount){
                     price = (int)(price * 0.7);
                 }
-                Booking booking = bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
-                user.addBooking(booking);
+                bookingDAO.addBooking(user, accommodation, checkInDate, checkOutDate, numOfMembers, price);// oltre a restituire un valore lo mettiamo direttamente nel db
                 if(applydiscount) {
                     userDAO.resetFidPoints(user.getId(), user.getFidelityPoints()-10);
                     user.setFidelityPoints(user.getFidelityPoints()-10);

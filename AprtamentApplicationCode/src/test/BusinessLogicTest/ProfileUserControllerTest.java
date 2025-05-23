@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import DomainModel.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,24 +81,65 @@ class ProfileUserControllerTest {
         registeredUser =userController.login(testEmail, testPassword);
         assertNull(registeredUser);
     }
-// non so è una questione grafica
+
     @Test
     void viewMyBookings() {
+        ArrayList<Booking> bookings = profileUserController.viewMyBookings();
+        assertTrue(bookings.isEmpty());
+        AccommodationDAO accommodationDAO = new AccommodationDAO();
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registeredUser);
+        List<Accommodation> results = rc.doResearch(params);
+
+        // 2. Crea una nuova prenotazione
+        BookingDAO bookingDAO = new BookingDAO();
+        bookingDAO.addBooking(
+                registeredUser,
+                results.getFirst(),
+                results.getFirst().getAvailableFrom(),
+                results.getFirst().getAvailableEnd(),
+                1,
+                400
+        );
+        bookings = profileUserController.viewMyBookings();
+        assertFalse(bookings.isEmpty());
+        assertEquals(1, bookings.size());
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
+
+
     }
 
     @Test
     void cancelABooking() throws SQLException, ClassNotFoundException {
-        // 1. Recupera un alloggio reale (esistente nel DB con id noto)
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        Accommodation accommodation = accommodationDAO.getAccommodationByID(2); // Adatta l'ID al tuo db
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registeredUser);
+        List<Accommodation> results = rc.doResearch(params);
 
         // 2. Crea una nuova prenotazione
         BookingDAO bookingDAO = new BookingDAO();
-        Booking testBooking = bookingDAO.addBooking(
+        bookingDAO.addBooking(
                 registeredUser,
-                accommodation,
-                accommodation.getAvailableFrom(),
-                accommodation.getAvailableEnd(),
+                results.getFirst(),
+                results.getFirst().getAvailableFrom(),
+                results.getFirst().getAvailableEnd(),
                 1,
                 400
         );
@@ -112,7 +154,7 @@ class ProfileUserControllerTest {
         var bookingsBefore = profileUserController.viewMyBookings();
         assertFalse(bookingsBefore.isEmpty());
         assertEquals(State.Booking_Confirmed, bookingsBefore.getFirst().getState());
-        var Disponibility= accommodation.getDisponibility();
+        var Disponibility= results.getFirst().getDisponibility();
         // 5. Cancella la prenotazione
         profileUserController.cancelABooking(bookingsBefore.getFirst());
 
@@ -121,25 +163,36 @@ class ProfileUserControllerTest {
         assertNotEquals(State.Booking_Confirmed, bookingsAfter.getFirst().getState());
 
         assertEquals(0, registeredUser.getFidelityPoints());
-        accommodation= accommodationDAO.getAccommodationByID(2);
+        Accommodation accommodation= accommodationDAO.getAccommodationByID(results.getFirst().getId());
         assertNotEquals(accommodation.getDisponibility(), Disponibility);
         // 7. Cleanup manuale
-        bookingDAO.removeBooking(testBooking.getBookingID(), State.Cancelled);
+        bookingDAO.removeBooking(bookingsAfter.getFirst().getBookingID(), State.Cancelled);
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
     }
 
     @Test
     void removeBooking() throws SQLException, ClassNotFoundException {
-        // 1. Recupera un alloggio reale (esistente nel DB con id noto)
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        Accommodation accommodation = accommodationDAO.getAccommodationByID(2); // Adatta l'ID al tuo db
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registeredUser);
+        List<Accommodation> results = rc.doResearch(params);
 
         // 2. Crea una nuova prenotazione
         BookingDAO bookingDAO = new BookingDAO();
-        Booking testBooking = bookingDAO.addBooking(
+        bookingDAO.addBooking(
                 registeredUser,
-                accommodation,
-                accommodation.getAvailableFrom(),
-                accommodation.getAvailableEnd(),
+                results.getFirst(),
+                results.getFirst().getAvailableFrom(),
+                results.getFirst().getAvailableEnd(),
                 1,
                 400
         );
@@ -170,6 +223,8 @@ class ProfileUserControllerTest {
         profileUserController = new ProfileUserController(registeredUser);
         var bookingsBefore2 = profileUserController.viewMyBookings();
         assertTrue(bookingsBefore2.isEmpty());
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
     }
 
     @Test
@@ -208,10 +263,20 @@ class ProfileUserControllerTest {
     @Test
     void unSaveAccommodation() throws SQLException, ClassNotFoundException {
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        Accommodation accommodation = accommodationDAO.getAccommodationByID(2);
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registeredUser);
+        List<Accommodation> results = rc.doResearch(params);
 
         PreferenceDAO preferenceDAO = new PreferenceDAO();
-        preferenceDAO.save(registeredUser.getId(), accommodation.getId());
+        preferenceDAO.save(registeredUser.getId(), results.getFirst().getId());
 
         profileUserController.exit();
         registeredUser =userController.login(testEmail, testPassword);
@@ -227,6 +292,7 @@ class ProfileUserControllerTest {
         var savingsAfter = registeredUser.getMyPreferences();
         assertTrue(savingsAfter.isEmpty());
 
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
     }
 
     @Test
@@ -238,17 +304,29 @@ class ProfileUserControllerTest {
 
         // adesso vediamo con l'aggiunta di una recensione
         AccommodationDAO accommodationDAO = new AccommodationDAO();
-        Accommodation accommodation = accommodationDAO.getAccommodationByID(2);
+        // Aggiungi una accommodation per l’utente
+        accommodationDAO.addAccommodation(
+                "Test House", "Via Test 1", "test", 3,
+                AccommodationType.Hotel, 45.0f, now.plusDays(1), now.plusDays(10),
+                "Alloggio test", AccommodationRating.OneStar,
+                true, true, false, false, false, false, false,
+                false, false, 2, false, 4);
+
+        SearchParameters params = SearchParametersBuilder.newBuilder("Test").build();
+        ResearchController rc = new ResearchController(registeredUser);
+        List<Accommodation> results = rc.doResearch(params);
         String testComment="testComment";
         ReviewDAO reviewDAO = new ReviewDAO();
-        reviewDAO.addReview(registeredUser, accommodation, testComment, AccommodationRating.OneStar);
+        reviewDAO.addReview(registeredUser, results.getFirst(), testComment, AccommodationRating.OneStar);
 
         myReviews=profileUserController.getReviewsByUser();
         assertFalse(myReviews.isEmpty());
 
         assertEquals(testComment, myReviews.getFirst().getReviewText());
         assertEquals(AccommodationRating.OneStar, myReviews.getFirst().getVote());
-        assertEquals(accommodation.getId(), myReviews.getFirst().getReviewedItem().getId());
+        assertEquals(results.getFirst().getId(), myReviews.getFirst().getReviewedItem().getId());
         assertEquals(registeredUser.getId(), myReviews.getFirst().getAuthor().getId());
+
+        accommodationDAO.deleteAccommodation(results.getFirst().getId());
     }
 }
