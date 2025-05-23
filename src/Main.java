@@ -685,9 +685,17 @@ public class Main {
                     if (bookings.isEmpty()) {
                         System.out.println("You have no bookings.");
                         break;
+                    }else{
+                        System.out.println("ALL BOOKINGS");
+                        for (int i=0;i<bookings.size();i++) {
+                            if (bookings.get(i).getState() == State.Accommodation_Cancelled) {
+                                getMessage(bookings.get(i).getPrice(), bookings.get(i).getAccommodation().getName(), bookings.get(i).getCustomer().getUsername());
+                            }
+                            System.out.println((i+1)+") "+bookings.get(i));
+                        }
                     }
 
-                    registeredUser.showMyBookings();
+
 
                     // Prima parte: Rimozione di prenotazioni concluse o cancellate
                     System.out.println("\nDo you want to remove a concluded/cancelled booking from your list?");
@@ -795,7 +803,19 @@ public class Main {
             }
         }while (tag);
     }
+    private static void getMessage(float price, String name, String username) {
+        String subject = "Siamo spiacenti per la cancellazione";
+        String message = "Ciao " + username + ",\n\n" +
+                "Purtroppo il tuo alloggio \"" + name + "\" è stato cancellato dalla struttura.\n" +
+                "Come gesto di scuse, le abbiamo rimborsato l'intero importo della prenotazione (" + price + "€),\n" +
+                "senza togliere i suoi punti fedeltà.\n\n" +
+                "Grazie per la comprensione e ci auguriamo di riaverla presto tra i nostri viaggiatori.\n\n" +
+                "Il Team";
 
+        // Qui puoi inviare il messaggio (es. via mail o notifica)
+        System.out.println("Oggetto: " + subject);
+        System.out.println("Messaggio:\n" + message);
+    }
     private static int chooseBookingIndex(Scanner sc, ArrayList<Booking> bookings, String action) {
         System.out.println("Enter the booking number you want to " + action + " (start from 1): ");
         int choice = sc.nextInt();

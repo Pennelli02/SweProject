@@ -71,7 +71,8 @@ public class ProfileUserController {
     }
 
     public ArrayList<Booking> viewMyBookings() {
-        return user.getMyBookings();
+        BookingDAO bookingDAO=new BookingDAO();
+        return bookingDAO.getBookingsFromUser(user);
     }
 
     public ArrayList<Review> viewMyReviews() {
@@ -95,7 +96,6 @@ public class ProfileUserController {
         BookingDAO bookingDAO=new BookingDAO();
         try {
             bookingDAO.removeBooking(booking.getBookingID(), booking.getState());
-            user.removeBooking(booking);
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
         }

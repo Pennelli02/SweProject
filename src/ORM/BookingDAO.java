@@ -43,13 +43,13 @@ public class BookingDAO {
     }
 
 
-    public Booking addBooking(RegisteredUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
+    public void addBooking(RegisteredUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
             if(accommodation.getDisponibility()==0){
                 throw new RuntimeException("This accommodation is not disponible");
             }
             PreparedStatement preparedStatement=null;
         try {
-            String query="insert into booking (userid,accommodationid,checkin,checkout,price,numpeople, state) values(?,?,?,?,?,?,?) RETURNING id";
+            String query="insert into booking (userid,accommodationid,checkin,checkout,price,numpeople, state) values(?,?,?,?,?,?,?)";
             preparedStatement=connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, accommodation.getId());
@@ -58,17 +58,12 @@ public class BookingDAO {
             preparedStatement.setInt(5, price);
             preparedStatement.setInt(6, nPeople);
             preparedStatement.setString(7,State.Booking_Confirmed.name());
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()) {
-                return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, dateout, State.Booking_Confirmed);
-            }
-
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             DBUtils.printSQLException(e);
         }finally{
             DBUtils.closeQuietly(preparedStatement);
         }
-        return null;
     }
 
     public ArrayList<Booking> getBookingsFromUser(RegisteredUser user) {
@@ -98,7 +93,7 @@ public class BookingDAO {
                 if (sqlAvailableEnd != null) {
                     booking.setCheckOutDate(sqlAvailableEnd.toLocalDateTime());
                 }
-                user.addBooking(booking);
+
                 int accID = resultSet.getInt("accommodationid");
                 Accommodation accommodation = null;
                 if(!resultSet.wasNull()) { //on delete set NULL

@@ -11,10 +11,9 @@ public class RegisteredUser {
     private String name;
     private String surname;
     private Location favouriteLocation;
-    private ArrayList<Booking> myBookings;
     private ArrayList<Accommodation> myPreferences;
 
-    public RegisteredUser(int id, String username, String password, String email, int fidelityPoints, String name, Location favouriteLocation, String surname, ArrayList<Booking> myBookings, ArrayList<Accommodation> myPreferences) {
+    public RegisteredUser(int id, String username, String password, String email, int fidelityPoints, String name, Location favouriteLocation, String surname, ArrayList<Accommodation> myPreferences) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -23,7 +22,6 @@ public class RegisteredUser {
         this.name = name;
         this.favouriteLocation = favouriteLocation;
         this.surname = surname;
-        this.myBookings = myBookings;
         this.myPreferences = myPreferences;
     }
 
@@ -36,7 +34,6 @@ public class RegisteredUser {
         this.name = name;
         this.surname = surname;
         this.favouriteLocation = location;
-        myBookings = new ArrayList<>();
         myPreferences = new ArrayList<>();
     }
     // lo uso come possibile gestione per quando l'utente inserisce l'email giusta, ma la password sbagliata id<0
@@ -109,13 +106,6 @@ public class RegisteredUser {
         this.favouriteLocation = favouriteLocation;
     }
 
-    public ArrayList<Booking> getMyBookings() {
-        return myBookings;
-    }
-
-    public void setMyBookings(ArrayList<Booking> myBookings) {
-        this.myBookings = myBookings;
-    }
 
     public ArrayList<Accommodation> getMyPreferences() {
         return myPreferences;
@@ -125,13 +115,6 @@ public class RegisteredUser {
         this.myPreferences = myPreferences;
     }
 
-    public void addBooking(Booking booking) {
-        myBookings.add(booking);
-    }
-
-    public void removeBooking(Booking booking) {
-        myBookings.remove(booking);
-    }
 
     public void addPreference(Accommodation accommodation) {
         myPreferences.add(accommodation);
@@ -153,29 +136,6 @@ public class RegisteredUser {
 //        System.out.println("My Preferences: " + myPreferences); dipende se vogliamo fare una cosa a parte così si può gestire il remove e le recensioni
     }
 
-    public void showMyBookings(){
-        System.out.println("ALL BOOKINGS");
-        for (int i=0;i<myBookings.size();i++) {
-            if (myBookings.get(i).getState() == State.Accommodation_Cancelled) {
-                getMessage(myBookings.get(i).getPrice(), myBookings.get(i).getAccommodation().getName());
-            }
-            System.out.println((i+1)+") "+myBookings.get(i));
-        }
-    }
-
-    private void getMessage(float price, String name) {
-        String subject = "Siamo spiacenti per la cancellazione";
-        String message = "Ciao " + username + ",\n\n" +
-                "Purtroppo il tuo alloggio \"" + name + "\" è stato cancellato dalla struttura.\n" +
-                "Come gesto di scuse, le abbiamo rimborsato l'intero importo della prenotazione (" + price + "€),\n" +
-                "senza togliere i suoi punti fedeltà.\n\n" +
-                "Grazie per la comprensione e ci auguriamo di riaverla presto tra i nostri viaggiatori.\n\n" +
-                "Il Team";
-
-        // Qui puoi inviare il messaggio (es. via mail o notifica)
-        System.out.println("Oggetto: " + subject);
-        System.out.println("Messaggio:\n" + message);
-    }
 
     public void showMyPreferences(){
         System.out.println("ALL FAVOURITE ACCOMMODATIONS");

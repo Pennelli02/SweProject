@@ -86,7 +86,7 @@ class BookingDAOTest {
 
     @Test
     void removeBooking() throws SQLException, ClassNotFoundException {
-       ArrayList<Booking>myBookings= registeredUser.getMyBookings();
+       ArrayList<Booking>myBookings= bookingDAO.getBookingsFromUser(registeredUser);
        assertFalse(myBookings.isEmpty());
 
        //controlliamo il caso di rimozione non possibile
@@ -101,17 +101,16 @@ class BookingDAOTest {
         assertDoesNotThrow(()->bookingDAO.removeBooking(myBookings.getFirst().getBookingID(), myBookings.getFirst().getState()));
 
         registeredUser =userController.login(testEmail, testPassword);
-        assertTrue(registeredUser.getMyBookings().isEmpty());
+        assertTrue(bookingDAO.getBookingsFromUser(registeredUser).isEmpty());
     }
 
     @Test
     void addBooking() {
         Accommodation acc= accommodationDAO.getAccommodationByID(accommodationId);
-        Booking booking = assertDoesNotThrow(() ->
+         assertDoesNotThrow(() ->
                 bookingDAO.addBooking(registeredUser, acc, acc.getAvailableFrom(), acc.getAvailableEnd(), 3, 400)
         );
-        assertNotNull(booking);
-        assertTrue(booking.getBookingID() > 0);
+        assertFalse(bookingDAO.getBookingsFromUser(registeredUser).isEmpty());
 
     }
 
@@ -122,7 +121,7 @@ class BookingDAOTest {
 
     @Test
     void cancelBook() {
-        assertDoesNotThrow(()->bookingDAO.cancelBook(registeredUser.getMyBookings().getFirst()));
+        assertDoesNotThrow(()->bookingDAO.cancelBook(bookingDAO.getBookingsFromUser(registeredUser).getFirst()));
         Booking updated = bookingDAO.getBookingsFromUser(registeredUser).getFirst();
         assertTrue(updated.getState() == State.Booking_Refunded || updated.getState() == State.Cancelled);
     }
