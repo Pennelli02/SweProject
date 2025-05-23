@@ -523,7 +523,8 @@ Figura 14: Tables of the database
 
 \subsubsection{Dettagli implementativi del database}
 
-Per gestire l'update del rating dell'alloggio all'interno del database \`e stata optata come soluzione l'utilizzo dei trigger. Il rating dell'alloggio viene aggiornato ogni volta che viene aggiunta o eliminata una sua recensione aggiornandone il valore con la media dei rating delle sue recensioni.
+Per gestire l'update del rating dell'alloggio all'interno del database è stata optata come soluzione l'utilizzo dei trigger. Il rating dell'alloggio viene aggiornato ogni volta che viene aggiunta o eliminata una sua recensione aggiornandone il valore con la media dei rating delle sue recensioni.\newline Questa logica è stata implementata mediante due trigger SQL associati alla tabella \textbf{Reviews}: uno attivato dopo l'inserimento di una nuova recensione (\textbf{AFTER INSERT}) e l'altro dopo la sua eliminazione (\textbf{AFTER DELETE}). Entrambi i trigger invocano la medesima funzione \textbf{update\_accommodation\_rating()}, definita in linguaggio \textbf{PL/pgSQL}. La funzione si occupa di calcolare la media di tutti i valori di rating presenti nella tabella \textbf{Reviews} per lo specifico alloggio coinvolto. Il risultato, convertito in numero intero mediante la funzione \textbf{ROUND}, viene poi utilizzato per aggiornare il campo \textbf{rating} della corrispondente voce nella tabella \textbf{Accommodation}.\newline Questo garantisce che ogni variazione delle recensioni si rifletta immediatamente sul rating complessivo visibile all'utente.
+L'utilizzo di trigger rappresenta una scelta efficace per garantire l’integrit\`a e l'affidabilit\`a del dato, rendendo il sistema più robusto e automatizzato.
 
 \begin{center}
 \par\medskip
@@ -553,7 +554,7 @@ public class ResearchController {
 \end{lstlisting}
 \par\medskip
 \begin{center}
-Snipper 4: Frammento di codice del ResearchController implementazione della ricerca degli alloggi
+Snippet 4: Frammento di codice del ResearchController implementazione della ricerca degli alloggi
 \par\medskip
 \end{center}
 \subsubsection{UserController}
@@ -595,7 +596,16 @@ Contiene le informazioni relative all'utente registrato. Gli attributi della cla
 \subsubsection{SearchParametersBuilder e SearchParameters}
 
 Queste classi implementano il design pattern Builder Telescopic Constructor per la creazione dei parametri di ricerca. Il \textbf{SearchParametersBuilder} consente una creazione pi\`u facile da gestire e da estendere dei parametri di ricerca. Infatti il suo unico scopo \`e di creare la classe \textbf{SearchParameters}. Quest'ultima classe possiede solo gli attributi che poi serviranno alla ricerca all'interno del database. Gli attributi sono per la maggior parte uguali alla classe \textbf{Accommodation}.
-
+Qui di seguito mostreremo un esempio del suo utilizzo:
+%Ci si mette l'immagine %
+\begin{center}
+\par\medskip
+\includegraphics[scale=0.65]{Snippets/Esempio di SearchParametersBuilder.png}
+\par\medskip
+\par
+Figura 16: Esempio di utilizzo del \textbf{SearchParametersBuilder} nel creare \textbf{SearchParameters}
+\par\medskip
+\end{center}
 \subsection{ORM}
 
 \`E il package che implementa il design pattern DAO descritto nella sezione \hyperref[daosec]{2.5.4}. Le classi in questo package permettono alle classi presenti nella \textbf{Business Logic} di accedere ai vari dati di loro interesse nel database. Ogni classe possiede un attributo di tipo Connection, tipo del \textbf{JDBC} che rappresenta la connessione al database ottenuta dalla classe \textbf{DatabaseConnection}.
@@ -614,7 +624,7 @@ public class AccommodationDAO {
 \end{lstlisting}
 \begin{center}
 \par
-Snipper 5: Esempio di come una classe DAO ottiene la connessione al db
+Snippet 5: Esempio di come una classe DAO ottiene la connessione al db
 \par\medskip
 \end{center}
 Per la complessit\`a dell'applicazione stessa le classi DAO devono comunicare tra loro e lo fanno passando dai controller della \textbf{Business Logic}. Esistono alcuni metodi che per comunicare non passano dal controller, ma vengono richiamati direttamente dalla classe DAO stessa per una questione di comodit\`a. Un esempio è il metodo \textbf{getUserByEmailPassword(...)} del \textbf{UserDAO}.
@@ -636,7 +646,7 @@ Qui sotto mostriamo un esempio di comunicazione passando dai controller:
 \end{lstlisting}
 \begin{center}
 \par
-Snipper 6: Codice di cancellazione di una prenotazione nel ProfileUserController in cui si usa BookingDAO, UserDAO, AccommodationDAO
+Snippet 6: Codice di cancellazione di una prenotazione nel ProfileUserController in cui si usa BookingDAO, UserDAO, AccommodationDAO
 \par\medskip
 \end{center}
 \subsubsection{DatabaseConnection}
@@ -646,8 +656,6 @@ Snipper 6: Codice di cancellazione di una prenotazione nel ProfileUserController
 \subsubsection{UserDAO}
 
 \`E la classe che si occupa della gestione dei dati degli utenti. Questa classe contiene molti metodi, offrendo la possibilit\`a di aggiungere nuovi utenti e di rimuovere quelli gi\`a presenti nel database (rispettivamente \textbf{addUser()} e \textbf{removeUser()}), la possibilit\`a di recuperare un utente tramite l'id identificativo (\textbf{getUserById()}). Infine la classe presenta i metodi che permettono di aggiornare i dati personali di un utente e di eliminarlo.
-\newline
-Esempio
 
 \subsubsection{BookingDAO}
 
@@ -702,7 +710,7 @@ Snipper 7: Query che inserisce un record di booking nel database e che ne restit
 
 \`E la classe che si occupa della gestione dei dati degli alloggi. Questa classe presenta molti metodi, permettendo di aggiungere nuovi alloggi \newline(\textbf{addAccommodation()}), di rimuovere gli alloggi gi\`a presenti \newline(\textbf{deleteAccommodation()}), di visualizzare tutti gli alloggi
 \newline(\textbf{getAllAccommodation()}), di visualizzare uno nello specifico tramite il suo identificativo (\textbf{getAccommodationById()}, questo metodo \`e molto utile per la gestione degli alloggi da parte dell'admin) e di visualizzare gli alloggi che vengono ricercati tramite l'uso dei filtri (\textbf{getAccommodationByParameters()}). Infine sono presenti i 2 metodi che permettono di aggiornare i dati di un alloggio attraverso l'uso di un insieme di stringhe per evitare accessi inutili al database (\textbf{updateAccommodationDirty()}, \textbf{updateField()}).
-Qui di seguito verr\`a riportato un frammento di codice di \textbf{getAccommodationByParameters()} data la sua importanza. Purtroppo per una questione di sintesi non verr\`a riportato tutto, essendo lungo 185 righe di codice, ma saranno presenti solo le righe pi\`u importanti che fanno capire la logica e la complessità di tale metodo.
+Qui di seguito verr\`a riportato un frammento di codice di \textbf{getAccommodationByParameters()} data la sua importanza. Purtroppo per una questione di sintesi non verr\`a riportato tutto, essendo lungo 185 righe di codice, ma saranno presenti solo le righe pi\`u importanti che fanno capire la logica e la complessit\`a di tale metodo.  
 \begin{lstlisting}
 public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters searchParameters) {
     ArrayList<Accommodation> accommodations = new ArrayList<>();
@@ -802,9 +810,11 @@ public ArrayList<Accommodation> getAccommodationByParameter(SearchParameters sea
 \end{lstlisting}
 \begin{center}
 \par\
-Snipper 8: Query dinamica in base alle scelte dell'utente per la ricerca degli alloggi
+Snippet 8: Query dinamica in base alle scelte dell'utente per la ricerca degli alloggi
 \par\medskip
 \end{center}
+All'interno del metodo \textbf{getAccommodationByParameter()}, viene utilizzato un oggetto \textbf{StringBuilder} per la costruzione dinamica della query SQL. \textbf{StringBuilder} \`e una classe di Java progettata per gestire concatenazioni di stringhe in maniera efficiente, evitando la creazione continua di nuove istanze di stringa. In questo contesto, \`e fondamentale perch\'e permette di aggiungere condizioni alla query solo se i corrispondenti parametri dell'utente sono effettivamente presenti. Ciò consente di ottenere una query personalizzata e ottimizzata, migliorando al contempo le prestazioni del sistema e la manutenibilità del codice.
+
 \subsubsection{DBUtils}
 Classe che si occupa di gestire le eccezioni lanciate dai db. Il suo scopo \`e di fornire una spiegazione chiara dell'eccezione lanciata e di chiudere in modo sicuro, evitando memory leak, i prepared statement (oggetto che rappresenta un precompilato SQL statement). Tale classe presenta solo 2 metodi statici:
 \begin{itemize}
@@ -821,7 +831,7 @@ Per l'applicazione \`e stata realizzata un'interfaccia a linea di comando, imple
 \hspace*{-0.75cm}
 \includegraphics[scale=0.6]{cli/usermenu}
 \par\medskip
-Figura 16: implementazione del menu dell'utente.
+Figura 17: implementazione del menu dell'utente.
 \par\medskip
 \end{center} 
 
@@ -849,7 +859,7 @@ Ne vengono riportati alcuni.
 \hspace*{-0.75cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/login}
 \par
-Figura 17: test che verifica il \hyperref[Usecase1]{login} all'interno dell'applicazione -Tst\#1.
+Figura 18: test che verifica il \hyperref[Usecase1]{login} all'interno dell'applicazione -Tst\#1.
 \par   
 \end{center}
 \label{test2}
@@ -858,7 +868,7 @@ Figura 17: test che verifica il \hyperref[Usecase1]{login} all'interno dell'appl
 \hspace*{-2cm}
 \includegraphics[scale=0.55]{test/BusinessLogic/register}
 \par
-Figura 18: test che verifica la \hyperref[Usecase4]{registrazione} all'interno dell'applicazione -Tst\#2.
+Figura 19: test che verifica la \hyperref[Usecase4]{registrazione} all'interno dell'applicazione -Tst\#2.
 \par\medskip
 \end{center}
 \end{itemize}
@@ -867,13 +877,13 @@ Qui di seguito vengono mostrati tutti i risultati dei test dei metodi della Busi
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testAdminController}
 \par\medskip
-Figura 19: i test per AdminController.
+Figura 20: i test per AdminController.
 \par\medskip
 \end{center}
 \begin{center}
 \includegraphics[scale=0.55]{test/BusinessLogic/testProfileUserController}
 \par\medskip
-Figura 20: i test per ProfileUserController.
+Figura 21: i test per ProfileUserController.
 \par\medskip
 \end{center}
 
