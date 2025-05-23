@@ -119,7 +119,7 @@ Sono presenti 2 tipi di utenti: lo User e l'Admin. Nel diagramma sottostante ven
 Figura 2: Use Case Diagram dello User e dell'Admin
 \end{center}
 \label{usecase}
-\subsection{Use Case Template}
+\subsection{Use Case Templates}
 Sono di seguito mostrati alcuni template dei casi d'uso. In alcuni di essi sono presenti riferimenti a test e mockup presenti successivamente (sezione 2.3):
 
 \begin{center}
@@ -351,7 +351,7 @@ L'architettura è divisa in 3 package:
 \label{domainmodel}
 \item \textbf{Domain Model}: consiste nell’insieme di classi che rappresentano i concetti con cui interagisce l’applicazione: \textbf{RegisteredUser}, \textbf{Review}, \textbf{Booking}, \textbf{Accommodation}, \textbf{SearchParameters} e \textbf{SearchParametersBuilder}.
 \par\medskip
-\hspace*{-2cm}
+\hspace*{-1.5cm}
 \includegraphics[scale=0.58]{uml/DomainModel}
 \par\medskip
 \begin{center}
@@ -393,10 +393,10 @@ Snippet 1: Implementazione Singleton
 
 \subsubsection{Mapper}
 
-Lo scopo del Mapper è quello di creare la relazione tra utenti, recensioni e alloggi.
+Lo scopo del Mapper è quello di creare la relazione tra utenti, recensioni e alloggi, e di creare la relazione tra utenti, prenotazioni e alloggi.
 
 \begin{center}
-\includegraphics[scale=0.75]{Snippets/Mapper}
+\includegraphics[scale=0.5]{Snippets/Mapper}
 \par\medskip
 Snippet 2: UML del Mapper
 \par\medskip
