@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  23 MAY 2025 23:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.4)  23 MAY 2025 23:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -588,21 +588,21 @@ File: Snippets/Singleton.png Graphic file (type png)
 Package pdftex.def Info: Snippets/Singleton.png  used on input line 388.
 (pdftex.def)             Requested size: 261.10239pt x 231.3516pt.
 [15 <./uml/BusinessLogic.png>]
-<Snippets/Mapper.png, id=352, 749.80125pt x 597.73312pt>
+<Snippets/Mapper.png, id=352, 486.31688pt x 346.29375pt>
 File: Snippets/Mapper.png Graphic file (type png)
 <use Snippets/Mapper.png>
 Package pdftex.def Info: Snippets/Mapper.png  used on input line 399.
-(pdftex.def)             Requested size: 374.8997pt x 298.86583pt.
+(pdftex.def)             Requested size: 374.46515pt x 266.647pt.
 
-Overfull \hbox (29.8997pt too wide) in paragraph at lines 399--400
+Overfull \hbox (29.46515pt too wide) in paragraph at lines 399--400
  [] 
  []
 
-[16 <./Snippets/Singleton.png>] [17 <./Snippets/Mapper.png>] [18] [19]
+[16 <./Snippets/Singleton.png>] [17 <./Snippets/Mapper.png>] [18]
 Missing character: There is no Ã in font cmtt9!
 Missing character: There is no ¨ in font cmtt9!
-[20]
-<ERimages/FinalER.png, id=455, 1023.825pt x 719.68875pt>
+[19]
+<ERimages/FinalER.png, id=451, 1023.825pt x 719.68875pt>
 File: ERimages/FinalER.png Graphic file (type png)
 <use ERimages/FinalER.png>
 Package pdftex.def Info: ERimages/FinalER.png  used on input line 514.
@@ -612,8 +612,8 @@ Overfull \hbox (20.08768pt too wide) in paragraph at lines 513--515
  |  [] 
  []
 
-[21]
-<ERimages/schemaLogicoDBTabelle.jpg, id=460, 754.31813pt x 496.10344pt>
+[20]
+<ERimages/schemaLogicoDBTabelle.jpg, id=456, 754.31813pt x 496.10344pt>
 File: ERimages/schemaLogicoDBTabelle.jpg Graphic file (type jpg)
 <use ERimages/schemaLogicoDBTabelle.jpg>
 Package pdftex.def Info: ERimages/schemaLogicoDBTabelle.jpg  used on input line
@@ -624,7 +624,7 @@ Overfull \hbox (32.15814pt too wide) in paragraph at lines 518--519
  [][] 
  []
 
-[22 <./ERimages/FinalER.png>]
+[21 <./ERimages/FinalER.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
 Missing character: There is no Ã in font cmr10!
@@ -634,23 +634,23 @@ Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¹ in font cmr10!
-<trigger/trigger.png, id=466, 307.1475pt x 366.168pt>
+<trigger/trigger.png, id=462, 307.1475pt x 366.168pt>
 File: trigger/trigger.png Graphic file (type png)
 <use trigger/trigger.png>
 Package pdftex.def Info: trigger/trigger.png  used on input line 531.
 (pdftex.def)             Requested size: 199.6435pt x 238.00638pt.
-[23 <./ERimages/schemaLogicoDBTabelle.jpg>] [24 <./trigger/trigger.png>]
-[25
+[22 <./ERimages/schemaLogicoDBTabelle.jpg>] [23 <./trigger/trigger.png>]
+[24
 
 ]
-<Snippets/Esempio di SearchParametersBuilder.png, id=493, 496.85625pt x 451.687
+<Snippets/Esempio di SearchParametersBuilder.png, id=488, 496.85625pt x 451.687
 5pt>
 File: Snippets/Esempio di SearchParametersBuilder.png Graphic file (type png)
 <use Snippets/Esempio di SearchParametersBuilder.png>
 Package pdftex.def Info: Snippets/Esempio di SearchParametersBuilder.png  used 
 on input line 603.
 (pdftex.def)             Requested size: 322.95273pt x 293.59338pt.
- [26]
+ [25]
 Underfull \hbox (badness 10000) in paragraph at lines 611--613
 
  []
@@ -660,15 +660,15 @@ Overfull \hbox (3.85901pt too wide) in paragraph at lines 618--619
 [][][][][][][][][]  
  []
 
-[27 <./Snippets/Esempio di SearchParametersBuilder.png>]
+[26 <./Snippets/Esempio di SearchParametersBuilder.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¨ in font cmr10!
-[28]
+[27]
 Overfull \hbox (0.86896pt too wide) in paragraph at lines 674--675
 [][][][][][][][][][][][][][]  
  []
 
-[29] [30]
+[28] [29]
 Missing character: There is no Ã in font cmtt9!
 Missing character: There is no ¨ in font cmtt9!
 Missing character: There is no Ã in font cmtt9!
@@ -678,12 +678,12 @@ Overfull \hbox (0.86896pt too wide) in paragraph at lines 766--767
 [][][][][][][][][][][][][][] 
  []
 
-[31] [32]
+[30] [31]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ² in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no   in font cmr10!
-<cli/usermenu.png, id=676, 788.9475pt x 371.88937pt>
+<cli/usermenu.png, id=672, 788.9475pt x 371.88937pt>
 File: cli/usermenu.png Graphic file (type png)
 <use cli/usermenu.png>
 Package pdftex.def Info: cli/usermenu.png  used on input line 832.
@@ -693,8 +693,8 @@ Overfull \hbox (109.2548pt too wide) in paragraph at lines 831--833
  |  [] 
  []
 
-[33]
-<test/BusinessLogic/login.png, id=682, 664.28175pt x 470.35725pt>
+[32]
+<test/BusinessLogic/login.png, id=678, 664.28175pt x 470.35725pt>
 File: test/BusinessLogic/login.png Graphic file (type png)
 <use test/BusinessLogic/login.png>
 Package pdftex.def Info: test/BusinessLogic/login.png  used on input line 860.
@@ -704,8 +704,8 @@ Overfull \hbox (26.23877pt too wide) in paragraph at lines 859--861
  |  [] 
  []
 
-[34 <./cli/usermenu.png>]
-<test/BusinessLogic/register.png, id=689, 808.82175pt x 335.45325pt>
+[33 <./cli/usermenu.png>]
+<test/BusinessLogic/register.png, id=685, 808.82175pt x 335.45325pt>
 File: test/BusinessLogic/register.png Graphic file (type png)
 <use test/BusinessLogic/register.png>
 Package pdftex.def Info: test/BusinessLogic/register.png  used on input line 86
@@ -716,30 +716,30 @@ Overfull \hbox (70.17007pt too wide) in paragraph at lines 868--870
  |  [] 
  []
 
-[35 <./test/BusinessLogic/login.png> <./test/BusinessLogic/register.png>]
-<test/BusinessLogic/testAdminController.png, id=697, 255.95625pt x 271.0125pt>
+[34 <./test/BusinessLogic/login.png> <./test/BusinessLogic/register.png>]
+<test/BusinessLogic/testAdminController.png, id=693, 255.95625pt x 271.0125pt>
 File: test/BusinessLogic/testAdminController.png Graphic file (type png)
 <use test/BusinessLogic/testAdminController.png>
 Package pdftex.def Info: test/BusinessLogic/testAdminController.png  used on in
 put line 878.
 (pdftex.def)             Requested size: 140.77637pt x 149.05733pt.
-<test/BusinessLogic/testProfileUserController.png, id=698, 240.9pt x 155.3805pt
+<test/BusinessLogic/testProfileUserController.png, id=694, 240.9pt x 155.3805pt
 >
 File: test/BusinessLogic/testProfileUserController.png Graphic file (type png)
 <use test/BusinessLogic/testProfileUserController.png>
 Package pdftex.def Info: test/BusinessLogic/testProfileUserController.png  used
  on input line 884.
 (pdftex.def)             Requested size: 132.49539pt x 85.45952pt.
-<test/BusinessLogic/testResearchController.png, id=699, 240.9pt x 122.25674pt>
+<test/BusinessLogic/testResearchController.png, id=695, 240.9pt x 122.25674pt>
 File: test/BusinessLogic/testResearchController.png Graphic file (type png)
 <use test/BusinessLogic/testResearchController.png>
 Package pdftex.def Info: test/BusinessLogic/testResearchController.png  used on
  input line 893.
 (pdftex.def)             Requested size: 132.49539pt x 67.24141pt.
 
-[36 <./test/BusinessLogic/testAdminController.png> <./test/BusinessLogic/testPr
+[35 <./test/BusinessLogic/testAdminController.png> <./test/BusinessLogic/testPr
 ofileUserController.png> <./test/BusinessLogic/testResearchController.png>]
-<test/orm/getReviewByUser.png, id=707, 582.67688pt x 213.79875pt>
+<test/orm/getReviewByUser.png, id=703, 582.67688pt x 213.79875pt>
 File: test/orm/getReviewByUser.png Graphic file (type png)
 <use test/orm/getReviewByUser.png>
 Package pdftex.def Info: test/orm/getReviewByUser.png  used on input line 907.
@@ -749,7 +749,7 @@ Overfull \hbox (32.50499pt too wide) in paragraph at lines 906--908
 []  [] 
  []
 
-<test/orm/save.png, id=708, 546.54187pt x 119.69719pt>
+<test/orm/save.png, id=704, 546.54187pt x 119.69719pt>
 File: test/orm/save.png Graphic file (type png)
 <use test/orm/save.png>
 Package pdftex.def Info: test/orm/save.png  used on input line 917.
@@ -759,7 +759,7 @@ Overfull \hbox (63.6749pt too wide) in paragraph at lines 916--918
 []  [] 
  []
 
-<test/BusinessLogic/risultatitest.png, id=709, 699.21225pt x 296.307pt>
+<test/BusinessLogic/risultatitest.png, id=705, 699.21225pt x 296.307pt>
 File: test/BusinessLogic/risultatitest.png Graphic file (type png)
 <use test/BusinessLogic/risultatitest.png>
 Package pdftex.def Info: test/BusinessLogic/risultatitest.png  used on input li
@@ -770,7 +770,7 @@ Overfull \hbox (4.60526pt too wide) in paragraph at lines 929--930
  [] 
  []
 
-[37 <./test/orm/getReviewByUser.png> <./test/orm/save.png>] [38 <./test/Busines
+[36 <./test/orm/getReviewByUser.png> <./test/orm/save.png>] [37 <./test/Busines
 sLogic/risultatitest.png>] (ApartamentSWE.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
@@ -780,8 +780,8 @@ Package rerunfilecheck Info: File `ApartamentSWE.out' has not changed.
 (rerunfilecheck)             Checksum: 285EAE96B68909BA09B8CF2FD53B7BF2;5811.
  ) 
 Here is how much of TeX's memory you used:
- 14884 strings out of 474486
- 247182 string characters out of 5743756
+ 14883 strings out of 474486
+ 247175 string characters out of 5743756
  2058542 words of memory out of 5000000
  36650 multiletter control sequences out of 15000+600000
  562110 words of font info for 50 fonts, out of 8000000 for 9000
@@ -796,9 +796,9 @@ eX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lori0/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lori0/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/lori0/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on ApartamentSWE.pdf (38 pages, 2923767 bytes).
+Output written on ApartamentSWE.pdf (37 pages, 2870119 bytes).
 PDF statistics:
- 833 PDF objects out of 1000 (max. 8388607)
- 356 named destinations out of 1000 (max. 500000)
+ 829 PDF objects out of 1000 (max. 8388607)
+ 355 named destinations out of 1000 (max. 500000)
  474 words of extra memory for PDF output out of 10000 (max. 10000000)
 
