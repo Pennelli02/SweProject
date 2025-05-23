@@ -662,7 +662,7 @@ Snippet 6: Codice di cancellazione di una prenotazione nel ProfileUserController
 \`E la classe che si occupa della gestione dei dati che riguardano le prenotazioni effettuate dagli utenti. La classe mette a disposizione metodi che permetto di aggiungere o rimuovere delle prenotazioni (rispettivamente \textbf{addBooking()} e \textbf{removeBooking()}), di visualizzare le prenotazioni fatte da uno specifico utente (\textbf{getBookingFromUser()}) e di modificare lo stato della prenotazione.
 \par\medskip
 \begin{lstlisting}
-public Booking addBooking(RegisteredUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
+public void addBooking(RegisteredUser user, Accommodation accommodation, LocalDateTime datein, LocalDateTime dateout, int nPeople, int price) {
     if(accommodation.getDisponibility()==0){
         throw new RuntimeException("This accommodation is not disponible");
     }
@@ -680,22 +680,17 @@ public Booking addBooking(RegisteredUser user, Accommodation accommodation, Loca
         preparedStatement.setInt(6, nPeople);
         preparedStatement.setString(7,
                 State.Booking_Confirmed.name());
-        ResultSet rs = preparedStatement.executeQuery();
-        if(rs.next()) {
-            return new Booking( rs.getInt(1), user, accommodation, price, nPeople, datein, 
-            dateout, State.Booking_Confirmed);
-            }
+        preparedStatement.executeQuery();
     } catch (SQLException e) {
         DBUtils.printSQLException(e);
     }finally{
         DBUtils.closeQuietly(preparedStatement);
     }
-    return null;
 }
 \end{lstlisting}
 \begin{center}
     \par
-Snipper 7: Query che inserisce un record di booking nel database e che ne restituisce un'istanza nel codice
+Snippet 7: Query che inserisce un record di booking nel database
     \par\medskip
 \end{center}
 \subsubsection{PreferenceDAO}
